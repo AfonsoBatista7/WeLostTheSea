@@ -2,8 +2,9 @@ package player;
 
 import java.util.*;
 
-import items.*;
 import locations.Location;
+import objects.*;
+import player.exceptions.*;
 
 
 public interface Player {
@@ -21,7 +22,7 @@ public interface Player {
 	 * Gets items.
 	 * @param items - list of items the player picked. 
 	 */
-	void getItem(List<Item> items);
+	void getItem(List<Item> items) throws BagFullException, StakedItemException;
 	
 	/**
 	 * @return Player location.
@@ -33,5 +34,11 @@ public interface Player {
 	 * @param newLocation
 	 */
 	void setLocation(Location newLocation);
+	
+	/**
+	 * @param item - item.
+	 * @return The total quantity of an item. 
+	 */
+	int getQuantity(String item) throws ItemNotInBagException;
 }
 

@@ -5,8 +5,8 @@ import java.util.*;
 
 import gameSystem.exceptions.*;
 import player.*;
-import items.*;
 import locations.*;
+import objects.*;
 
 public class GameSystemClass implements GameSystem {
 	
@@ -39,7 +39,7 @@ public class GameSystemClass implements GameSystem {
 		timer.scheduleAtFixedRate(taskMinutes, 60000, 60000);
 	}
 	
-	public void newPlayer(String name) throws TooLongNameException {
+	public void newPlayer(String name) {
 		if(name.length()>22) throw new TooLongNameException();
 		player = new PlayerClass(name, map.get(0));
 	}
@@ -73,6 +73,14 @@ public class GameSystemClass implements GameSystem {
 		player.getItem(itemList);
 	}
 	
+	public String getLocationName() {
+		return player.getLocation().getLocationName();
+	}
+	
+	public String getLocationDescription() {
+		return player.getLocation().getDescription();
+	}
+	
 	public Iterator<ArrayList<Item>> listBag() {
 		return player.listBag();
 	}
@@ -83,5 +91,13 @@ public class GameSystemClass implements GameSystem {
 	
 	public String getPlayerName() {
 		return player.getName();
+	}
+	
+	public int getQuantity(String item) {
+		return player.getQuantity(toSearch(item));
+	}
+	
+	private String toSearch(String object) {
+		return object.toString().substring(0,1).toUpperCase() + object.toString().substring(1).toLowerCase();
 	}
 }

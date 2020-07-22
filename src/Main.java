@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 import gameSystem.*;
 import gameSystem.exceptions.*;
-import items.Item;
 import locations.exceptions.*;
+import objects.Item;
 import player.exceptions.*;
 
 /**
@@ -20,10 +20,10 @@ public class Main {
 	private static final String N = "North", S = "South", E = "East", W = "West";
 	private static final String YOUR_BAG = "\nYour Bag:";
 	
-
 	/* Game lines */
 	private static final String START_NEW_PLAYER = "\nSo... Whats your name?\n\n> ";
 	private static final String START_IS_THAT_YOUR_NAME = "\nHi %s is that your name?\n Yes or No?\n\n> ";
+	
 	
 	/* Success Constants */
 	private static final String SUCCESS_START = "\nWelcome to your Adventure!";
@@ -35,12 +35,12 @@ public class Main {
 	private static final String SUCCESS_CREDITS = "\nWE LOST THE SEE\nA Text Adventure Game\nBy Afonso Batista ( 2019-2020 ) \nThanks for playing this game!\n\n";
 	private static final String SUCCESS_DISCRIPTION_MODE_ON = "\nYour Adventure is now in description mode, which always gives bigger descriptions of locations.\n";
 	private static final String SUCCESS_DESCRIPTION_MODE_OFF = "\nYour Adventure is no longer in description mode.\n";
-	private static final String SUCCESS_LOCATION = "\n[ %s ]\n\n";
 	private static final String SUCCESS_MINIGAME = "\nInsert numbers between 0 and %d\nYou have %s guesses\n";
 	private static final String SUCCESS_GET_1 = "\nTaken.\n\n";
 	private static final String SUCCESS_GET_2 = "\nYou have put a %s in your Bag.\n\n";
 	private static final String SUCCESS_GET_3 = "\nNice catch, %s!\n\n";
 	private static final String SUCCESS_GET_4 = "\nYou get hit by a wave of laziness, causing you to refuse to pick up the item...\n";
+	private static final String SUCCESS_ITEM_QUANTITY = "\nYou have %d of that item\n\n";
 	private static final String SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
@@ -51,6 +51,7 @@ public class Main {
 	private static final String ERROR_NO_SPACE = "\nYou can't put these item in your bag while it's full.\nYou need to drop something.\n\n";
 	private static final String ERROR_STAKED_ITEM = "\nYou can't put more %ss in your bag.\n\n";
 	private static final String ERROR_EMPTY_BAG = " * Empty *\n";
+	private static final String ERROR_ITEM_NOT_IN_BAG = "\nYou don't have %s on your bag.\n\n";
 
 	
 	public static void main(String[] args) {
@@ -135,7 +136,7 @@ public class Main {
 				help();
 				break;
 			default:
-				defaultError();
+				defaultError(in);
 				break;
 		}
 	}
@@ -218,7 +219,7 @@ public class Main {
 				exit();
 				break;
 			default:
-				defaultError();
+				defaultError(in);
 				break;
 		}
 	}
@@ -306,12 +307,19 @@ public class Main {
 	//  printString(String.format("\nHey %s, in this universe where you just entered,\nyou will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()));
 	//	System.out.println("[ PRESS ENTER TO CONTINUE ]");
 	//	in.nextLine();
-		//System.out.printf("[ %s's %s ] \n\n", game.getPlayerName().toUpperCase(), game.getPlayerLocation().toUpperCase()); coolDown(1000);
-	//	printString("There's a beautiful day outside...\n"); coolDown(900);
-	//	printString("You can see the sun rays entering by the BedRoom window and warming you...\n\n"); coolDown(800);
+		enterNewLocation(game);
 		//printString("[ You are standing in the middle of your Room...\nThere's a Computer above a Desk, a red and white comfortable Bed,\n"
-		//			+ "a light brown leather ArmChair, an empty Shelf in front of your Desk and a BookShelf full of Books. ]\n\n");
+		//			+ "a light brown leather ArmChair, an empty Shelf in front of the Desk and a BookShelf full of Books. ]\n\n");
 		
+	}
+	
+	/**
+	 * Prints the name and first description of a location.
+	 * @param game - GameSystem
+	 */
+	private static void enterNewLocation(GameSystem game) {
+		location(game); coolDown(1000);
+		locationInf(game); coolDown(800);
 	}
 	
 	/**
@@ -319,7 +327,7 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void locationInf(GameSystem game) {
-		
+		printString(String.format("%s\n",game.getLocationDescription()));
 	}
 	
 	/**
@@ -364,11 +372,11 @@ public class Main {
 	}
 	
 	/**
-	 * Tells you the name of your location.
+	 * Tells you the name of your location at the moment.
 	 * @param game - GameSystem
 	 */
 	private static void location(GameSystem game) {
-		
+		System.out.printf("\n["+game.getLocationName()+"]\n\n", game.getPlayerName().toUpperCase());
 	}
 
 	/**
@@ -387,8 +395,8 @@ public class Main {
 				game.getItem(items);
 				
 				if(number<=20) printString(SUCCESS_GET_1);
-				else if(number<20 && number>=45) printString(SUCCESS_GET_2);
-				else printString(SUCCESS_GET_1);
+				else if(number<20 && number>=45) printString(String.format(SUCCESS_GET_2, items));                   //Tem Bug... se um dos items nao existir aparece que apanhou na mesma
+				else printString(String.format(SUCCESS_GET_3, game.getPlayerName()));
 				
 			} else printString(SUCCESS_GET_4);
 		} catch(ItemNotInLocationException e) {
@@ -432,7 +440,7 @@ public class Main {
 				Item item = list.get(0);
 				int quantity = list.size();
 				
-				System.out.printf("[%s]: x%d\n\n", item.getItemType(), quantity);
+				System.out.printf("[%s]: x%d\n\n", item.getObjectType(), quantity);
 			}
 		} catch(EmpetyBagException e) {
 			System.out.println(ERROR_EMPTY_BAG);
@@ -445,7 +453,13 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void howMuchItems(Scanner in, GameSystem game) {
+		String item = in.next(); in.nextLine();
 		
+		try {
+			printString(String.format(SUCCESS_ITEM_QUANTITY, game.getQuantity(item)));
+		} catch (ItemNotInBagException e) {
+			printString(String.format(ERROR_ITEM_NOT_IN_BAG, item));
+		}
 	}
 
 	/**
@@ -536,7 +550,8 @@ public class Main {
 	/**
 	 * Prints an error message when the insert command does not exist.
 	 */
-	private static void defaultError() {
+	private static void defaultError(Scanner in) {
+		in.nextLine();
 		printString(ERROR_INVALID_COMMAND);
 	}
 	

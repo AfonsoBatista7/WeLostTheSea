@@ -2,8 +2,8 @@ package player;
 import java.util.*;
 
 import player.exceptions.*;
-import items.*;
 import locations.*;
+import objects.*;
 
 public class PlayerClass implements Player {
 
@@ -34,6 +34,13 @@ public class PlayerClass implements Player {
 		location = newLocation;
 	}
 	
+	public int getQuantity(String item) {
+		ArrayList<Item> items = bag.get(item);
+		if(items==null) throw new ItemNotInBagException();
+		
+		return items.size();
+	}
+	
 	public void upgradeBag(int size) {
 		Map<String, ArrayList<Item>> newBag = new HashMap<String, ArrayList<Item>>(size);
 		newBag.putAll(bag);
@@ -46,7 +53,7 @@ public class PlayerClass implements Player {
 			
 			if(isBagFull()) throw new BagFullException();
 			
-			String itemType = item.getItemType();
+			String itemType = item.getObjectType();
 			ArrayList<Item> list = bag.get(itemType);
 			
 			if(list==null) {

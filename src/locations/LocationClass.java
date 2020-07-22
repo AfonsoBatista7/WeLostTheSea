@@ -3,18 +3,21 @@ package locations;
 import java.util.*;
 
 import locations.exceptions.*;
-import items.*;
+import objects.*;
+import objects.Object;
 
 public class LocationClass implements Location {
 
-	private Map<String,LinkedList<Item>> locationItems;
+	private Map<String, LinkedList<Item>> locationItems;
+	private Map<String, Object> locationObjects;
 	private String locationName, description;
 	private int n, s, w, e;
 	
-	public LocationClass(String locationName ,String description, Map<String,LinkedList<Item>> items, int n, int s, int w, int e) {
+	public LocationClass(String locationName ,String description, Map<String,LinkedList<Item>> items, Map<String,Object> objects, int n, int s, int w, int e) {
 		this.locationName = locationName;
 		this.description = description;
 		this.locationItems = items;
+		this.locationObjects = objects;
 		this.n = n;
 		this.s = s;
 		this.w = w;
@@ -45,18 +48,36 @@ public class LocationClass implements Location {
 		return e;
 	}
 	
+	public Iterator<Object> allObjects() {
+		return locationObjects.values().iterator();
+	}
+	
+	public Iterator<String> allItems() {
+		return locationItems.keySet().iterator();
+	}
+	
+	public Iterator<Item> allItemsByType(String itemType) {
+		List<Item> list = locationItems.get(itemType.toLowerCase());
+		if(list==null) throw new ItemNotInLocationException(itemType);
+		return list.iterator();
+	}
+	
 	public Iterator<Item> getItem(List<String> items) {
 		List<Item> itemList = new LinkedList<Item>();
 		for(String itemType: items) {
 
 			List<Item> list = locationItems.get(itemType.toLowerCase());
+			Object object = locationObjects.get(itemType.toLowerCase());
 			
-			if(list==null) throw new ItemNotInLocationException(itemType);
+			if(list==null) {
+				if(object!=null)
+					throw new NotAnItemException(itemType);
+				throw new ItemNotInLocationException(itemType);
+			}
+			
 			Item item = list.remove(0);
 			
 			if(list.isEmpty()) locationItems.remove(itemType);
-			
-			if(!(item instanceof Item)) throw new NotAnItemException(itemType);
 			
 			itemList.add(item);
 		}
@@ -64,7 +85,4 @@ public class LocationClass implements Location {
 		return itemList.iterator();
 	}
 	
-	public Iterator<String> listItemsInLocation() {
-		return locationItems.keySet().iterator();
-	}
 }

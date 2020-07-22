@@ -1,7 +1,9 @@
 package locations;
 
 import java.util.*;
-import items.*;
+
+import objects.*;
+import objects.Object;
 
 public interface Location {
 
@@ -43,5 +45,16 @@ public interface Location {
 	/**
 	 * @return List all the items on this location.
 	 */
-	Iterator<String> listItemsInLocation();
+	Iterator<String> allItems();
+	
+	/**
+	 * @return List all the objects on this location.
+	 */
+	Iterator<Object> allObjects();
+	
+	/**
+	 * @param itemType - Item type.
+	 * @return List all items of that type on this location.
+	 */
+	Iterator<Item> allItemsByType(String itemType);
 }

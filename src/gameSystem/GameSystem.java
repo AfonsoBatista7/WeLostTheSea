@@ -2,10 +2,10 @@ package gameSystem;
 
 import java.util.*;
 
-import items.*;
 import gameSystem.exceptions.*;
 import player.exceptions.*;
 import locations.exceptions.*;
+import objects.*;
 
 public interface GameSystem {
 	
@@ -41,4 +41,22 @@ public interface GameSystem {
 	 * @throws EmpetyBagException
 	 */
 	Iterator<ArrayList<Item>> listBag() throws EmpetyBagException;
+	
+	/**
+	 * @return the Location Name.
+	 */
+	String getLocationName();
+	
+	/**
+	 * @return the location description.
+	 */
+	String getLocationDescription();
+	
+	/**
+	 * @param item - item.
+	 * @return The total quantity of an item.
+	 * @throws ItemNotInBagException
+	 */
+	int getQuantity(String item) throws ItemNotInBagException;
 }
+
