@@ -1,7 +1,7 @@
 package objects.nonItems;
 import objects.*;
 
-public class Desk extends nonItemClass {
+public class Desk extends NonItemClass {
 
 	private static final String TYPE = "Desk";
 	

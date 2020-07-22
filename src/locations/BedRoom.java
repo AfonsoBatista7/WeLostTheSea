@@ -21,16 +21,16 @@ public class BedRoom extends LocationClass {
 		}
 	};
 	
-	private static Map<String, Object> objects = new HashMap<String, Object>() {
+	private static Map<String, NonItem> objects = new HashMap<String, NonItem>() {
 		private static final long serialVersionUID = -6565627091200982584L;
 
 		{
-			put("computer", new Computer("above a Desk",""));
-			put("desk", new Desk("", "Wooden"));
-			put("bed", new ObjectClass("", "red and white comfortable"));
-			put("armchair", new ObjectClass("", "light brown leather"));
-			put("shelf", new ObjectClass("in front of the Desk", ""));
-			put("bookshelf", new ObjectClass("", ""));
+			put("computer", new Computer(" above a Desk",""));
+			put("desk", new Desk("", " Wooden"));
+			put("bed", new Bed("", " red and white comfortable"));
+			put("armchair", new ArmChair("", " light brown leather"));
+			put("shelf", new Shelf(" in front of the Desk", ""));
+			put("bookshelf", new BookShelf("", ""));
 		}
 	};
 	

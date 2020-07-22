@@ -6,7 +6,8 @@ import java.util.Scanner;
 import gameSystem.*;
 import gameSystem.exceptions.*;
 import locations.exceptions.*;
-import objects.Item;
+import objects.*;
+import objects.Object;
 import player.exceptions.*;
 
 /**
@@ -183,16 +184,16 @@ public class Main {
 				myName(game);
 				break;
 			case W:
-				goDirection(game, "W");
+				goDirection(game, W);
 				break;
 			case E:
-				goDirection(game, "E");
+				goDirection(game, E);
 				break;
 			case N:
-				goDirection(game, "N");
+				goDirection(game, N);
 				break;
 			case S:
-				goDirection(game, "S");
+				goDirection(game, S);
 				break;
 			case SIT:
 				sit(in, game);
@@ -320,6 +321,23 @@ public class Main {
 	private static void enterNewLocation(GameSystem game) {
 		location(game); coolDown(1000);
 		locationInf(game); coolDown(800);
+		locationObjects(game);
+	}
+	
+	private static void locationObjects(GameSystem game) {
+		try {
+			Iterator<NonItem> it = game.allLocationObjects();
+			printString(String.format("[ There's "));
+			while(it.hasNext()) {
+				NonItem ob = it.next();
+				if(!it.hasNext()) printString("and ");
+				printString(String.format("a%s %s%s", ob.getObjectDescription(), ob.getObjectType(), ob.getDirection()));              //Diferenciar an e a 
+				if(!it.hasNext()) printString(". ]\n\n");
+				else printString(", ");
+			}
+		} catch(NoObjectsException e) {
+			
+		}
 	}
 	
 	/**
@@ -395,7 +413,7 @@ public class Main {
 				game.getItem(items);
 				
 				if(number<=20) printString(SUCCESS_GET_1);
-				else if(number<20 && number>=45) printString(String.format(SUCCESS_GET_2, items));                   //Tem Bug... se um dos items nao existir aparece que apanhou na mesma
+				else if(number<20 && number>=45) printString(String.format(SUCCESS_GET_2, items));                   //Não acabado... se um dos items nao existir aparece que apanhou na mesma
 				else printString(String.format(SUCCESS_GET_3, game.getPlayerName()));
 				
 			} else printString(SUCCESS_GET_4);

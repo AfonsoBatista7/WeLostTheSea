@@ -6,6 +6,7 @@ import gameSystem.exceptions.*;
 import player.exceptions.*;
 import locations.exceptions.*;
 import objects.*;
+import objects.Object;
 
 public interface GameSystem {
 	
@@ -58,5 +59,10 @@ public interface GameSystem {
 	 * @throws ItemNotInBagException
 	 */
 	int getQuantity(String item) throws ItemNotInBagException;
+	
+	Iterator<String> allLocationItems() throws NoObjectsException;
+	
+	Iterator<NonItem> allLocationObjects()  throws NoObjectsException;
+	
 }
 

@@ -1,7 +1,7 @@
 package objects.nonItems;
 import objects.*;
 
-public class Bed extends nonItemClass {
+public class Bed extends NonItemClass {
 
 	private static final String TYPE = "Bed";
 	

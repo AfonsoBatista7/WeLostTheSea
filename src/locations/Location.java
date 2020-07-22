@@ -50,7 +50,7 @@ public interface Location {
 	/**
 	 * @return List all the objects on this location.
 	 */
-	Iterator<Object> allObjects();
+	Iterator<NonItem> allObjects();
 	
 	/**
 	 * @param itemType - Item type.

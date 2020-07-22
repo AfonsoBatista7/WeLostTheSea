@@ -1,10 +1,10 @@
 package objects;
 
-public class nonItemClass extends ObjectClass implements nonItem {
+public class NonItemClass extends ObjectClass implements NonItem {
 
 	private String direction;
 	
-	public nonItemClass(String type, String direction, String description) {
+	public NonItemClass(String type, String direction, String description) {
 		super(type, description);
 		this.direction = direction;
 	}

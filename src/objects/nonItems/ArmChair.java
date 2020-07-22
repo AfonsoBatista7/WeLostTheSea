@@ -1,7 +1,7 @@
 package objects.nonItems;
 import objects.*;
 
-public class ArmChair extends nonItemClass {
+public class ArmChair extends NonItemClass {
 
 	private static final String TYPE = "ArmChair";
 	

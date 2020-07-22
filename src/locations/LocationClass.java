@@ -9,11 +9,11 @@ import objects.Object;
 public class LocationClass implements Location {
 
 	private Map<String, LinkedList<Item>> locationItems;
-	private Map<String, Object> locationObjects;
+	private Map<String, NonItem> locationObjects;
 	private String locationName, description;
 	private int n, s, w, e;
 	
-	public LocationClass(String locationName ,String description, Map<String,LinkedList<Item>> items, Map<String,Object> objects, int n, int s, int w, int e) {
+	public LocationClass(String locationName ,String description, Map<String, LinkedList<Item>> items, Map<String, NonItem> objects, int n, int s, int w, int e) {
 		this.locationName = locationName;
 		this.description = description;
 		this.locationItems = items;
@@ -48,11 +48,13 @@ public class LocationClass implements Location {
 		return e;
 	}
 	
-	public Iterator<Object> allObjects() {
+	public Iterator<NonItem> allObjects() {
+		if(locationObjects.isEmpty()) throw new NoObjectsException();
 		return locationObjects.values().iterator();
 	}
 	
 	public Iterator<String> allItems() {
+		if(locationItems.isEmpty()) throw new NoObjectsException();
 		return locationItems.keySet().iterator();
 	}
 	

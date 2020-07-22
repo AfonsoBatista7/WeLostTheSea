@@ -7,6 +7,7 @@ import gameSystem.exceptions.*;
 import player.*;
 import locations.*;
 import objects.*;
+import objects.Object;
 
 public class GameSystemClass implements GameSystem {
 	
@@ -97,7 +98,19 @@ public class GameSystemClass implements GameSystem {
 		return player.getQuantity(toSearch(item));
 	}
 	
+	/**
+	 * @param object - object name.
+	 * @return the object name with a capital letter.
+	 */
 	private String toSearch(String object) {
 		return object.toString().substring(0,1).toUpperCase() + object.toString().substring(1).toLowerCase();
+	}
+	
+	public Iterator<String> allLocationItems() {
+		return player.getLocation().allItems();
+	}
+	
+	public Iterator<NonItem> allLocationObjects() {
+		return player.getLocation().allObjects();
 	}
 }
