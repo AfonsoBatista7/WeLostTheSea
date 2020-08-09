@@ -3,7 +3,10 @@ import java.util.*;
 
 import player.exceptions.*;
 import locations.*;
+import locations.exceptions.ItemNotInLocationException;
+import locations.exceptions.NotAnItemException;
 import objects.*;
+import objects.Object;
 
 public class PlayerClass implements Player {
 
@@ -36,7 +39,7 @@ public class PlayerClass implements Player {
 	
 	public int getQuantity(String item) {
 		ArrayList<Item> items = bag.get(item);
-		if(items==null) throw new ItemNotInBagException();
+		if(items==null) throw new ItemNotInBagException(item);
 		
 		return items.size();
 	}
@@ -48,9 +51,9 @@ public class PlayerClass implements Player {
 			
 	}
 	
-	public void getItem(List<Item> items) {
-		for(Item item: items) {
-			
+	public void getItem(Iterator<Item> items) {
+		while(items.hasNext()) {
+			Item item = items.next();
 			if(isBagFull()) throw new BagFullException();
 			
 			String itemType = item.getObjectType();
@@ -64,6 +67,26 @@ public class PlayerClass implements Player {
 			list.add(item);
 			
 		}
+	}
+	
+	public Iterator<Item> dropItem(Iterator<String> items) {
+		List<Item> itemList = new LinkedList<Item>();
+				
+		while(items.hasNext()) {
+			String itemType = items.next();
+			itemType = itemType.substring(0,1).toUpperCase() + itemType.substring(1).toLowerCase();
+			List<Item> list = bag.get(itemType);
+					
+			if(list==null) throw new ItemNotInBagException(itemType);
+					
+			Item item = list.remove(0);
+				
+			if(list.isEmpty()) bag.remove(itemType);
+				
+			itemList.add(item);
+			}
+				
+		return itemList.iterator();
 	}
 	
 	private boolean isStackedItem(String itemType) {

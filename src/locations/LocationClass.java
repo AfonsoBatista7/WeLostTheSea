@@ -5,6 +5,8 @@ import java.util.*;
 import locations.exceptions.*;
 import objects.*;
 import objects.Object;
+import player.exceptions.BagFullException;
+import player.exceptions.StakedItemException;
 
 public class LocationClass implements Location {
 
@@ -64,10 +66,11 @@ public class LocationClass implements Location {
 		return list.iterator();
 	}
 	
-	public Iterator<Item> getItem(List<String> items) {
+	public Iterator<Item> getItem(Iterator<String> items) {
 		List<Item> itemList = new LinkedList<Item>();
-		for(String itemType: items) {
-
+		
+		while(items.hasNext()) {
+			String itemType = items.next();
 			List<Item> list = locationItems.get(itemType.toLowerCase());
 			Object object = locationObjects.get(itemType.toLowerCase());
 			
@@ -85,6 +88,23 @@ public class LocationClass implements Location {
 		}
 		
 		return itemList.iterator();
+	}
+	
+	public void dropItem(Iterator<Item> items) {
+		while(items.hasNext()) {
+			Item item = items.next();
+			
+			String itemType = item.getObjectType().toLowerCase();
+			LinkedList<Item> list = locationItems.get(itemType);
+			
+			if(list==null) {
+				list = new LinkedList<Item>();
+				locationItems.put(itemType, list);
+			}
+			
+			list.add(item);
+			
+		}
 	}
 	
 }

@@ -66,12 +66,27 @@ public class GameSystemClass implements GameSystem {
 		
 		for(String item: str) itemsType.add(item);
 		
-		Iterator<Item> it = getCurrentLocation().getItem(itemsType);
+		Iterator<Item> it = getCurrentLocation().getItem(itemsType.iterator());
 		
 		while(it.hasNext())
 			itemList.add(it.next());
 		
-		player.getItem(itemList);
+		player.getItem(itemList.iterator());
+	}
+	
+	public void dropItem(String items) {
+		String str[] = items.split(" ");
+		List<Item> itemList = new LinkedList<Item>();
+		List<String> itemsType = new LinkedList<String>();
+		
+		for(String item: str) itemsType.add(item);
+		
+		Iterator<Item> it = player.dropItem(itemsType.iterator());
+		
+		while(it.hasNext())
+			itemList.add(it.next());
+		
+		getCurrentLocation().dropItem(itemList.iterator());
 	}
 	
 	public String getLocationName() {

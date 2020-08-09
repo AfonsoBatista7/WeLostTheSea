@@ -2,6 +2,8 @@ package locations;
 
 import java.util.*;
 
+import locations.exceptions.ItemNotInLocationException;
+import locations.exceptions.NotAnItemException;
 import objects.*;
 import objects.Object;
 
@@ -40,7 +42,9 @@ public interface Location {
 	/**
 	 * @param items - items the player want to pick up.
 	 */
-	Iterator<Item> getItem(List<String> items);
+	Iterator<Item> getItem(Iterator<String> items) throws NotAnItemException, ItemNotInLocationException;
+	
+	void dropItem(Iterator<Item> items);
 	
 	/**
 	 * @return List all the items on this location.

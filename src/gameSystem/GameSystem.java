@@ -64,5 +64,7 @@ public interface GameSystem {
 	
 	Iterator<NonItem> allLocationObjects()  throws NoObjectsException;
 	
+	void dropItem(String items) throws ItemNotInBagException;
+	
 }
 

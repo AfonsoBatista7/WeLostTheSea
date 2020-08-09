@@ -3,6 +3,7 @@ package player;
 import java.util.*;
 
 import locations.Location;
+import locations.exceptions.NotAnItemException;
 import objects.*;
 import player.exceptions.*;
 
@@ -22,7 +23,9 @@ public interface Player {
 	 * Gets items.
 	 * @param items - list of items the player picked. 
 	 */
-	void getItem(List<Item> items) throws BagFullException, StakedItemException;
+	void getItem(Iterator<Item> items) throws BagFullException, StakedItemException;
+	
+	Iterator<Item> dropItem(Iterator<String> items) throws ItemNotInBagException;
 	
 	/**
 	 * @return Player location.

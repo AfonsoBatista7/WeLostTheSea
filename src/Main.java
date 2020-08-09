@@ -302,17 +302,15 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void start(Scanner in, GameSystem game) {
-	//	printString(SUCCESS_START);
+		printString(SUCCESS_START);
 		newPlayer(in, game);
 		game.startTimer();
-	//  printString(String.format("\nHey %s, in this universe where you just entered,\nyou will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()));
-	//	System.out.println("[ PRESS ENTER TO CONTINUE ]");
-	//	in.nextLine();
+		printString(String.format("\nHey %s, in this universe where you just entered,\nyou will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()));
+		System.out.print("[ PRESS ENTER TO CONTINUE ]");
+		in.nextLine();
 		enterNewLocation(game);
-		//printString("[ You are standing in the middle of your Room...\nThere's a Computer above a Desk, a red and white comfortable Bed,\n"
-		//			+ "a light brown leather ArmChair, an empty Shelf in front of the Desk and a BookShelf full of Books. ]\n\n");
-		
-	}
+		printString("You are standing in the middle of your Room...\n\n");
+		}
 	
 	/**
 	 * Prints the name and first description of a location.
@@ -435,6 +433,22 @@ public class Main {
 	 */
 	private static void dropItem(Scanner in, GameSystem game) {
 		
+		Random rand = new Random();
+		String items = in.next()+in.nextLine();
+		int number = rand.nextInt(50);
+		
+		try {
+			
+			game.dropItem(items);
+			
+			if(number<=20) printString("\nYou have droped the item.\n");
+			else if(number<20 && number>=40) printString(String.format("\nNow %s are droped in the middle of %s.\n\n", items, game.getLocationName()));
+			else if(number>40 && number<49) printString(String.format("\nYou throw away as far as you can %s!\n\n", items));
+			else printString(String.format("\nBetween wind sounds %s says :\n\"hmmm now I fell lighter...\"\n\n", game.getPlayerName()));
+			
+		} catch(ItemNotInBagException e) {
+			printString(String.format(ERROR_ITEM_NOT_IN_BAG, e.getItemType()));
+		} 
 	}
 
 	/**
