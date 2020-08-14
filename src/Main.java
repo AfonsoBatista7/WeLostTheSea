@@ -37,22 +37,26 @@ public class Main {
 	private static final String SUCCESS_DISCRIPTION_MODE_ON = "\nYour Adventure is now in description mode, which always gives bigger descriptions of locations.\n";
 	private static final String SUCCESS_DESCRIPTION_MODE_OFF = "\nYour Adventure is no longer in description mode.\n";
 	private static final String SUCCESS_MINIGAME = "\nInsert numbers between 0 and %d\nYou have %s guesses\n";
-	private static final String SUCCESS_GET_1 = "\nTaken.\n\n";
-	private static final String SUCCESS_GET_2 = "\nYou have put a %s in your Bag.\n\n";
-	private static final String SUCCESS_GET_3 = "\nNice catch, %s!\n\n";
+	private static final String SUCCESS_GET_1 = "\nTaken.";
+	private static final String SUCCESS_GET_2 = "\nYou have put %s in your Bag.";
+	private static final String SUCCESS_GET_3 = "\nNice catch, %s!";
 	private static final String SUCCESS_GET_4 = "\nYou get hit by a wave of laziness, causing you to refuse to pick up the item...\n";
+	private static final String SUCCESS_DROP_1 = "\nYou have droped the item.";
+	private static final String SUCCESS_DROP_2 = "\nNow %s are droped in the middle of %s.";
+	private static final String SUCCESS_DROP_3 = "\nYou throw away as far as you can %s!";
+	private static final String SUCCESS_DROP_4 = "\nBetween wind sounds %s says :\n\"hmmm now I fell lighter...\"";
 	private static final String SUCCESS_ITEM_QUANTITY = "\nYou have %d of that item\n\n";
 	private static final String SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
 	private static final String ERROR_INVALID_COMMAND = "\nHoo man! That must be an encrypted type of language I don't understand!\n\n";
 	private static final String ERROR_TOO_LONG_NAME = "\nWooow! Looks like your name is to big for me to handle... Try write a smaller one. (<22)\n";
-	private static final String ERROR_ITEM_NOT_IN_LOCATION = "\n%s doesn't exist in this location...\n\n";
-	private static final String ERROR_NOT_AN_ITEM = "\nYou tried realy hard but, you couldn't put a %s in you bag...\n\n";
-	private static final String ERROR_NO_SPACE = "\nYou can't put these item in your bag while it's full.\nYou need to drop something.\n\n";
-	private static final String ERROR_STAKED_ITEM = "\nYou can't put more %ss in your bag.\n\n";
+	private static final String ERROR_ITEM_NOT_IN_LOCATION = "\n%s doesn't exist in this location...";
+	private static final String ERROR_NOT_AN_ITEM = "\nYou tried realy hard but, you couldn't put a %s in you bag...";
+	private static final String ERROR_NO_SPACE = "\nYou can't put these item in your bag while it's full.\nYou need to drop something.";
+	private static final String ERROR_STAKED_ITEM = "\nYou can't put more %ss in your bag.";
 	private static final String ERROR_EMPTY_BAG = " * Empty *\n";
-	private static final String ERROR_ITEM_NOT_IN_BAG = "\nYou don't have %s on your bag.\n\n";
+	private static final String ERROR_ITEM_NOT_IN_BAG = "\nYou don't have %s on your bag.";
 
 	
 	public static void main(String[] args) {
@@ -404,26 +408,31 @@ public class Main {
 		
 		Random rand = new Random();
 		String items = in.next()+in.nextLine();
-		int number = rand.nextInt(50);
-		try {
-			
-			if(number!=50) {
-				game.getItem(items);
-				
-				if(number<=20) printString(SUCCESS_GET_1);
-				else if(number<20 && number>=45) printString(String.format(SUCCESS_GET_2, items));                   //Não acabado... se um dos items nao existir aparece que apanhou na mesma
-				else printString(String.format(SUCCESS_GET_3, game.getPlayerName()));
-				
-			} else printString(SUCCESS_GET_4);
-		} catch(ItemNotInLocationException e) {
-			printString(String.format(ERROR_ITEM_NOT_IN_LOCATION, e.getItemType()));
-		} catch(NotAnItemException e) {
-			printString(String.format(ERROR_NOT_AN_ITEM, e.getItemType()));
-		} catch(BagFullException e) {
-			printString(ERROR_NO_SPACE);
-		} catch(StakedItemException e) {
-			printString(String.format(ERROR_STAKED_ITEM, e.getItemType()));
+		Iterator<String> itemsType = game.splitItems(items); 
+		
+		while(itemsType.hasNext()) {
+			int number = rand.nextInt(50);
+			try {
+				String item = itemsType.next();
+				if(number!=50) {
+					game.getItem(item);
+					
+					if(number<=20) printString(SUCCESS_GET_1);
+					else if(number<20 && number>=45) printString(String.format(SUCCESS_GET_2, item));                  
+					else printString(String.format(SUCCESS_GET_3, game.getPlayerName()));
+					
+				} else printString(SUCCESS_GET_4);
+			} catch(ItemNotInLocationException e) {
+				printString(String.format(ERROR_ITEM_NOT_IN_LOCATION, e.getItemType()));
+			} catch(NotAnItemException e) {
+				printString(String.format(ERROR_NOT_AN_ITEM, e.getItemType()));
+			} catch(BagFullException e) {
+				printString(ERROR_NO_SPACE);
+			} catch(StakedItemException e) {
+				printString(String.format(ERROR_STAKED_ITEM, e.getItemType()));
+			}
 		}
+		System.out.println("\n");
 	}
 	
 	/**
@@ -435,20 +444,24 @@ public class Main {
 		
 		Random rand = new Random();
 		String items = in.next()+in.nextLine();
-		int number = rand.nextInt(50);
+		Iterator<String> itemsType = game.splitItems(items);
 		
-		try {
-			
-			game.dropItem(items);
-			
-			if(number<=20) printString("\nYou have droped the item.\n");
-			else if(number<20 && number>=40) printString(String.format("\nNow %s are droped in the middle of %s.\n\n", items, game.getLocationName()));
-			else if(number>40 && number<49) printString(String.format("\nYou throw away as far as you can %s!\n\n", items));
-			else printString(String.format("\nBetween wind sounds %s says :\n\"hmmm now I fell lighter...\"\n\n", game.getPlayerName()));
-			
-		} catch(ItemNotInBagException e) {
-			printString(String.format(ERROR_ITEM_NOT_IN_BAG, e.getItemType()));
-		} 
+		while(itemsType.hasNext()) {
+			int number = rand.nextInt(50);
+			try {
+				String item = itemsType.next();
+				game.dropItem(item);
+				
+				if(number<=20) printString(SUCCESS_DROP_1);
+				else if(number<20 && number>=40) printString(String.format(SUCCESS_DROP_2, item, game.getLocationName()));
+				else if(number>40 && number<49) printString(String.format(SUCCESS_DROP_3, item));
+				else printString(String.format(SUCCESS_DROP_4, game.getPlayerName()));
+				
+			} catch(ItemNotInBagException e) {
+				printString(String.format(ERROR_ITEM_NOT_IN_BAG, e.getItemType()));
+			} 
+		}
+		System.out.println("\n");
 	}
 
 	/**

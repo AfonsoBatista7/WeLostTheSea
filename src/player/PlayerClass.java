@@ -51,9 +51,7 @@ public class PlayerClass implements Player {
 			
 	}
 	
-	public void getItem(Iterator<Item> items) {
-		while(items.hasNext()) {
-			Item item = items.next();
+	public void getItem(Item item) {
 			if(isBagFull()) throw new BagFullException();
 			
 			String itemType = item.getObjectType();
@@ -65,28 +63,20 @@ public class PlayerClass implements Player {
 			} else if(isStackedItem(itemType)) throw new StakedItemException(itemType);
 			
 			list.add(item);
-			
-		}
 	}
 	
-	public Iterator<Item> dropItem(Iterator<String> items) {
-		List<Item> itemList = new LinkedList<Item>();
-				
-		while(items.hasNext()) {
-			String itemType = items.next();
-			itemType = itemType.substring(0,1).toUpperCase() + itemType.substring(1).toLowerCase();
-			List<Item> list = bag.get(itemType);
+	public Item dropItem(String item) {
+		
+		item = item.substring(0,1).toUpperCase() + item.substring(1).toLowerCase();
+		List<Item> list = bag.get(item);
 					
-			if(list==null) throw new ItemNotInBagException(itemType);
+		if(list==null) throw new ItemNotInBagException(item);
 					
-			Item item = list.remove(0);
+		Item getItem = list.remove(0);
+			
+		if(list.isEmpty()) bag.remove(item);
 				
-			if(list.isEmpty()) bag.remove(itemType);
-				
-			itemList.add(item);
-			}
-				
-		return itemList.iterator();
+		return getItem;
 	}
 	
 	private boolean isStackedItem(String itemType) {

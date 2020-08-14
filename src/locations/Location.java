@@ -42,9 +42,9 @@ public interface Location {
 	/**
 	 * @param items - items the player want to pick up.
 	 */
-	Iterator<Item> getItem(Iterator<String> items) throws NotAnItemException, ItemNotInLocationException;
+	Item getItem(String item) throws NotAnItemException, ItemNotInLocationException;
 	
-	void dropItem(Iterator<Item> items);
+	void dropItem(Item item);
 	
 	/**
 	 * @return List all the items on this location.

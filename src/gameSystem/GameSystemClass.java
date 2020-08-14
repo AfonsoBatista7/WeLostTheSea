@@ -59,34 +59,23 @@ public class GameSystemClass implements GameSystem {
 		player.setLocation(location);
 	}
 	
-	public void getItem(String items) {
+	public Iterator<String> splitItems(String items) {
 		String str[] = items.split(" ");
-		List<Item> itemList = new LinkedList<Item>();
 		List<String> itemsType = new LinkedList<String>(); 
 		
 		for(String item: str) itemsType.add(item);
 		
-		Iterator<Item> it = getCurrentLocation().getItem(itemsType.iterator());
-		
-		while(it.hasNext())
-			itemList.add(it.next());
-		
-		player.getItem(itemList.iterator());
+		return itemsType.iterator();
 	}
 	
-	public void dropItem(String items) {
-		String str[] = items.split(" ");
-		List<Item> itemList = new LinkedList<Item>();
-		List<String> itemsType = new LinkedList<String>();
-		
-		for(String item: str) itemsType.add(item);
-		
-		Iterator<Item> it = player.dropItem(itemsType.iterator());
-		
-		while(it.hasNext())
-			itemList.add(it.next());
-		
-		getCurrentLocation().dropItem(itemList.iterator());
+	public void getItem(String item) {
+		Item getItem = getCurrentLocation().getItem(item);
+		player.getItem(getItem);
+	}
+	
+	public void dropItem(String item) {
+		Item getItem = player.dropItem(item);
+		getCurrentLocation().dropItem(getItem);
 	}
 	
 	public String getLocationName() {

@@ -66,45 +66,37 @@ public class LocationClass implements Location {
 		return list.iterator();
 	}
 	
-	public Iterator<Item> getItem(Iterator<String> items) {
-		List<Item> itemList = new LinkedList<Item>();
-		
-		while(items.hasNext()) {
-			String itemType = items.next();
-			List<Item> list = locationItems.get(itemType.toLowerCase());
-			Object object = locationObjects.get(itemType.toLowerCase());
+	public Item getItem(String item) {
+			
+			List<Item> list = locationItems.get(item.toLowerCase());
+			Object object = locationObjects.get(item.toLowerCase());
 			
 			if(list==null) {
 				if(object!=null)
-					throw new NotAnItemException(itemType);
-				throw new ItemNotInLocationException(itemType);
+					throw new NotAnItemException(item);
+				throw new ItemNotInLocationException(item);
 			}
 			
-			Item item = list.remove(0);
+			Item getItem = list.remove(0);
 			
-			if(list.isEmpty()) locationItems.remove(itemType);
-			
-			itemList.add(item);
-		}
+			if(list.isEmpty()) locationItems.remove(item);
 		
-		return itemList.iterator();
+		return getItem;
 	}
 	
-	public void dropItem(Iterator<Item> items) {
-		while(items.hasNext()) {
-			Item item = items.next();
+	public void dropItem(Item item) {
 			
-			String itemType = item.getObjectType().toLowerCase();
-			LinkedList<Item> list = locationItems.get(itemType);
+		String getItem = item.getObjectType().toLowerCase();
+		LinkedList<Item> list = locationItems.get(getItem);
 			
-			if(list==null) {
-				list = new LinkedList<Item>();
-				locationItems.put(itemType, list);
-			}
-			
-			list.add(item);
-			
+		if(list==null) {
+			list = new LinkedList<Item>();
+			locationItems.put(getItem, list);
 		}
+			
+		list.add(item);
 	}
+			
 	
 }
+	

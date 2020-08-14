@@ -23,9 +23,14 @@ public interface Player {
 	 * Gets items.
 	 * @param items - list of items the player picked. 
 	 */
-	void getItem(Iterator<Item> items) throws BagFullException, StakedItemException;
+	void getItem(Item item) throws BagFullException, StakedItemException;
 	
-	Iterator<Item> dropItem(Iterator<String> items) throws ItemNotInBagException;
+	/**
+	 * @param item - Item the player wants to drop.
+	 * @return Item to drop.
+	 * @throws ItemNotInBagException - If the wanted item is not in the bag.
+	 */
+	Item dropItem(String item) throws ItemNotInBagException;
 	
 	/**
 	 * @return Player location.

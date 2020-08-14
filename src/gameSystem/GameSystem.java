@@ -33,9 +33,14 @@ public interface GameSystem {
 	String getPlayerName();
 	
 	/**
-	 * @param itemList - all the items the player want to get.
+	 * @param item - item the player want to get.
 	 */
-	void getItem(String items) throws ItemNotInLocationException, NotAnItemException, BagFullException, StakedItemException;
+	void getItem(String item) throws ItemNotInLocationException, NotAnItemException, BagFullException, StakedItemException;
+	
+	/**
+	 * @param item - ietm the player want to drop.
+	 */
+	void dropItem(String item) throws ItemNotInBagException;
 	
 	/**
 	 * @return - The items on the player bag.
@@ -64,7 +69,7 @@ public interface GameSystem {
 	
 	Iterator<NonItem> allLocationObjects()  throws NoObjectsException;
 	
-	void dropItem(String items) throws ItemNotInBagException;
+	Iterator<String> splitItems(String items);
 	
 }
 
