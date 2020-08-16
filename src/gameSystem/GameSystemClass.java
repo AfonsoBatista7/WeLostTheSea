@@ -79,11 +79,11 @@ public class GameSystemClass implements GameSystem {
 	}
 	
 	public String getLocationName() {
-		return player.getLocation().getLocationName();
+		return getCurrentLocation().getLocationName();
 	}
 	
 	public String getLocationDescription() {
-		return player.getLocation().getDescription();
+		return getCurrentLocation().getDescription();
 	}
 	
 	public Iterator<ArrayList<Item>> listBag() {
@@ -110,11 +110,20 @@ public class GameSystemClass implements GameSystem {
 		return object.toString().substring(0,1).toUpperCase() + object.toString().substring(1).toLowerCase();
 	}
 	
-	public Iterator<String> allLocationItems() {
-		return player.getLocation().allItems();
+	public Iterator<LinkedList<Item>> allLocationItems() {
+		return getCurrentLocation().allItems();
+		
+	}
+	
+	public Iterator<String> allLocationItemTypes() {
+		return getCurrentLocation().allItemTypes();
 	}
 	
 	public Iterator<NonItem> allLocationObjects() {
-		return player.getLocation().allObjects();
+		return getCurrentLocation().allObjects();
+	}
+	
+	public int getLocationItemQuant(String itemType) {
+		return getCurrentLocation().itemQuant(toSearch(itemType));
 	}
 }

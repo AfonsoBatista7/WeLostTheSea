@@ -65,11 +65,15 @@ public interface GameSystem {
 	 */
 	int getQuantity(String item) throws ItemNotInBagException;
 	
-	Iterator<String> allLocationItems() throws NoObjectsException;
+	Iterator<LinkedList<Item>> allLocationItems() throws NoObjectsException;
 	
 	Iterator<NonItem> allLocationObjects()  throws NoObjectsException;
 	
 	Iterator<String> splitItems(String items);
+	
+	int getLocationItemQuant(String itemType);
+	
+	Iterator<String> allLocationItemTypes();
 	
 }
 

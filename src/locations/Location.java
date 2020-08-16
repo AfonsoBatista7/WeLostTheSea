@@ -49,7 +49,7 @@ public interface Location {
 	/**
 	 * @return List all the items on this location.
 	 */
-	Iterator<String> allItems();
+	Iterator<LinkedList<Item>> allItems();
 	
 	/**
 	 * @return List all the objects on this location.
@@ -61,4 +61,8 @@ public interface Location {
 	 * @return List all items of that type on this location.
 	 */
 	Iterator<Item> allItemsByType(String itemType);
+	
+	int itemQuant(String itemType);
+	
+	Iterator<String> allItemTypes();
 }

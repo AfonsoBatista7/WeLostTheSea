@@ -16,7 +16,7 @@ public class Book extends ItemClass {
 	}
 	
 	public Book(String bookTitle, String text) {
-		super(TYPE, DESCRIPTION);
+		super(TYPE, DESCRIPTION, bookTitle);
 		this.bookTitle = bookTitle;
 		this.text = text;
 	}
