@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -57,6 +58,7 @@ public class Main {
 	private static final String ERROR_STAKED_ITEM = "\nYou can't put more %ss in your bag.";
 	private static final String ERROR_EMPTY_BAG = " * Empty *\n";
 	private static final String ERROR_ITEM_NOT_IN_BAG = "\nYou don't have %s on your bag.";
+	private static final String ERROR_NO_ITEMS_IN_LOCATION = "\nThere's no items in this location.";
 
 	
 	public static void main(String[] args) {
@@ -83,17 +85,17 @@ public class Main {
 	
 	private enum Command {
 		
-		START("Starts the game."), INF("Give you some information about the all game."),
-		LOCATION("Tells you the name of your location."), DESC("Description mode gives bigger descriptions of locations."),
-		W("Walk to the West."), E("Walk to the East."), N("Walk to the North."), S("Walk to the South."),
-		BAG("Opens your bag."), STATUS("Gives you a lot of information about your game play."), 
-		GET("<item name> Catch a floor item."), DROP("<item name> Puts an item at the floor."),
-		QUANT("<item name> How much of an item do you have."), MYNAME("Tells you, your name."), 
-		MONEY("How much money do you have."), SIT("<object name> You sit on an object."), 
-		LAY("<object name> You lay on an object."), STAND("You stand up if you're down."), 
-		TURN("<object name> Turns an object on or off."), CLOSE("<object name> Close an object."),
-		CLICK("<program name> Clicks on a program."), CREDITS("Shows the credits of the game."), 
-		HELP("Shows the available commands"), EXIT("Ends your adventure until you come back."), UNKNOWN("");
+		START("- Starts the game."), INF("- Give you some information about the all game."),
+		LOCATION("- Tells you the name of your location."), DESC("- Description mode gives bigger descriptions of locations."),
+		W("- Walk to the West."), E("- Walk to the East."), N("- Walk to the North."), S("- Walk to the South."),
+		BAG("- Opens your bag."), STATUS("- Gives you a lot of information about your game play."), 
+		GET("<item name> - Catch a floor item."), DROP("<item name> - Puts an item at the floor."),
+		QUANT("<item name> - How much of an item do you have."), MYNAME("- Tells you, your name."), 
+		MONEY("- How much money do you have."), SIT("<object name> - You sit on an object."), 
+		LAY("<object name> - You lay on an object."), STAND("- You stand up if you're down."), 
+		TURN("<object name> - Turns an object on or off."), CLOSE("<object name> - Close an object."),
+		CLICK("<program name> - Clicks on a program."), ITEMS("- Tells you every item you can encounter at the location you in."), CREDITS("- Shows the credits of the game."), 
+		HELP("- Shows the available commands"), EXIT("- Ends your adventure until you come back."), UNKNOWN("");
 		
 		private String description;
 
@@ -217,6 +219,9 @@ public class Main {
 			case CLICK:
 				clickProgram(in, game);
 				break;
+			case ITEMS:
+				locationItems(game);
+				break;
 			case HELP:
 				help();
 				break;
@@ -295,9 +300,9 @@ public class Main {
 		for(Command cm : Command.values())
 			if(!cm.equals(Command.UNKNOWN)) {
 				String command = cm.toString().substring(0,1).toUpperCase() + cm.toString().substring(1).toLowerCase();
-				System.out.printf("%s - %s\n", command, cm.getDescription());
+				System.out.printf("%s %s\n", command, cm.getDescription());
 			}
-		System.out.print(multiplier(66, "="));
+		System.out.print(multiplier(66, "=")+"\n\n");
 	}
 	
 	/**
@@ -306,14 +311,14 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void start(Scanner in, GameSystem game) {
-		printString(SUCCESS_START);
+		//printString(SUCCESS_START);
 		newPlayer(in, game);
 		game.startTimer();
-		printString(String.format("\nHey %s, in this universe where you just entered,\nyou will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()));
-		System.out.print("[ PRESS ENTER TO CONTINUE ]");
-		in.nextLine();
-		enterNewLocation(game);
-		printString("You are standing in the middle of your Room...\n\n");
+		//printString(String.format("\nHey %s, in this universe where you just entered,\nyou will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()));
+		//System.out.print("[ PRESS ENTER TO CONTINUE ]");
+		//in.nextLine();
+		//enterNewLocation(game);
+		//printString("You are standing in the middle of your Room...\n\n");
 		}
 	
 	/**
@@ -337,8 +342,30 @@ public class Main {
 				if(!it.hasNext()) printString(". ]\n\n");
 				else printString(", ");
 			}
+		} catch(NoObjectsException e) {}
+	}
+	
+	/**
+	 * Prints all the items at the location.
+	 * @param game - GameSystem
+	 */
+	private static void locationItems(GameSystem game) {
+		try {
+			Iterator<LinkedList<Item>> it = game.allLocationItems();
+			while(it.hasNext()) {
+				Iterator<Item> itItem = it.next().iterator();
+				boolean first = true;
+				while(itItem.hasNext()) {
+					Item item = itItem.next();
+					if(first) {
+						System.out.printf("\n%s x%d:\n",item.getObjectType(), game.getLocationItemQuant(item.getObjectType()) ); first = false;
+					}
+					System.out.printf("	%s\n",item.getItemName());
+				}
+			}
+			System.out.println("\n");
 		} catch(NoObjectsException e) {
-			
+			printString(ERROR_NO_ITEMS_IN_LOCATION);
 		}
 	}
 	

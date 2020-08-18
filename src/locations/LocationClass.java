@@ -53,7 +53,12 @@ public class LocationClass implements Location {
 		return locationObjects.values().iterator();
 	}
 	
-	public Iterator<String> allItems() {
+	public Iterator<LinkedList<Item>> allItems() {
+		if(locationItems.isEmpty()) throw new NoObjectsException();
+		return locationItems.values().iterator();
+	}
+	
+	public Iterator<String> allItemTypes() {
 		if(locationItems.isEmpty()) throw new NoObjectsException();
 		return locationItems.keySet().iterator();
 	}
@@ -95,6 +100,9 @@ public class LocationClass implements Location {
 		list.add(item);
 	}
 			
+	public int itemQuant(String itemType) {
+		return locationItems.get(itemType.toLowerCase()).size();
+	}
 	
 }
 	

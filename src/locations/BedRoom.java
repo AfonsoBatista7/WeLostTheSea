@@ -17,7 +17,8 @@ public class BedRoom extends LocationClass {
 		private static final long serialVersionUID = -565691364300570895L;
 
 		{
-			put("book", new LinkedList<Item>(Arrays.asList(new Book("Instruction Manual",""), new Book("Diary",""), new Book())));	
+			put("book", new LinkedList<Item>(Arrays.asList(new Book("Instruction Manual",""), new Book("Diary",""), new Book())));
+			put("sword", new LinkedList<Item>(Arrays.asList(new ItemClass("Sword","", "Master Sword"))));
 		}
 	};
 	

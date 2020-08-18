@@ -9,6 +9,11 @@ public class ItemClass extends ObjectClass implements Item {
 		name = type;
 	}
 	
+	public ItemClass(String type, String description, String name) {
+		super(type, description);
+		this.name = name;
+	}
+	
 	public String getItemName() {
 		return name;
 	}
