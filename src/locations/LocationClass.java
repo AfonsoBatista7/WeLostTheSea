@@ -5,8 +5,6 @@ import java.util.*;
 import locations.exceptions.*;
 import objects.*;
 import objects.Object;
-import player.exceptions.BagFullException;
-import player.exceptions.StakedItemException;
 
 public class LocationClass implements Location {
 
