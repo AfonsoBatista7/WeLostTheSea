@@ -38,6 +38,7 @@ public class Main {
 	private static final String SUCCESS_DISCRIPTION_MODE_ON = "\nYour Adventure is now in description mode, which always gives bigger descriptions of locations.\n";
 	private static final String SUCCESS_DESCRIPTION_MODE_OFF = "\nYour Adventure is no longer in description mode.\n";
 	private static final String SUCCESS_MINIGAME = "\nInsert numbers between 0 and %d\nYou have %s guesses\n";
+	private static final String SUCCESS_MYNAME = "\nYour Name is %s don't you remember ?\n\n";
 	private static final String SUCCESS_GET_1 = "\nTaken.";
 	private static final String SUCCESS_GET_2 = "\nYou have put %s in your Bag.";
 	private static final String SUCCESS_GET_3 = "\nNice catch, %s!";
@@ -363,10 +364,10 @@ public class Main {
 					System.out.printf("	%s\n",item.getItemName());
 				}
 			}
-			System.out.println("\n");
 		} catch(NoObjectsException e) {
 			printString(ERROR_NO_ITEMS_IN_LOCATION);
 		}
+		System.out.print("\n");
 	}
 	
 	/**
@@ -555,7 +556,7 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void myName(GameSystem game) {
-		
+		printString(String.format(SUCCESS_MYNAME,game.getPlayerName()));
 	}
 
 	/**
