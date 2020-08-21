@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import gameSystem.*;
 import gameSystem.exceptions.*;
+import locations.Directions;
 import locations.exceptions.*;
 import objects.*;
 import objects.Object;
@@ -59,7 +60,8 @@ public class Main {
 	private static final String ERROR_STAKED_ITEM = "\nYou can't put more %ss in your bag.";
 	private static final String ERROR_EMPTY_BAG = " * Empty *\n";
 	private static final String ERROR_ITEM_NOT_IN_BAG = "\nYou don't have %s on your bag.";
-	private static final String ERROR_NO_ITEMS_IN_LOCATION = "\nThere's no items in this location.";
+	private static final String ERROR_NO_ITEMS_IN_LOCATION = "\nThere's no items in this location.\n";
+	private static final String ERROR_NO_EXIT = "";
 
 	
 	public static void main(String[] args) {
@@ -564,8 +566,27 @@ public class Main {
 	 * @param game - GameSystem
 	 * @param string - direction.
 	 */
-	private static void goDirection(GameSystem game, String string) {
-		
+	private static void goDirection(GameSystem game, String direction) {
+		try {
+			switch(direction) {
+			case N:
+				game.movePlayer(Directions.NORTH);
+				break;
+			case W:
+				game.movePlayer(Directions.WEST);
+				break;
+			case E:
+				game.movePlayer(Directions.EAST);
+				break;
+			case S:
+				game.movePlayer(Directions.SOUTH);
+				break;
+			default:
+			}
+			enterNewLocation(game);
+		} catch(NoExitException e) {
+			printString(ERROR_NO_EXIT);
+		}
 	}
 
 	/**

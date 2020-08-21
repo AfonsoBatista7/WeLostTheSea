@@ -3,7 +3,10 @@ package gameSystem;
 import java.util.*;
 
 import gameSystem.exceptions.*;
+import player.Player;
 import player.exceptions.*;
+import locations.Directions;
+import locations.Location;
 import locations.exceptions.*;
 import objects.*;
 import objects.Object;
@@ -74,6 +77,12 @@ public interface GameSystem {
 	int getLocationItemQuant(String itemType);
 	
 	Iterator<String> allLocationItemTypes();
+	
+	void setLocation(Player actor, Location newLocation);
+	
+	void movePlayer(Directions dir);
+	
+	void moveTo(Player actor, Directions dir);
 	
 }
 

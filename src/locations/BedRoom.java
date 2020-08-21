@@ -8,8 +8,9 @@ import objects.Object;
 
 public class BedRoom extends LocationClass {
 	
-	private static final String BEDROOM_DESCRIPTION = "There's a beautiful day outside...\n"
+	private static final String BEDROOM_BIG_DESCRIPTION = "There's a beautiful day outside...\n"
 			+ "You can see the sun rays entering by the BedRoom window and warming you...\n";
+	private static final String BEDROOM_SMALL_DESCRIPTION = "";
 	
 	private static final String BEDROOM_NAME = "%s'S BEDROOM";
 	
@@ -36,6 +37,6 @@ public class BedRoom extends LocationClass {
 	};
 	
 	public BedRoom() {
-		super(BEDROOM_NAME, BEDROOM_DESCRIPTION, items, objects, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
+		super(BEDROOM_NAME, BEDROOM_BIG_DESCRIPTION, BEDROOM_SMALL_DESCRIPTION, items, objects, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
 	}
 }

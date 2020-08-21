@@ -15,9 +15,14 @@ public interface Location {
 	String getLocationName();
 	
 	/**
-	 * @return Location description.
+	 * @return Location's big description.
 	 */
-	String getDescription();
+	String getBigDescription();
+	
+	/**
+	 * @return Location's small description.
+	 */
+	String getSmallDescription();
 	
 	/**
 	 * @return The location number north of this location.

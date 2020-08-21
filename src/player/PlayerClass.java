@@ -92,4 +92,5 @@ public class PlayerClass implements Player {
 		if(!it.hasNext()) throw new EmpetyBagException();
 		return it;
 	}
+	
 }

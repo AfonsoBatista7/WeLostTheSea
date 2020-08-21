@@ -10,12 +10,13 @@ public class LocationClass implements Location {
 
 	private Map<String, LinkedList<Item>> locationItems;
 	private Map<String, NonItem> locationObjects;
-	private String locationName, description;
+	private String locationName, bigDescription, smallDescription;
 	private int n, s, w, e;
 	
-	public LocationClass(String locationName ,String description, Map<String, LinkedList<Item>> items, Map<String, NonItem> objects, int n, int s, int w, int e) {
+	public LocationClass(String locationName ,String bigDescription, String smallDescription ,Map<String, LinkedList<Item>> items, Map<String, NonItem> objects, int n, int s, int w, int e) {
 		this.locationName = locationName;
-		this.description = description;
+		this.bigDescription = bigDescription;
+		this.smallDescription = smallDescription;
 		this.locationItems = items;
 		this.locationObjects = objects;
 		this.n = n;
@@ -28,8 +29,12 @@ public class LocationClass implements Location {
 		return locationName;
 	}
 	
-	public String getDescription() {
-		return description;
+	public String getBigDescription() {
+		return bigDescription;
+	}
+	
+	public String getSmallDescription() {
+		return smallDescription;
 	}
 	
 	public int getNorthLocation() {

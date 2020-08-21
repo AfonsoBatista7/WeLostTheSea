@@ -6,8 +6,8 @@ import java.util.*;
 import gameSystem.exceptions.*;
 import player.*;
 import locations.*;
+import locations.exceptions.*;
 import objects.*;
-import objects.Object;
 
 public class GameSystemClass implements GameSystem {
 	
@@ -17,7 +17,7 @@ public class GameSystemClass implements GameSystem {
 	private int timePlayedMinutes, timePlayedHours;
 	
 	public GameSystemClass() {
-		map = new ArrayList<Location>(Arrays.asList(new BedRoom()));
+		map = new ArrayList<Location>(Arrays.asList(new BedRoom(), new NoWhere()));
 		
 		timePlayedMinutes=0;
 		timePlayedHours=0;
@@ -83,7 +83,7 @@ public class GameSystemClass implements GameSystem {
 	}
 	
 	public String getLocationDescription() {
-		return getCurrentLocation().getDescription();
+		return getCurrentLocation().getBigDescription();                              //ALTERAR PARA BIG AND SMALL
 	}
 	
 	public Iterator<ArrayList<Item>> listBag() {
@@ -125,5 +125,34 @@ public class GameSystemClass implements GameSystem {
 	
 	public int getLocationItemQuant(String itemType) {
 		return getCurrentLocation().itemQuant(toSearch(itemType));
+	}
+	
+	public void setLocation(Player actor, Location newLocation) {
+		actor.setLocation(newLocation);
+	}
+	
+	public void movePlayer(Directions dir) {
+		moveTo(player, dir);
+	}
+	
+	public void moveTo(Player actor, Directions dir) {
+		int exit = Directions.NO_EXIT;
+		Location loc = actor.getLocation();
+		switch(dir) {
+		case NORTH:
+			exit = loc.getNorthLocation();
+			break;
+		case EAST:
+			exit = loc.getEastLocation();
+			break;
+		case WEST:
+			exit = loc.getWestLocation();
+			break;
+		case SOUTH:
+			exit = loc.getSouthLocation();
+			break;
+		}
+		if(exit==Directions.NO_EXIT) throw new NoExitException();
+		setLocation(actor, map.get(exit));
 	}
 }
