@@ -30,7 +30,7 @@ public class Main {
 	
 	/* Success Constants */
 	private static final String SUCCESS_START = "\nWelcome to your Adventure!";
-	private static final String SUCCESS_MENU = "\n%s* We Lost The Sea *%s\n%s( Menu )%s\n**%s**\n*%s*\n%sStart\n%sInformation\n%sCredits\n%sExit\n*%s*\n**%s**\n\n";
+	private static final String SUCCESS_MENU = "\n%s* We Lost The Sea *%s\n%s( Menu )%s\n**%s**\n*%s*\n%sStart\n%sInformation\n%sCredits\n%sExit\n%s(*Test*)\n*%s*\n**%s**\n\n";
 	private static final String SUCCESS_INF = "\nWe Lost The Sea is a Text Adventure type Game, you just need to type what you want to do and create your own journey.\n"
 						+ "\nAny command mismatch you can type ( Help ) to print a list of all the commands in game.\n"
 						+ "\nYou can walk for any direction you want (if there aren't some type of object blocking your way), such as ( 'N' - North 'S' - South 'E' - East 'W' - West ).\n"
@@ -49,6 +49,7 @@ public class Main {
 	private static final String SUCCESS_DROP_3 = "\nYou throw away as far as you can %s!";
 	private static final String SUCCESS_DROP_4 = "\nBetween wind sounds %s says :\n\"hmmm now I fell lighter...\"";
 	private static final String SUCCESS_ITEM_QUANTITY = "\nYou have %d of that item\n\n";
+	private static final String SUCCESS_WALKING = "\nYou walked a couple of steps to the %s.\n";
 	private static final String SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
@@ -61,7 +62,7 @@ public class Main {
 	private static final String ERROR_EMPTY_BAG = " * Empty *\n";
 	private static final String ERROR_ITEM_NOT_IN_BAG = "\nYou don't have %s on your bag.";
 	private static final String ERROR_NO_ITEMS_IN_LOCATION = "\nThere's no items in this location.\n";
-	private static final String ERROR_NO_EXIT = "";
+	private static final String ERROR_NO_EXIT = "\nYou can't go that way.\n\n";
 
 	
 	public static void main(String[] args) {
@@ -74,9 +75,9 @@ public class Main {
 			System.out.print("> ");
 			cm = getCommand(in);
 			exeFirstOption(in, game, cm);
-		} while(!cm.equals(Command.START) && !cm.equals(Command.EXIT));
+		} while(!cm.equals(Command.START) && !cm.equals(Command.TEST) && !cm.equals(Command.EXIT));
 		
-		if(cm.equals(Command.START)) {
+		if(cm.equals(Command.START) || cm.equals(Command.TEST)) {
 			do{
 				System.out.print("> ");
 				cm = getCommand(in);
@@ -98,7 +99,7 @@ public class Main {
 		LAY("<object name> - You lay on an object."), STAND("- You stand up if you're down."), 
 		TURN("<object name> - Turns an object on or off."), CLOSE("<object name> - Close an object."),
 		CLICK("<program name> - Clicks on a program."), ITEMS("- Tells you every item you can encounter at the location you in."), CREDITS("- Shows the credits of the game."), 
-		HELP("- Shows the available commands"), EXIT("- Ends your adventure until you come back."), UNKNOWN("");
+		HELP("- Shows the available commands"), EXIT("- Ends your adventure until you come back."), TEST(""), UNKNOWN("");
 		
 		private String description;
 
@@ -132,6 +133,9 @@ public class Main {
 		switch(cm) {
 			case START:
 				start(in,game);
+				break;
+			case TEST:
+				test(in,game);
 				break;
 			case INF:
 				information();
@@ -237,6 +241,12 @@ public class Main {
 		}
 	}
 	
+	public static void test(Scanner in, GameSystem game) {
+		game.newPlayer("Afonso");
+		game.startTimer();
+		System.out.print("\n");
+	}
+	
 	/**
 	 * @param number - number of times you want to multiply.
 	 * @param string - String you want to multiply.
@@ -261,7 +271,7 @@ public class Main {
 	}
 	
 	/**
-	 * Prints a string at a certain speed.
+	 * Prints a <text> at a certain <speed>.
 	 * @param text - String to print.
 	 * @param speed - Speed to print the string in milliseconds.
 	 */
@@ -292,7 +302,7 @@ public class Main {
 				, multiplier(15, " "), multiplier(13, " "), multiplier(20, " ")
 				, multiplier(20, " "), multiplier(45, "-"), multiplier(47, " ")
 				, multiplier(22, " "), multiplier(19, " "), multiplier(21, " ")
-				, multiplier(22, " "), multiplier(47, " "), multiplier(45,"-"));
+				, multiplier(22, " "), multiplier(20, " "), multiplier(47, " "), multiplier(45,"-"));
 	}
 	
 	/**
@@ -314,14 +324,14 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void start(Scanner in, GameSystem game) {
-		//printString(SUCCESS_START);
+		printString(SUCCESS_START);
 		newPlayer(in, game);
 		game.startTimer();
-		//printString(String.format("\nHey %s, in this universe where you just entered,\nyou will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()));
-		//System.out.print("[ PRESS ENTER TO CONTINUE ]");
-		//in.nextLine();
-		//enterNewLocation(game);
-		//printString("You are standing in the middle of your Room...\n\n");
+		printString(String.format("\nHey %s, in this universe where you just entered,\nyou will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()));
+		System.out.print("[ PRESS ENTER TO CONTINUE ]");
+		in.nextLine();
+		enterNewLocation(game);
+		printString("You are standing in the middle of your Room...\n\n");
 		}
 	
 	/**
@@ -581,8 +591,8 @@ public class Main {
 			case S:
 				game.movePlayer(Directions.SOUTH);
 				break;
-			default:
 			}
+			printString(String.format(SUCCESS_WALKING, direction));
 			enterNewLocation(game);
 		} catch(NoExitException e) {
 			printString(ERROR_NO_EXIT);

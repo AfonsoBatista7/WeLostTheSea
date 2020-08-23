@@ -8,9 +8,8 @@ import objects.*;
 
 public class NoWhere extends LocationClass {
 
-	private static final String NOWHERE_DESCRIPTION = "There's a beautiful day outside...\n"
-			+ "You can see the sun rays entering by the BedRoom window and warming you...\n";
-	private static final String NOWHERE_SMALL_DESCRIPTION = "";
+	private static final String NOWHERE_SMALL_DESCRIPTION = "Ooh... What is this place I can't go anywhere... Its all darkness...\n";
+	private static final String NOWHERE_BIG_DESCRIPTION = NOWHERE_SMALL_DESCRIPTION + "";
 	
 	private static final String NOWHERE_NAME = "NOWHERE";
 	
@@ -21,6 +20,6 @@ public class NoWhere extends LocationClass {
 		private static final long serialVersionUID = -6565627091200982584L; {}};
 	
 	public NoWhere() {
-		super(NOWHERE_NAME, NOWHERE_DESCRIPTION, NOWHERE_SMALL_DESCRIPTION, items, objects, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
+		super(NOWHERE_NAME, NOWHERE_BIG_DESCRIPTION, NOWHERE_SMALL_DESCRIPTION, items, objects, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
 	}
 }
