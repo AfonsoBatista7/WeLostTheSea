@@ -1,4 +1,4 @@
-package player;
+package Actor;
 
 import java.util.*;
 
@@ -8,12 +8,8 @@ import objects.*;
 import player.exceptions.*;
 
 
-public interface Player {
-	/**
-	 * @return Player name.
-	 */
-	String getName();
-	
+public interface Player extends Actor {
+
 	/**
 	 * @return List all bag items.
 	 */
@@ -33,20 +29,26 @@ public interface Player {
 	Item dropItem(String item) throws ItemNotInBagException;
 	
 	/**
-	 * @return Player location.
-	 */
-	Location getLocation();
-	
-	/**
-	 * Teleport the player to a new location
-	 * @param newLocation
-	 */
-	void setLocation(Location newLocation);
-	
-	/**
 	 * @param item - item.
 	 * @return The total quantity of an item. 
 	 */
 	int getQuantity(String item) throws ItemNotInBagException;
+	
+	/**
+	 * @return
+	 */
+	int getMoney();
+	
+	/**
+	 * Sell something.
+	 * @param price - Money you have to gain.
+	 */
+	void sell(int price);
+	
+	/**
+	 * Buy something.
+	 * @param price - Money you have to pay.
+	 */
+	void buy(int price);
 }
 

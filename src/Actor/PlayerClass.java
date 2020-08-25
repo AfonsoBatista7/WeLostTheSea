@@ -1,40 +1,24 @@
-package player;
+package Actor;
 import java.util.*;
 
 import player.exceptions.*;
 import locations.*;
-import locations.exceptions.ItemNotInLocationException;
-import locations.exceptions.NotAnItemException;
 import objects.*;
-import objects.Object;
 
-public class PlayerClass implements Player {
+public class PlayerClass extends ActorClass implements Player {
 
 	private static final int BAG_DEFAULT_SIZE = 10;
 	private static final int STACK_DEFAULT_SIZE = 64;
+	private static final int MONEY_DEFAULT = 100;
 	
-	private String name;
-	private int bagSize;
-	private Location location;
+	private int bagSize, money;
 	private Map<String, ArrayList<Item>> bag;
 	
 	public PlayerClass(String name, Location location) {
-		this.name = name;
-		this.location = location;
+		super(name, location);
 		bagSize=BAG_DEFAULT_SIZE;
+		money = MONEY_DEFAULT;
 		bag = new HashMap<String, ArrayList<Item>>(bagSize);
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public Location getLocation() {
-		return location;
-	}
-	
-	public void setLocation(Location newLocation) {
-		location = newLocation;
 	}
 	
 	public int getQuantity(String item) {
@@ -42,6 +26,18 @@ public class PlayerClass implements Player {
 		if(items==null) throw new ItemNotInBagException(item);
 		
 		return items.size();
+	}
+	
+	public int getMoney() {
+		return money;
+	}
+	
+	public void buy(int price) {
+		money=-price;
+	}
+	
+	public void sell(int price) {
+		money+=price;
 	}
 	
 	public void upgradeBag(int size) {

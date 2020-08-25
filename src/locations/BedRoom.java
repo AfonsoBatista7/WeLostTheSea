@@ -4,7 +4,6 @@ import java.util.*;
 import objects.items.*;
 import objects.*;
 import objects.nonItems.*;
-import objects.Object;
 
 public class BedRoom extends LocationClass {
 	
@@ -37,6 +36,6 @@ public class BedRoom extends LocationClass {
 	};
 	
 	public BedRoom() {
-		super(BEDROOM_NAME, BEDROOM_BIG_DESCRIPTION, BEDROOM_SMALL_DESCRIPTION, items, objects, 1, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
+		super(BEDROOM_NAME, BEDROOM_BIG_DESCRIPTION, BEDROOM_SMALL_DESCRIPTION, items, objects, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
 	}
 }

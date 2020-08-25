@@ -2,14 +2,12 @@ package gameSystem;
 
 import java.util.*;
 
+import Actor.*;
 import gameSystem.exceptions.*;
-import player.Player;
 import player.exceptions.*;
-import locations.Directions;
-import locations.Location;
+import locations.*;
 import locations.exceptions.*;
 import objects.*;
-import objects.Object;
 
 public interface GameSystem {
 	
@@ -78,11 +76,11 @@ public interface GameSystem {
 	
 	Iterator<String> allLocationItemTypes();
 	
-	void setLocation(Player actor, Location newLocation);
+	void setLocation(Actor acter, Location newLocation);
 	
 	void movePlayer(Directions dir);
 	
-	void moveTo(Player actor, Directions dir);
+	void moveTo(Actor acter, Directions dir);
 	
 }
 

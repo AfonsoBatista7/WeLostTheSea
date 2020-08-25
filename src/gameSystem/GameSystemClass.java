@@ -3,8 +3,8 @@ package gameSystem;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import Actor.*;
 import gameSystem.exceptions.*;
-import player.*;
 import locations.*;
 import locations.exceptions.*;
 import objects.*;
@@ -127,7 +127,7 @@ public class GameSystemClass implements GameSystem {
 		return getCurrentLocation().itemQuant(toSearch(itemType));
 	}
 	
-	public void setLocation(Player actor, Location newLocation) {
+	public void setLocation(Actor actor, Location newLocation) {
 		actor.setLocation(newLocation);
 	}
 	
@@ -135,7 +135,7 @@ public class GameSystemClass implements GameSystem {
 		moveTo(player, dir);
 	}
 	
-	public void moveTo(Player actor, Directions dir) {
+	public void moveTo(Actor actor, Directions dir) {
 		int exit = Directions.NO_EXIT;
 		Location loc = actor.getLocation();
 		switch(dir) {

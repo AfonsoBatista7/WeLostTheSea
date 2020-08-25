@@ -99,7 +99,7 @@ public class Main {
 		LAY("<object name> - You lay on an object."), STAND("- You stand up if you're down."), 
 		TURN("<object name> - Turns an object on or off."), CLOSE("<object name> - Close an object."),
 		CLICK("<program name> - Clicks on a program."), ITEMS("- Tells you every item you can encounter at the location you in."), CREDITS("- Shows the credits of the game."), 
-		HELP("- Shows the available commands"), EXIT("- Ends your adventure until you come back."), TEST(""), UNKNOWN("");
+		HELP("- Shows the available commands"), EXIT("- Ends your adventure until you come back."), TEST("- Just for testing..."), UNKNOWN("");
 		
 		private String description;
 
