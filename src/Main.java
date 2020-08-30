@@ -36,8 +36,8 @@ public class Main {
 						+ "\nYou can walk for any direction you want (if there aren't some type of object blocking your way), such as ( 'N' - North 'S' - South 'E' - East 'W' - West ).\n"
 						+ "\nAnd a lot more to discover... Good luck Adventurer!!\n\n";
 	private static final String SUCCESS_CREDITS = "\nWE LOST THE SEE\nA Text Adventure Game\nBy Afonso Batista ( 2019-2020 ) \nThanks for playing this game!\n\n";
-	private static final String SUCCESS_DISCRIPTION_MODE_ON = "\nYour Adventure is now in description mode, which always gives bigger descriptions of locations.\n";
-	private static final String SUCCESS_DESCRIPTION_MODE_OFF = "\nYour Adventure is no longer in description mode.\n";
+	private static final String SUCCESS_DISCRIPTION_MODE_ON = "\nYour Adventure is now in description mode, which always gives bigger descriptions of locations.\n\n";
+	private static final String SUCCESS_DESCRIPTION_MODE_OFF = "\nYour Adventure is no longer in description mode.\n\n";
 	private static final String SUCCESS_MINIGAME = "\nInsert numbers between 0 and %d\nYou have %s guesses\n";
 	private static final String SUCCESS_MYNAME = "\nYour Name is %s don't you remember ?\n\n";
 	private static final String SUCCESS_GET_1 = "\nTaken.";
@@ -509,7 +509,11 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void fullDescriptions(GameSystem game) {
-		
+		if(!game.isInDescriptionMode())
+			printString(SUCCESS_DISCRIPTION_MODE_ON);
+		else
+			printString(SUCCESS_DESCRIPTION_MODE_OFF);
+		game.descriptionMode();
 	}
 
 	/**

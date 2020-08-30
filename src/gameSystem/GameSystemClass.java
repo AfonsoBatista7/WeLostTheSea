@@ -14,11 +14,13 @@ public class GameSystemClass implements GameSystem {
 	private List<Location> map;
 	private Player player;
 	private String timePlayed;
+	private boolean descriptionsMode;
 	private int timePlayedMinutes, timePlayedHours;
 	
 	public GameSystemClass() {
 		map = new ArrayList<Location>(Arrays.asList(new BedRoom(), new NoWhere()));
 		
+		descriptionsMode = true;
 		timePlayedMinutes=0;
 		timePlayedHours=0;
 	}
@@ -83,7 +85,8 @@ public class GameSystemClass implements GameSystem {
 	}
 	
 	public String getLocationDescription() {
-		return getCurrentLocation().getBigDescription();                              //ALTERAR PARA BIG AND SMALL
+		if(isInDescriptionMode()) return getCurrentLocation().getBigDescription();
+		return getCurrentLocation().getSmallDescription();
 	}
 	
 	public Iterator<ArrayList<Item>> listBag() {
@@ -133,6 +136,14 @@ public class GameSystemClass implements GameSystem {
 	
 	public void movePlayer(Directions dir) {
 		moveTo(player, dir);
+	}
+	
+	public boolean isInDescriptionMode() {
+		return descriptionsMode;
+	}
+	
+	public void descriptionMode() {
+		descriptionsMode = !descriptionsMode;
 	}
 	
 	public void moveTo(Actor actor, Directions dir) {

@@ -82,5 +82,9 @@ public interface GameSystem {
 	
 	void moveTo(Actor acter, Directions dir);
 	
+	void descriptionMode();
+	
+	boolean isInDescriptionMode();
+	
 }
 
