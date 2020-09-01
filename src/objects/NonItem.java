@@ -7,4 +7,5 @@ public interface NonItem extends Object {
 	 */
 	String getDirection();
 	
+	int getObjectProperty();
 }

@@ -86,5 +86,11 @@ public interface GameSystem {
 	
 	boolean isInDescriptionMode();
 	
+	int getPlayerBalance();
+	
+	String getStartDate();
+	
+	int itemsGathered();
+	
 }
 

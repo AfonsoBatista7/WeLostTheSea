@@ -33,22 +33,7 @@ public interface Player extends Actor {
 	 * @return The total quantity of an item. 
 	 */
 	int getQuantity(String item) throws ItemNotInBagException;
-	
-	/**
-	 * @return
-	 */
-	int getMoney();
-	
-	/**
-	 * Sell something.
-	 * @param price - Money you have to gain.
-	 */
-	void sell(int price);
-	
-	/**
-	 * Buy something.
-	 * @param price - Money you have to pay.
-	 */
-	void buy(int price);
+
+	int itemsGathered();
 }
 

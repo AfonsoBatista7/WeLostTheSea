@@ -564,7 +564,13 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void playerStatus(GameSystem game) {
-		
+		location(game);
+		System.out.printf("\nPLAYER"+multiplier(25-game.getPlayerName().length(), " ") 
+						+"%s\nMONEY"+multiplier(25-Integer.toString(game.getPlayerBalance()).length(), " ")
+						+"$%d\nITEMS GATHERED"+multiplier(17-Integer.toString(game.itemsGathered()).length(), " ")
+						+"%d\n\nTIME PLAYED"+ multiplier(19-game.timePlayed().length(), " ")
+						+" %s\nADVENTURE STARTED    %s\n\n", 
+						game.getPlayerName(), game.getPlayerBalance(), game.itemsGathered(), game.timePlayed(), game.getStartDate());
 	}
 
 	/**

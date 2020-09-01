@@ -11,13 +11,12 @@ public class PlayerClass extends ActorClass implements Player {
 	private static final int STACK_DEFAULT_SIZE = 64;
 	private static final int MONEY_DEFAULT = 100;
 	
-	private int bagSize, money;
+	private int bagSize, itemsGathered;
 	private Map<String, ArrayList<Item>> bag;
 	
 	public PlayerClass(String name, Location location) {
-		super(name, location);
+		super(name, location, MONEY_DEFAULT);
 		bagSize=BAG_DEFAULT_SIZE;
-		money = MONEY_DEFAULT;
 		bag = new HashMap<String, ArrayList<Item>>(bagSize);
 	}
 	
@@ -26,18 +25,6 @@ public class PlayerClass extends ActorClass implements Player {
 		if(items==null) throw new ItemNotInBagException(item);
 		
 		return items.size();
-	}
-	
-	public int getMoney() {
-		return money;
-	}
-	
-	public void buy(int price) {
-		money=-price;
-	}
-	
-	public void sell(int price) {
-		money+=price;
 	}
 	
 	public void upgradeBag(int size) {
@@ -87,6 +74,10 @@ public class PlayerClass extends ActorClass implements Player {
 		Iterator<ArrayList<Item>> it = bag.values().iterator();
 		if(!it.hasNext()) throw new EmpetyBagException();
 		return it;
+	}
+	
+	public int itemsGathered() {
+		return itemsGathered;
 	}
 	
 }

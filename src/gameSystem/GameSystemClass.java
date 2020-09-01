@@ -1,5 +1,6 @@
 package gameSystem;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -14,6 +15,7 @@ public class GameSystemClass implements GameSystem {
 	private List<Location> map;
 	private Player player;
 	private String timePlayed;
+	private LocalDate startDate;
 	private boolean descriptionsMode;
 	private int timePlayedMinutes, timePlayedHours;
 	
@@ -21,8 +23,7 @@ public class GameSystemClass implements GameSystem {
 		map = new ArrayList<Location>(Arrays.asList(new BedRoom(), new NoWhere()));
 		
 		descriptionsMode = true;
-		timePlayedMinutes=0;
-		timePlayedHours=0;
+		startDate = LocalDate.now();
 	}
 	
 	DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -37,6 +38,10 @@ public class GameSystemClass implements GameSystem {
 			}	
 		}
 	};
+	
+	public String getStartDate() {
+		return startDate.format(format);
+	} 
 	
 	public void startTimer() {
 		timer.scheduleAtFixedRate(taskMinutes, 60000, 60000);
@@ -165,5 +170,17 @@ public class GameSystemClass implements GameSystem {
 		}
 		if(exit==Directions.NO_EXIT) throw new NoExitException();
 		setLocation(actor, map.get(exit));
+	}
+	
+	private int getBalance(Actor actor) {
+		return actor.getBalance();
+	}
+	
+	public int getPlayerBalance() {
+		return getBalance(player);
+	}
+	
+	public int itemsGathered() {
+		return player.itemsGathered();
 	}
 }
