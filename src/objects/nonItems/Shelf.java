@@ -1,16 +1,18 @@
 package objects.nonItems;
+import gameSystem.Propertys;
 import objects.*;
 
 public class Shelf extends NonItemClass {
 
 	private static final String TYPE = "Shelf";
+	private static final Propertys PROPERTY = Propertys.PUT;
 	
 	public Shelf(String direction, String description) {
-		super(TYPE, direction, description);	
+		super(TYPE, direction, description, PROPERTY);	
 	}
 	
 	public Shelf(String type, String direction, String description) {
-		super(type, direction, description);	
+		super(type, direction, description, PROPERTY);	
 	}
 	
 

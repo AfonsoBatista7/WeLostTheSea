@@ -1,20 +1,23 @@
 package objects;
 
-public class NonItemClass extends ObjectClass implements NonItem {
+import gameSystem.Propertys;
 
-	private String direction;
-	private int property;
+public class NonItemClass extends ObjectClass implements NonItem {
 	
-	public NonItemClass(String type, String direction, String description, int property) {
+	private String direction;
+	private Propertys property;
+	
+	public NonItemClass(String type, String direction, String description, Propertys property) {
 		super(type, description);
 		this.direction = direction;
+		this.property = property;
 	}
 	
 	public String getDirection() {
 		return direction;
 	}
 	
-	public int getObjectProperty() {
+	public Propertys getObjectProperty() {
 		return property;
 	}
 }

@@ -1,21 +1,19 @@
-package Actor;
+package entety;
 import java.util.*;
 
 import player.exceptions.*;
 import locations.*;
 import objects.*;
 
-public class PlayerClass extends ActorClass implements Player {
+public class PlayerClass extends EntetyClass implements Player {
 
-	private static final int BAG_DEFAULT_SIZE = 10;
-	private static final int STACK_DEFAULT_SIZE = 64;
-	private static final int MONEY_DEFAULT = 100;
+	private static final int BAG_DEFAULT_SIZE = 10, STACK_DEFAULT_SIZE = 64, MONEY_DEFAULT = 100, ACTION = 0;
 	
 	private int bagSize, itemsGathered;
 	private Map<String, ArrayList<Item>> bag;
 	
 	public PlayerClass(String name, Location location) {
-		super(name, location, MONEY_DEFAULT);
+		super(name, location, MONEY_DEFAULT, ACTION);
 		bagSize=BAG_DEFAULT_SIZE;
 		bag = new HashMap<String, ArrayList<Item>>(bagSize);
 	}

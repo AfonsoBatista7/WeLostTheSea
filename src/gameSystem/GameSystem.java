@@ -2,7 +2,7 @@ package gameSystem;
 
 import java.util.*;
 
-import Actor.*;
+import entety.*;
 import gameSystem.exceptions.*;
 import player.exceptions.*;
 import locations.*;
@@ -36,7 +36,7 @@ public interface GameSystem {
 	/**
 	 * @param item - item the player want to get.
 	 */
-	void getItem(String item) throws ItemNotInLocationException, NotAnItemException, BagFullException, StakedItemException;
+	void getItem(String item) throws ObjectNotInLocationException, NotAnItemException, BagFullException, StakedItemException;
 	
 	/**
 	 * @param item - ietm the player want to drop.
@@ -76,11 +76,11 @@ public interface GameSystem {
 	
 	Iterator<String> allLocationItemTypes();
 	
-	void setLocation(Actor acter, Location newLocation);
+	void setLocation(Entety acter, Location newLocation);
 	
 	void movePlayer(Directions dir);
 	
-	void moveTo(Actor acter, Directions dir);
+	void moveTo(Entety acter, Directions dir);
 	
 	void descriptionMode();
 	
@@ -91,6 +91,8 @@ public interface GameSystem {
 	String getStartDate();
 	
 	int itemsGathered();
+	
+	void action(Propertys property, String object);
 	
 }
 

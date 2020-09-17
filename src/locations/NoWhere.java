@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import gameSystem.Directions;
 import objects.*;
 
 public class NoWhere extends LocationClass {

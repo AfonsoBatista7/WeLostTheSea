@@ -1,8 +1,9 @@
-package Actor;
+package entety;
 
+import gameSystem.Actions;
 import locations.Location;
 
-public interface Actor {
+public interface Entety {
 
 	/**
 	 * @return Player name.
@@ -33,5 +34,9 @@ public interface Actor {
 	 * @param price - Money you have to gain.
 	 */
 	void sell(int price);
+	
+	int getAction();
+	
+	void action(Actions action);
 	
 }

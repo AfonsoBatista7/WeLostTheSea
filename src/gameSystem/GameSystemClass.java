@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import Actor.*;
+import entety.*;
 import gameSystem.exceptions.*;
 import locations.*;
 import locations.exceptions.*;
@@ -135,8 +135,8 @@ public class GameSystemClass implements GameSystem {
 		return getCurrentLocation().itemQuant(toSearch(itemType));
 	}
 	
-	public void setLocation(Actor actor, Location newLocation) {
-		actor.setLocation(newLocation);
+	public void setLocation(Entety entety, Location newLocation) {
+		entety.setLocation(newLocation);
 	}
 	
 	public void movePlayer(Directions dir) {
@@ -151,9 +151,9 @@ public class GameSystemClass implements GameSystem {
 		descriptionsMode = !descriptionsMode;
 	}
 	
-	public void moveTo(Actor actor, Directions dir) {
+	public void moveTo(Entety entety, Directions dir) {
 		int exit = Directions.NO_EXIT;
-		Location loc = actor.getLocation();
+		Location loc = entety.getLocation();
 		switch(dir) {
 		case NORTH:
 			exit = loc.getNorthLocation();
@@ -169,11 +169,11 @@ public class GameSystemClass implements GameSystem {
 			break;
 		}
 		if(exit==Directions.NO_EXIT) throw new NoExitException();
-		setLocation(actor, map.get(exit));
+		setLocation(entety, map.get(exit));
 	}
 	
-	private int getBalance(Actor actor) {
-		return actor.getBalance();
+	private int getBalance(Entety entety) {
+		return entety.getBalance();
 	}
 	
 	public int getPlayerBalance() {
@@ -182,5 +182,30 @@ public class GameSystemClass implements GameSystem {
 	
 	public int itemsGathered() {
 		return player.itemsGathered();
+	}
+	
+	public void action(Propertys property, String object) {
+		NonItem nonItem = getCurrentLocation().getObject(object);
+		if(!sameProperty(property, nonItem)) throw new DiferentPropertysException(); 
+		
+		switch(property) {
+			case USE:
+				
+				break;
+			case SIT:
+				player.action(Actions.SIT);
+				break;
+			case LAY:
+				player.action(Actions.LAY);
+				break;
+			case PUT:
+				
+				break;
+				
+		}
+	}
+	
+	public boolean sameProperty(Propertys property, NonItem object) {
+		return object.getObjectProperty().equals(property);
 	}
 }

@@ -4,7 +4,6 @@ import java.util.*;
 
 import locations.exceptions.*;
 import objects.*;
-import objects.Object;
 
 public class LocationClass implements Location {
 
@@ -70,21 +69,38 @@ public class LocationClass implements Location {
 	
 	public Iterator<Item> allItemsByType(String itemType) {
 		List<Item> list = locationItems.get(itemType.toLowerCase());
-		if(list==null) throw new ItemNotInLocationException(itemType);
+		if(list==null) throw new ObjectNotInLocationException(itemType);
 		return list.iterator();
+	}
+	
+	private boolean itsAnItem(String item) {
+		return locationObjects.get(item.toLowerCase())==null;
+	}
+	
+	private boolean itsAnNonItem(String object) {
+		return locationItems.get(object.toLowerCase())==null;
+	}
+	
+	public boolean nonItemNotInLocation(String object) {
+		if(!itsAnNonItem(object)) throw new ItsAnItemException(object);
+		return locationObjects.get(object.toLowerCase())==null;
+	}
+	
+	public boolean itemNotInLocation(String item) {
+		if(!itsAnItem(item)) throw new NotAnItemException(item);
+		return locationItems.get(item.toLowerCase())==null;
+	}
+	
+	public NonItem getObject(String object) {
+		if(nonItemNotInLocation(object)) throw new ObjectNotInLocationException(object);
+		return locationObjects.get(object.toLowerCase());
 	}
 	
 	public Item getItem(String item) {
 			
+			if(itemNotInLocation(item)) throw new ObjectNotInLocationException(item);
+			
 			List<Item> list = locationItems.get(item.toLowerCase());
-			Object object = locationObjects.get(item.toLowerCase());
-			
-			if(list==null) {
-				if(object!=null)
-					throw new NotAnItemException(item);
-				throw new ItemNotInLocationException(item);
-			}
-			
 			Item getItem = list.remove(0);
 			
 			if(list.isEmpty()) locationItems.remove(item);

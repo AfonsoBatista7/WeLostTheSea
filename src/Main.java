@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
+import entety.exceptions.SameActionException;
 import gameSystem.*;
 import gameSystem.exceptions.*;
-import locations.Directions;
 import locations.exceptions.*;
 import objects.*;
 import objects.Object;
@@ -50,18 +50,26 @@ public class Main {
 	private static final String SUCCESS_DROP_4 = "\nBetween wind sounds %s says :\n\"hmmm now I fell lighter...\"";
 	private static final String SUCCESS_ITEM_QUANTITY = "\nYou have %d of that item\n\n";
 	private static final String SUCCESS_WALKING = "\nYou walked a couple of steps to the %s.\n";
+	private static final String SUCCESS_SIT = "\nYou sat on a %s.\n\n";
+	private static final String SUCCESS_LAY = "\nYou Lay down in %s.\n\n";
+	private static final String SUCCESS_STAND = "\nYou stand up.\n";
+	private static final String SUCCESS_PUT = "\nYou have put %s on %s.\n\n";
+	private static final String SUCCESS_CLOSE = "\nTou have closed %s.\n\n";
 	private static final String SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
 	private static final String ERROR_INVALID_COMMAND = "\nHoo man! That must be an encrypted type of language I don't understand!\n\n";
 	private static final String ERROR_TOO_LONG_NAME = "\nWooow! Looks like your name is to big for me to handle... Try write a smaller one. (<22)\n";
-	private static final String ERROR_ITEM_NOT_IN_LOCATION = "\n%s doesn't exist in this location...";
+	private static final String ERROR_OBJECT_NOT_IN_LOCATION = "\n%s doesn't exist in this location...";
 	private static final String ERROR_NOT_AN_ITEM = "\nYou tried realy hard but, you couldn't put a %s in you bag...";
 	private static final String ERROR_NO_SPACE = "\nYou can't put these item in your bag while it's full.\nYou need to drop something.";
 	private static final String ERROR_STAKED_ITEM = "\nYou can't put more %ss in your bag.";
 	private static final String ERROR_EMPTY_BAG = " * Empty *\n";
 	private static final String ERROR_ITEM_NOT_IN_BAG = "\nYou don't have %s on your bag.";
 	private static final String ERROR_NO_ITEMS_IN_LOCATION = "\nThere's no items in this location.\n";
+	private static final String ERROR_ITS_AN_ITEM = "\nThats not an object, %s is an item.\n\n";
+	private static final String ERROR_DIFERENT_PROPERTY = "\nYou can't %s in this object.\n\n";
+	private static final String ERROR_ALREADY_DOING_THAT = "\nYou are already %sing.\n\n";
 	private static final String ERROR_NO_EXIT = "\nYou can't go that way.\n\n";
 
 	
@@ -197,25 +205,25 @@ public class Main {
 				myName(game);
 				break;
 			case W:
-				goDirection(game, W);
+				goDirection(game, Directions.WEST);
 				break;
 			case E:
-				goDirection(game, E);
+				goDirection(game, Directions.EAST);
 				break;
 			case N:
-				goDirection(game, N);
+				goDirection(game, Directions.NORTH);
 				break;
 			case S:
-				goDirection(game, S);
+				goDirection(game, Directions.SOUTH);
 				break;
 			case SIT:
-				sit(in, game);
+				action(in, game, Propertys.SIT);
 				break;
 			case STAND:
 				stand(game);
 				break;
 			case LAY:
-				lay(game);
+				action(in, game, Propertys.LAY);
 				break;
 			case TURN:
 				turnOnOff(in, game);
@@ -462,8 +470,8 @@ public class Main {
 					else printString(String.format(SUCCESS_GET_3, game.getPlayerName()));
 					
 				} else printString(SUCCESS_GET_4);
-			} catch(ItemNotInLocationException e) {
-				printString(String.format(ERROR_ITEM_NOT_IN_LOCATION, e.getItemType()));
+			} catch(ObjectNotInLocationException e) {
+				printString(String.format(ERROR_OBJECT_NOT_IN_LOCATION, e.getItemType()));
 			} catch(NotAnItemException e) {
 				printString(String.format(ERROR_NOT_AN_ITEM, e.getItemType()));
 			} catch(BagFullException e) {
@@ -586,19 +594,19 @@ public class Main {
 	 * @param game - GameSystem
 	 * @param string - direction.
 	 */
-	private static void goDirection(GameSystem game, String direction) {
+	private static void goDirection(GameSystem game, Directions direction) {
 		try {
 			switch(direction) {
-			case N:
+			case NORTH:
 				game.movePlayer(Directions.NORTH);
 				break;
-			case W:
+			case WEST:
 				game.movePlayer(Directions.WEST);
 				break;
-			case E:
+			case EAST:
 				game.movePlayer(Directions.EAST);
 				break;
-			case S:
+			case SOUTH:
 				game.movePlayer(Directions.SOUTH);
 				break;
 			}
@@ -609,6 +617,45 @@ public class Main {
 		}
 	}
 
+	/**
+	 * 
+	 * @param in - Scanner
+	 * @param game - GameSystem
+	 */
+	public static void action(Scanner in, GameSystem game, Propertys property) {
+		String object = in.next(); in.nextLine();
+		
+		try {
+			
+			game.action(property, object);
+			
+			switch(property) {
+			case USE:
+				printString("");
+				break;
+			case SIT:
+				printString(String.format(SUCCESS_SIT, object));
+				break;
+			case LAY:
+				printString(String.format(SUCCESS_LAY, object));
+				break;
+			case PUT:
+				String secondObject = in.next(); in.nextLine();
+				printString(String.format(SUCCESS_PUT, object, secondObject));
+				break;
+			}
+			
+		} catch(ItsAnItemException e) {
+			printString(String.format(ERROR_ITS_AN_ITEM,object));
+		} catch(ObjectNotInLocationException e) {
+			printString(String.format(ERROR_OBJECT_NOT_IN_LOCATION+"\n\n",object));
+		} catch(DiferentPropertysException e) {
+			printString(String.format(ERROR_DIFERENT_PROPERTY,property.name().toLowerCase()));
+		} catch(SameActionException e) {
+			printString(String.format(ERROR_ALREADY_DOING_THAT, property.name().toLowerCase()));
+		}
+	}
+	
 	/**
 	 * You sit on an object.
 	 * @param in - Scanner
@@ -630,7 +677,7 @@ public class Main {
 	 * You lay on an object.
 	 * @param game - GameSystem
 	 */
-	private static void lay(GameSystem game) {
+	private static void lay(Scanner in ,GameSystem game) {
 		
 	}
 

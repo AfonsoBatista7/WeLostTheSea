@@ -1,4 +1,4 @@
-package locations;
+package gameSystem;
 
 public enum Directions {
 	NORTH, SOUTH, EAST, WEST;

@@ -1,5 +1,7 @@
 package objects;
 
+import gameSystem.Propertys;
+
 public interface NonItem extends Object {
 
 	/**
@@ -7,5 +9,5 @@ public interface NonItem extends Object {
 	 */
 	String getDirection();
 	
-	int getObjectProperty();
+	Propertys getObjectProperty();
 }

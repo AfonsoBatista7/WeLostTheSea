@@ -1,14 +1,12 @@
-package Actor;
+package entety;
 
 import java.util.*;
 
-import locations.Location;
-import locations.exceptions.NotAnItemException;
 import objects.*;
 import player.exceptions.*;
 
 
-public interface Player extends Actor {
+public interface Player extends Entety {
 
 	/**
 	 * @return List all bag items.

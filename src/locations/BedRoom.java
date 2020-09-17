@@ -1,6 +1,8 @@
 package locations;
 
 import java.util.*;
+
+import gameSystem.Directions;
 import objects.items.*;
 import objects.*;
 import objects.nonItems.*;
