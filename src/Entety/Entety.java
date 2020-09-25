@@ -2,6 +2,7 @@ package entety;
 
 import gameSystem.Actions;
 import locations.Location;
+import objects.NonItem;
 
 public interface Entety {
 
@@ -37,6 +38,8 @@ public interface Entety {
 	
 	int getAction();
 	
-	void action(Actions action);
+	void action(Actions action, NonItem object, Entety user);
+	
+	NonItem getUsingObject();
 	
 }

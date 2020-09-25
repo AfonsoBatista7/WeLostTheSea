@@ -1,7 +1,10 @@
 package entety;
 import java.util.*;
 
-import player.exceptions.*;
+import entety.exceptions.BagFullException;
+import entety.exceptions.EmpetyBagException;
+import entety.exceptions.ItemNotInBagException;
+import entety.exceptions.StakedItemException;
 import locations.*;
 import objects.*;
 

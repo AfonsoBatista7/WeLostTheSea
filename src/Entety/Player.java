@@ -2,9 +2,10 @@ package entety;
 
 import java.util.*;
 
+import entety.exceptions.BagFullException;
+import entety.exceptions.ItemNotInBagException;
+import entety.exceptions.StakedItemException;
 import objects.*;
-import player.exceptions.*;
-
 
 public interface Player extends Entety {
 

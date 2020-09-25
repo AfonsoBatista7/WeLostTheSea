@@ -3,8 +3,11 @@ package gameSystem;
 import java.util.*;
 
 import entety.*;
+import entety.exceptions.BagFullException;
+import entety.exceptions.EmpetyBagException;
+import entety.exceptions.ItemNotInBagException;
+import entety.exceptions.StakedItemException;
 import gameSystem.exceptions.*;
-import player.exceptions.*;
 import locations.*;
 import locations.exceptions.*;
 import objects.*;

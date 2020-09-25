@@ -1,6 +1,6 @@
-package player.exceptions;
+package entety.exceptions;
 
-public class ItemNotInBagException extends RuntimeException{
+public class ItemNotInBagException extends RuntimeException {
 
 	
 	/**

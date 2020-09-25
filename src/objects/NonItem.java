@@ -1,5 +1,6 @@
 package objects;
 
+import entety.Entety;
 import gameSystem.Propertys;
 
 public interface NonItem extends Object {
@@ -10,4 +11,10 @@ public interface NonItem extends Object {
 	String getDirection();
 	
 	Propertys getObjectProperty();
+	
+	Entety getUser();
+	
+	boolean isAvailable();
+	
+	void objectOccupied(Entety user);
 }

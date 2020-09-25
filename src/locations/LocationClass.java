@@ -2,6 +2,7 @@ package locations;
 
 import java.util.*;
 
+import entety.Entety;
 import locations.exceptions.*;
 import objects.*;
 
@@ -106,6 +107,10 @@ public class LocationClass implements Location {
 			if(list.isEmpty()) locationItems.remove(item);
 		
 		return getItem;
+	}
+	
+	public void actionObject(NonItem object, Entety user) {
+		locationObjects.get(object.getObjectType().toLowerCase()).objectOccupied(user);
 	}
 	
 	public void dropItem(Item item) {

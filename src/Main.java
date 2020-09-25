@@ -4,13 +4,16 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
+import entety.exceptions.BagFullException;
+import entety.exceptions.EmpetyBagException;
+import entety.exceptions.ItemNotInBagException;
+import entety.exceptions.ObjectOccupiedException;
 import entety.exceptions.SameActionException;
+import entety.exceptions.StakedItemException;
 import gameSystem.*;
 import gameSystem.exceptions.*;
 import locations.exceptions.*;
 import objects.*;
-import objects.Object;
-import player.exceptions.*;
 
 /**
  * Main Program.
@@ -20,8 +23,8 @@ public class Main {
 	
 	/* Other Constants */
 	private static final String YES = "YES", NO = "NO";
-	private static final String N = "North", S = "South", E = "East", W = "West";
 	private static final String YOUR_BAG = "\nYour Bag:";
+	private static final int MAIN_SPEED = 65;
 	
 	/* Game lines */
 	private static final String START_NEW_PLAYER = "\nSo... Whats your name?\n\n> ";
@@ -61,7 +64,7 @@ public class Main {
 	private static final String ERROR_INVALID_COMMAND = "\nHoo man! That must be an encrypted type of language I don't understand!\n\n";
 	private static final String ERROR_TOO_LONG_NAME = "\nWooow! Looks like your name is to big for me to handle... Try write a smaller one. (<22)\n";
 	private static final String ERROR_OBJECT_NOT_IN_LOCATION = "\n%s doesn't exist in this location...";
-	private static final String ERROR_NOT_AN_ITEM = "\nYou tried realy hard but, you couldn't put a %s in you bag...";
+	private static final String ERROR_NOT_AN_ITEM = "\nYou tried realy hard but, you couldn't put a %s in your bag...";
 	private static final String ERROR_NO_SPACE = "\nYou can't put these item in your bag while it's full.\nYou need to drop something.";
 	private static final String ERROR_STAKED_ITEM = "\nYou can't put more %ss in your bag.";
 	private static final String ERROR_EMPTY_BAG = " * Empty *\n";
@@ -69,7 +72,7 @@ public class Main {
 	private static final String ERROR_NO_ITEMS_IN_LOCATION = "\nThere's no items in this location.\n";
 	private static final String ERROR_ITS_AN_ITEM = "\nThats not an object, %s is an item.\n\n";
 	private static final String ERROR_DIFERENT_PROPERTY = "\nYou can't %s in this object.\n\n";
-	private static final String ERROR_ALREADY_DOING_THAT = "\nYou are already %sing.\n\n";
+	private static final String ERROR_ALREADY_DOING_THAT = "\n%s is already doing that.\n\n";
 	private static final String ERROR_NO_EXIT = "\nYou can't go that way.\n\n";
 
 	
@@ -104,7 +107,7 @@ public class Main {
 		GET("<item name> - Catch a floor item."), DROP("<item name> - Puts an item at the floor."),
 		QUANT("<item name> - How much of an item do you have."), MYNAME("- Tells you, your name."), 
 		MONEY("- How much money do you have."), SIT("<object name> - You sit on an object."), 
-		LAY("<object name> - You lay on an object."), STAND("- You stand up if you're down."), 
+		LAY("<object name> - You lay on an object."), STAND("- You stand up if you're down."), PUT("<object name> <second object name> - Put an object above a second object."), 
 		TURN("<object name> - Turns an object on or off."), CLOSE("<object name> - Close an object."),
 		CLICK("<program name> - Clicks on a program."), ITEMS("- Tells you every item you can encounter at the location you in."), CREDITS("- Shows the credits of the game."), 
 		HELP("- Shows the available commands"), EXIT("- Ends your adventure until you come back."), TEST("- Just for testing..."), UNKNOWN("");
@@ -225,6 +228,8 @@ public class Main {
 			case LAY:
 				action(in, game, Propertys.LAY);
 				break;
+			case PUT:
+				action(in, game, Propertys.PUT);
 			case TURN:
 				turnOnOff(in, game);
 				break;
@@ -268,25 +273,23 @@ public class Main {
 	}
 	
 	/**
-	 * Prints a string so that it looks like someone is writing.
-	 * @param text - String to print.
-	 */
-	private static void printString(String text) {
-		for(int i = 0; i < text.length(); i++){
-		    System.out.printf("%c", text.charAt(i));
-		    coolDown(65);
-		}
-	}
-	
-	/**
 	 * Prints a <text> at a certain <speed>.
 	 * @param text - String to print.
 	 * @param speed - Speed to print the string in milliseconds.
 	 */
 	private static void printString(String text, int speed) {
-		for(int i = 0; i < text.length(); i++){
-		    System.out.printf("%c", text.charAt(i));
+		int counter=0;
+		for(int i = 0; i < text.length(); i++) {
+			char character = text.charAt(i);
+			counter++;
+		    System.out.printf("%c", character); 
+		    
+		    if(counter>=60 && text.length()-i>60 && Character.compare(' ',character)==0) {
+		    	counter=0; System.out.println("");
+		    }
+		    
 		    coolDown(speed);
+	
 		}
 	}
 	
@@ -332,15 +335,15 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void start(Scanner in, GameSystem game) {
-		printString(SUCCESS_START);
+		printString(SUCCESS_START, MAIN_SPEED);
 		newPlayer(in, game);
 		game.startTimer();
-		printString(String.format("\nHey %s, in this universe where you just entered,\nyou will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()));
+		printString(String.format("\nHey %s, in this universe where you just entered, you will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()), MAIN_SPEED);
 		System.out.print("[ PRESS ENTER TO CONTINUE ]");
 		in.nextLine();
 		enterNewLocation(game);
-		printString("You are standing in the middle of your Room...\n\n");
-		}
+		printString("You are standing in the middle of your Room...\n\n", MAIN_SPEED);
+	}
 	
 	/**
 	 * Prints the name and first description of a location.
@@ -355,13 +358,13 @@ public class Main {
 	private static void locationObjects(GameSystem game) {
 		try {
 			Iterator<NonItem> it = game.allLocationObjects();
-			printString(String.format("[ There's "));
+			printString(String.format("[ There's "), MAIN_SPEED);
 			while(it.hasNext()) {
 				NonItem ob = it.next();
-				if(!it.hasNext()) printString("and ");
-				printString(String.format("a%s %s%s", ob.getObjectDescription(), ob.getObjectType(), ob.getDirection()));              //Diferenciar an e a 
-				if(!it.hasNext()) printString(". ]\n\n");
-				else printString(", ");
+				if(!it.hasNext()) printString("and ", MAIN_SPEED);
+				printString(String.format("a%s %s%s", ob.getObjectDescription(), ob.getObjectType(), ob.getDirection()), MAIN_SPEED);              //Diferenciar an e a 
+				if(!it.hasNext()) printString(". ]\n\n", MAIN_SPEED);
+				else printString(", ", MAIN_SPEED);
 			}
 		} catch(NoObjectsException e) {}
 	}
@@ -385,7 +388,7 @@ public class Main {
 				}
 			}
 		} catch(NoObjectsException e) {
-			printString(ERROR_NO_ITEMS_IN_LOCATION);
+			printString(ERROR_NO_ITEMS_IN_LOCATION, MAIN_SPEED);
 		}
 		System.out.print("\n");
 	}
@@ -395,21 +398,21 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void locationInf(GameSystem game) {
-		printString(String.format("%s\n",game.getLocationDescription()));
+		printString(String.format("%s\n",game.getLocationDescription()), MAIN_SPEED);
 	}
 	
 	/**
 	 * Give you some information about the all game.
 	 */
 	private static void information() {
-		printString(SUCCESS_INF);
+		printString(SUCCESS_INF, MAIN_SPEED);
 	}
 	
 	/**
 	 * Shows the credits of the game.
 	 */
 	private static void credits() {
-		printString(SUCCESS_CREDITS);
+		printString(SUCCESS_CREDITS, MAIN_SPEED);
 	}
 	
 	/**
@@ -421,9 +424,9 @@ public class Main {
 		String name;
 		
 		do {
-			printString(START_NEW_PLAYER);
+			printString(START_NEW_PLAYER, MAIN_SPEED);
 			name = in.next()+in.nextLine();
-			printString(String.format(START_IS_THAT_YOUR_NAME, name));
+			printString(String.format(START_IS_THAT_YOUR_NAME, name), MAIN_SPEED);
 			option = in.next().toUpperCase(); in.nextLine();
 		} while(option.equals(NO));
 		
@@ -431,10 +434,10 @@ public class Main {
 			if(!option.equals(YES)) throw new InvalidOptionException();
 			game.newPlayer(name);
 		} catch(TooLongNameException e) {
-			printString(ERROR_TOO_LONG_NAME);
+			printString(ERROR_TOO_LONG_NAME, MAIN_SPEED);
 			newPlayer(in,game);
 		} catch(InvalidOptionException e) {
-			printString(ERROR_INVALID_COMMAND);
+			printString(ERROR_INVALID_COMMAND, MAIN_SPEED);
 			newPlayer(in,game);
 		}
 	}
@@ -465,19 +468,19 @@ public class Main {
 				if(number!=50) {
 					game.getItem(item);
 					
-					if(number<=20) printString(SUCCESS_GET_1);
-					else if(number<20 && number>=45) printString(String.format(SUCCESS_GET_2, item));                  
-					else printString(String.format(SUCCESS_GET_3, game.getPlayerName()));
+					if(number<=20) printString(SUCCESS_GET_1, MAIN_SPEED);
+					else if(number<20 && number>=45) printString(String.format(SUCCESS_GET_2, item), MAIN_SPEED);                  
+					else printString(String.format(SUCCESS_GET_3, game.getPlayerName()), MAIN_SPEED);
 					
-				} else printString(SUCCESS_GET_4);
+				} else printString(SUCCESS_GET_4, MAIN_SPEED);
 			} catch(ObjectNotInLocationException e) {
-				printString(String.format(ERROR_OBJECT_NOT_IN_LOCATION, e.getItemType()));
+				printString(String.format(ERROR_OBJECT_NOT_IN_LOCATION, e.getItemType()),MAIN_SPEED);
 			} catch(NotAnItemException e) {
-				printString(String.format(ERROR_NOT_AN_ITEM, e.getItemType()));
+				printString(String.format(ERROR_NOT_AN_ITEM, e.getItemType()), MAIN_SPEED);
 			} catch(BagFullException e) {
-				printString(ERROR_NO_SPACE);
+				printString(ERROR_NO_SPACE, MAIN_SPEED);
 			} catch(StakedItemException e) {
-				printString(String.format(ERROR_STAKED_ITEM, e.getItemType()));
+				printString(String.format(ERROR_STAKED_ITEM, e.getItemType()), MAIN_SPEED);
 			}
 		}
 		System.out.println("\n");
@@ -500,13 +503,13 @@ public class Main {
 				String item = itemsType.next();
 				game.dropItem(item);
 				
-				if(number<=20) printString(SUCCESS_DROP_1);
-				else if(number<20 && number>=40) printString(String.format(SUCCESS_DROP_2, item, game.getLocationName()));
-				else if(number>40 && number<49) printString(String.format(SUCCESS_DROP_3, item));
-				else printString(String.format(SUCCESS_DROP_4, game.getPlayerName()));
+				if(number<=20) printString(SUCCESS_DROP_1, MAIN_SPEED);
+				else if(number<20 && number>=40) printString(String.format(SUCCESS_DROP_2, item, game.getLocationName()), MAIN_SPEED);
+				else if(number>40 && number<49) printString(String.format(SUCCESS_DROP_3, item), MAIN_SPEED);
+				else printString(String.format(SUCCESS_DROP_4, game.getPlayerName()), MAIN_SPEED);
 				
 			} catch(ItemNotInBagException e) {
-				printString(String.format(ERROR_ITEM_NOT_IN_BAG, e.getItemType()));
+				printString(String.format(ERROR_ITEM_NOT_IN_BAG, e.getItemType()), MAIN_SPEED);
 			} 
 		}
 		System.out.println("\n");
@@ -518,9 +521,9 @@ public class Main {
 	 */
 	private static void fullDescriptions(GameSystem game) {
 		if(!game.isInDescriptionMode())
-			printString(SUCCESS_DISCRIPTION_MODE_ON);
+			printString(SUCCESS_DISCRIPTION_MODE_ON, MAIN_SPEED);
 		else
-			printString(SUCCESS_DESCRIPTION_MODE_OFF);
+			printString(SUCCESS_DESCRIPTION_MODE_OFF, MAIN_SPEED);
 		game.descriptionMode();
 	}
 
@@ -553,9 +556,9 @@ public class Main {
 		String item = in.next(); in.nextLine();
 		
 		try {
-			printString(String.format(SUCCESS_ITEM_QUANTITY, game.getQuantity(item)));
+			printString(String.format(SUCCESS_ITEM_QUANTITY, game.getQuantity(item)), MAIN_SPEED);
 		} catch (ItemNotInBagException e) {
-			printString(String.format(ERROR_ITEM_NOT_IN_BAG, item));
+			printString(String.format(ERROR_ITEM_NOT_IN_BAG, item), MAIN_SPEED);
 		}
 	}
 
@@ -586,7 +589,7 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void myName(GameSystem game) {
-		printString(String.format(SUCCESS_MYNAME,game.getPlayerName()));
+		printString(String.format(SUCCESS_MYNAME,game.getPlayerName()), MAIN_SPEED);
 	}
 
 	/**
@@ -610,10 +613,10 @@ public class Main {
 				game.movePlayer(Directions.SOUTH);
 				break;
 			}
-			printString(String.format(SUCCESS_WALKING, direction));
+			printString(String.format(SUCCESS_WALKING, direction), MAIN_SPEED);
 			enterNewLocation(game);
 		} catch(NoExitException e) {
-			printString(ERROR_NO_EXIT);
+			printString(ERROR_NO_EXIT, MAIN_SPEED);
 		}
 	}
 
@@ -631,28 +634,28 @@ public class Main {
 			
 			switch(property) {
 			case USE:
-				printString("");
+				printString("", MAIN_SPEED);
 				break;
 			case SIT:
-				printString(String.format(SUCCESS_SIT, object));
+				printString(String.format(SUCCESS_SIT, object), MAIN_SPEED);
 				break;
 			case LAY:
-				printString(String.format(SUCCESS_LAY, object));
+				printString(String.format(SUCCESS_LAY, object), MAIN_SPEED);
 				break;
 			case PUT:
 				String secondObject = in.next(); in.nextLine();
-				printString(String.format(SUCCESS_PUT, object, secondObject));
+				printString(String.format(SUCCESS_PUT, object, secondObject), MAIN_SPEED);
 				break;
 			}
 			
 		} catch(ItsAnItemException e) {
-			printString(String.format(ERROR_ITS_AN_ITEM,object));
+			printString(String.format(ERROR_ITS_AN_ITEM,object), MAIN_SPEED);
 		} catch(ObjectNotInLocationException e) {
-			printString(String.format(ERROR_OBJECT_NOT_IN_LOCATION+"\n\n",object));
+			printString(String.format(ERROR_OBJECT_NOT_IN_LOCATION+"\n\n",object), MAIN_SPEED);
 		} catch(DiferentPropertysException e) {
-			printString(String.format(ERROR_DIFERENT_PROPERTY,property.name().toLowerCase()));
-		} catch(SameActionException e) {
-			printString(String.format(ERROR_ALREADY_DOING_THAT, property.name().toLowerCase()));
+			printString(String.format(ERROR_DIFERENT_PROPERTY,property.name().toLowerCase()), MAIN_SPEED);
+		} catch(ObjectOccupiedException e) {
+			printString(String.format(ERROR_ALREADY_DOING_THAT, e.getEntety().getName()),MAIN_SPEED);
 		}
 	}
 	
@@ -713,13 +716,13 @@ public class Main {
 	 */
 	private static void defaultError(Scanner in) {
 		in.nextLine();
-		printString(ERROR_INVALID_COMMAND);
+		printString(ERROR_INVALID_COMMAND, MAIN_SPEED);
 	}
 	
 	/**
 	 * Ends your adventure until you come back.
 	 */
 	private static void exit() {
-		printString(SUCCESS_EXIT);
+		printString(SUCCESS_EXIT, MAIN_SPEED);
 	}
 }

@@ -1,4 +1,4 @@
-package player.exceptions;
+package entety.exceptions;
 
 public class StakedItemException extends RuntimeException {
 

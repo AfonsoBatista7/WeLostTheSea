@@ -193,10 +193,10 @@ public class GameSystemClass implements GameSystem {
 				
 				break;
 			case SIT:
-				player.action(Actions.SIT);
+				player.action(Actions.SIT, nonItem, player);
 				break;
 			case LAY:
-				player.action(Actions.LAY);
+				player.action(Actions.LAY, nonItem, player);
 				break;
 			case PUT:
 				
