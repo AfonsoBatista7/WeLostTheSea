@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
+
 import entety.exceptions.BagFullException;
 import entety.exceptions.EmpetyBagException;
 import entety.exceptions.ItemNotInBagException;
@@ -57,7 +58,7 @@ public class Main {
 	private static final String SUCCESS_LAY = "\nYou Lay down in %s.\n\n";
 	private static final String SUCCESS_STAND = "\nYou stand up.\n";
 	private static final String SUCCESS_PUT = "\nYou have put %s on %s.\n\n";
-	private static final String SUCCESS_CLOSE = "\nTou have closed %s.\n\n";
+	private static final String SUCCESS_CLOSE = "\nYou have closed %s.\n\n";
 	private static final String SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
@@ -74,6 +75,7 @@ public class Main {
 	private static final String ERROR_DIFERENT_PROPERTY = "\nYou can't %s in this object.\n\n";
 	private static final String ERROR_ALREADY_DOING_THAT = "\n%s is already doing that.\n\n";
 	private static final String ERROR_NO_EXIT = "\nYou can't go that way.\n\n";
+	private static final String ERROR_WALK_OBJECT ="\nYou stop what you're doing and,";
 
 	
 	public static void main(String[] args) {
@@ -81,7 +83,6 @@ public class Main {
 		GameSystem game = new GameSystemClass();
 		Command cm;
 		printMenu();
-		
 		do{
 			System.out.print("> ");
 			cm = getCommand(in);
@@ -109,7 +110,8 @@ public class Main {
 		MONEY("- How much money do you have."), SIT("<object name> - You sit on an object."), 
 		LAY("<object name> - You lay on an object."), STAND("- You stand up if you're down."), PUT("<object name> <second object name> - Put an object above a second object."), 
 		TURN("<object name> - Turns an object on or off."), CLOSE("<object name> - Close an object."),
-		CLICK("<program name> - Clicks on a program."), ITEMS("- Tells you every item you can encounter at the location you in."), CREDITS("- Shows the credits of the game."), 
+		CLICK("<program name> - Clicks on a program."), ITEMS("- Tells you every item you can encounter at the location you in."),
+		OBJECTS("- Tells you every object you can find at the location yuor in."), CREDITS("- Shows the credits of the game."), 
 		HELP("- Shows the available commands"), EXIT("- Ends your adventure until you come back."), TEST("- Just for testing..."), UNKNOWN("");
 		
 		private String description;
@@ -155,7 +157,7 @@ public class Main {
 				credits();
 				break;
 			case EXIT:
-				exit();
+				exit(game);
 				break;
 			case HELP:
 				help();
@@ -230,23 +232,18 @@ public class Main {
 				break;
 			case PUT:
 				action(in, game, Propertys.PUT);
-			case TURN:
-				turnOnOff(in, game);
-				break;
-			case CLOSE:
-				close(in, game);
-				break;
-			case CLICK:
-				clickProgram(in, game);
 				break;
 			case ITEMS:
 				locationItems(game);
+				break;
+			case OBJECTS:
+				locationObjects(game);
 				break;
 			case HELP:
 				help();
 				break;
 			case EXIT:
-				exit();
+				exit(game);
 				break;
 			default:
 				defaultError(in);
@@ -280,9 +277,10 @@ public class Main {
 	private static void printString(String text, int speed) {
 		int counter=0;
 		for(int i = 0; i < text.length(); i++) {
+			
 			char character = text.charAt(i);
 			counter++;
-		    System.out.printf("%c", character); 
+		    System.out.printf("%c", character);                           //Meter a primeira letra de cada frase em maiuscula
 		    
 		    if(counter>=60 && text.length()-i>60 && Character.compare(' ',character)==0) {
 		    	counter=0; System.out.println("");
@@ -299,7 +297,7 @@ public class Main {
 	 */
 	private static void coolDown(int time) {
 		try{
-	        Thread.sleep(time);
+			Thread.sleep(time);
 	    }catch(InterruptedException ex){
 	        Thread.currentThread().interrupt();
 	    }
@@ -352,7 +350,7 @@ public class Main {
 	private static void enterNewLocation(GameSystem game) {
 		location(game); coolDown(1000);
 		locationInf(game); coolDown(800);
-		locationObjects(game);
+		if(game.isInDescriptionMode())locationObjects(game);
 	}
 	
 	private static void locationObjects(GameSystem game) {
@@ -617,6 +615,9 @@ public class Main {
 			enterNewLocation(game);
 		} catch(NoExitException e) {
 			printString(ERROR_NO_EXIT, MAIN_SPEED);
+		} catch(WalkUsingObjectException e) {
+			printString(ERROR_WALK_OBJECT, MAIN_SPEED);
+			goDirection(game, direction);
 		}
 	}
 
@@ -634,7 +635,7 @@ public class Main {
 			
 			switch(property) {
 			case USE:
-				printString("", MAIN_SPEED);
+				printString(String.format("",object), MAIN_SPEED);
 				break;
 			case SIT:
 				printString(String.format(SUCCESS_SIT, object), MAIN_SPEED);
@@ -658,56 +659,12 @@ public class Main {
 			printString(String.format(ERROR_ALREADY_DOING_THAT, e.getEntety().getName()),MAIN_SPEED);
 		}
 	}
-	
-	/**
-	 * You sit on an object.
-	 * @param in - Scanner
-	 * @param game - GameSystem
-	 */
-	private static void sit(Scanner in, GameSystem game) {
-		
-	}
 
 	/**
 	 * You stand up if you're down.
 	 * @param game - GameSystem
 	 */
 	private static void stand(GameSystem game) {
-		
-	}
-
-	/**
-	 * You lay on an object.
-	 * @param game - GameSystem
-	 */
-	private static void lay(Scanner in ,GameSystem game) {
-		
-	}
-
-	/**
-	 * Turns an object on or off.
-	 * @param in - Scanner
-	 * @param game - GameSystem
-	 */
-	private static void turnOnOff(Scanner in, GameSystem game) {
-		
-	}
-
-	/**
-	 * Close an object.
-	 * @param in - Scanner
-	 * @param game - GameSystem
-	 */
-	private static void close(Scanner in, GameSystem game) {
-		
-	}
-
-	/**
-	 * Clicks on a program.
-	 * @param in - Scanner
-	 * @param game - GameSystem
-	 */
-	private static void clickProgram(Scanner in, GameSystem game) {
 		
 	}
 	
@@ -722,7 +679,8 @@ public class Main {
 	/**
 	 * Ends your adventure until you come back.
 	 */
-	private static void exit() {
+	private static void exit(GameSystem game) {
 		printString(SUCCESS_EXIT, MAIN_SPEED);
+		game.exit();
 	}
 }

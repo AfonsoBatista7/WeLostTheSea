@@ -57,11 +57,20 @@ public class EntetyClass implements Entety {
 		money+=price;
 	}
 	
+	public boolean usingObject() {
+		return objectUsing!=null;
+	}
+	
+	public void noLongerUsing() {
+		objectUsing.objectOccupied(null);
+		objectUsing = null;
+	}
+	
 	public void action(Actions action, NonItem object, Entety user) {
 		int actionValue = action.getValue();
 		
 		if(!object.isAvailable()) throw new ObjectOccupiedException(object.getUser());         //MELHORAR CODIGO
-		if(objectUsing!=null) getLocation().actionObject(objectUsing, user);
+		if(usingObject()) getLocation().actionObject(objectUsing, user);
 		objectUsing = object;
 		getLocation().actionObject(object, user);
 

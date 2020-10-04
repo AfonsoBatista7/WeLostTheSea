@@ -14,6 +14,8 @@ import objects.*;
 
 public interface GameSystem {
 	
+	void exit();
+	
 	/**
 	 * Start the Time Played timer.
 	 */

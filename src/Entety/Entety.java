@@ -42,4 +42,8 @@ public interface Entety {
 	
 	NonItem getUsingObject();
 	
+	boolean usingObject();
+	
+	void noLongerUsing();
+	
 }

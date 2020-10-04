@@ -28,6 +28,7 @@ public class GameSystemClass implements GameSystem {
 	
 	DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	Timer timer = new Timer();
+	
 	TimerTask taskMinutes = new TimerTask() {
 		public void run() {
 			if(timePlayedMinutes<59)
@@ -169,6 +170,12 @@ public class GameSystemClass implements GameSystem {
 			break;
 		}
 		if(exit==Directions.NO_EXIT) throw new NoExitException();
+		
+		if(entety.usingObject()) {
+			entety.noLongerUsing();
+			throw new WalkUsingObjectException();
+		}
+		
 		setLocation(entety, map.get(exit));
 	}
 	
@@ -207,5 +214,9 @@ public class GameSystemClass implements GameSystem {
 	
 	public boolean sameProperty(Propertys property, NonItem object) {
 		return object.getObjectProperty().equals(property);
+	}
+	
+	public void exit() {
+		timer.cancel();
 	}
 }
