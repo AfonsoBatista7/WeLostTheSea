@@ -2,7 +2,7 @@ package locations;
 
 import java.util.*;
 
-import entety.Entety;
+import entety.Entity;
 import locations.exceptions.*;
 import objects.*;
 
@@ -74,5 +74,5 @@ public interface Location {
 	
 	NonItem getObject(String object);
 	
-	void actionObject(NonItem object, Entety user);
+	void actionObject(NonItem object, Entity user);
 }

@@ -2,7 +2,7 @@ package locations;
 
 import java.util.*;
 
-import entety.Entety;
+import entety.Entity;
 import locations.exceptions.*;
 import objects.*;
 
@@ -109,7 +109,7 @@ public class LocationClass implements Location {
 		return getItem;
 	}
 	
-	public void actionObject(NonItem object, Entety user) {
+	public void actionObject(NonItem object, Entity user) {
 		locationObjects.get(object.getObjectType().toLowerCase()).objectOccupied(user);
 	}
 	

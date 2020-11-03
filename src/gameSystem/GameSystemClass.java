@@ -136,8 +136,8 @@ public class GameSystemClass implements GameSystem {
 		return getCurrentLocation().itemQuant(toSearch(itemType));
 	}
 	
-	public void setLocation(Entety entety, Location newLocation) {
-		entety.setLocation(newLocation);
+	public void setLocation(Entity entity, Location newLocation) {
+		entity.setLocation(newLocation);
 	}
 	
 	public void movePlayer(Directions dir) {
@@ -152,9 +152,9 @@ public class GameSystemClass implements GameSystem {
 		descriptionsMode = !descriptionsMode;
 	}
 	
-	public void moveTo(Entety entety, Directions dir) {
+	public void moveTo(Entity entity, Directions dir) {
 		int exit = Directions.NO_EXIT;
-		Location loc = entety.getLocation();
+		Location loc = entity.getLocation();
 		switch(dir) {
 		case NORTH:
 			exit = loc.getNorthLocation();
@@ -171,20 +171,32 @@ public class GameSystemClass implements GameSystem {
 		}
 		if(exit==Directions.NO_EXIT) throw new NoExitException();
 		
-		if(entety.usingObject()) {
-			entety.noLongerUsing();
+		if(entity.usingObject()) {
+			entity.noLongerUsing();
 			throw new WalkUsingObjectException();
 		}
 		
-		setLocation(entety, map.get(exit));
+		setLocation(entity, map.get(exit));
 	}
 	
-	private int getBalance(Entety entety) {
-		return entety.getBalance();
+	private int getBalance(Entity entity) {
+		return entity.getBalance();
 	}
 	
 	public int getPlayerBalance() {
 		return getBalance(player);
+	}
+	
+	public void buy(int price, String item, Entity seller) {
+		player.buy(price); seller.sell(price);
+		Item getItem = seller.dropItem(item);										//TODO test and exceptions
+		player.getItem(getItem);
+	}
+	
+	public void sell(int price, String item, Entity buyer) {
+		buyer.buy(price); player.sell(price);
+		Item sellItem = player.dropItem(item);										//TODO test and exceptions
+		buyer.getItem(sellItem);
 	}
 	
 	public int itemsGathered() {
@@ -200,10 +212,10 @@ public class GameSystemClass implements GameSystem {
 				
 				break;
 			case SIT:
-				player.action(Actions.SIT, nonItem, player);
+				player.action(Actions.SIT, nonItem);
 				break;
 			case LAY:
-				player.action(Actions.LAY, nonItem, player);
+				player.action(Actions.LAY, nonItem);
 				break;
 			case PUT:
 				

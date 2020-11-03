@@ -1,6 +1,6 @@
 package entety.exceptions;
 
-import entety.Entety;
+import entety.Entity;
 
 public class ObjectOccupiedException extends RuntimeException {
 	
@@ -8,12 +8,12 @@ public class ObjectOccupiedException extends RuntimeException {
 	 * Someone is already using the object.
 	 */
 	private static final long serialVersionUID = 5109837651762448249L;
-	private Entety entety;
+	private Entity entety;
 	
-	public ObjectOccupiedException (Entety entety) {
+	public ObjectOccupiedException (Entity entety) {
 		super();
 		this.entety = entety;
 	}
 	
-	public Entety getEntety() { return entety; }
+	public Entity getEntety() { return entety; }
 }

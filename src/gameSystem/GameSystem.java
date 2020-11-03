@@ -81,11 +81,11 @@ public interface GameSystem {
 	
 	Iterator<String> allLocationItemTypes();
 	
-	void setLocation(Entety acter, Location newLocation);
+	void setLocation(Entity acter, Location newLocation);
 	
 	void movePlayer(Directions dir);
 	
-	void moveTo(Entety acter, Directions dir);
+	void moveTo(Entity acter, Directions dir);
 	
 	void descriptionMode();
 	

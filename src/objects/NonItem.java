@@ -1,6 +1,6 @@
 package objects;
 
-import entety.Entety;
+import entety.Entity;
 import gameSystem.Propertys;
 
 public interface NonItem extends Object {
@@ -12,9 +12,9 @@ public interface NonItem extends Object {
 	
 	Propertys getObjectProperty();
 	
-	Entety getUser();
+	Entity getUser();
 	
 	boolean isAvailable();
 	
-	void objectOccupied(Entety user);
+	void objectOccupied(Entity user);
 }

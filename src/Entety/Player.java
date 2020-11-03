@@ -2,30 +2,15 @@ package entety;
 
 import java.util.*;
 
-import entety.exceptions.BagFullException;
 import entety.exceptions.ItemNotInBagException;
-import entety.exceptions.StakedItemException;
 import objects.*;
 
-public interface Player extends Entety {
+public interface Player extends Entity {
 
 	/**
 	 * @return List all bag items.
 	 */
 	Iterator<ArrayList<Item>> listBag();
-	
-	/**
-	 * Gets items.
-	 * @param items - list of items the player picked. 
-	 */
-	void getItem(Item item) throws BagFullException, StakedItemException;
-	
-	/**
-	 * @param item - Item the player wants to drop.
-	 * @return Item to drop.
-	 * @throws ItemNotInBagException - If the wanted item is not in the bag.
-	 */
-	Item dropItem(String item) throws ItemNotInBagException;
 	
 	/**
 	 * @param item - item.

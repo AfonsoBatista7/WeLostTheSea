@@ -1,6 +1,6 @@
 package objects;
 
-import entety.Entety;
+import entety.Entity;
 import gameSystem.Propertys;
 
 public class NonItemClass extends ObjectClass implements NonItem {
@@ -8,7 +8,7 @@ public class NonItemClass extends ObjectClass implements NonItem {
 	private String direction;
 	private Propertys property;
 	private boolean available;
-	private Entety entetyUsing;
+	private Entity entetyUsing;
 	
 	public NonItemClass(String type, String direction, String description, Propertys property) {
 		super(type, description);
@@ -17,7 +17,7 @@ public class NonItemClass extends ObjectClass implements NonItem {
 		available=true;
 	}
 	
-	public Entety getUser() {
+	public Entity getUser() {
 		return entetyUsing;
 	}
 	
@@ -29,7 +29,7 @@ public class NonItemClass extends ObjectClass implements NonItem {
 		return available;
 	}
 	
-	public void objectOccupied(Entety user) {
+	public void objectOccupied(Entity user) {
 		entetyUsing=user;
 		available=!available;
 	}

@@ -21,7 +21,6 @@ import objects.*;
  * @author Afonso Batista
  */
 public class Main {
-	
 	/* Other Constants */
 	private static final String YES = "YES", NO = "NO";
 	private static final String YOUR_BAG = "\nYour Bag:";
@@ -263,10 +262,10 @@ public class Main {
 	 * @return the input string multiplied by <number> times.
 	 */
 	public static String multiplier(int number, String string) {
-		String result="";
+		StringBuilder sb = new StringBuilder();
 		for(int i=0; i < number;i++)
-			result += string;
-		return result;
+			sb.append(string);
+		return sb.toString();
 	}
 	
 	/**
