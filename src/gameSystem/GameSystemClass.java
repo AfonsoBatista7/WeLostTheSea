@@ -179,6 +179,10 @@ public class GameSystemClass implements GameSystem {
 		setLocation(entity, map.get(exit));
 	}
 	
+	/**
+	 * @param entity - The entity.
+	 * @return the total current money the <entity> have+.
+	 */
 	private int getBalance(Entity entity) {
 		return entity.getBalance();
 	}

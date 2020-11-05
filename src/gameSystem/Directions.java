@@ -1,5 +1,10 @@
 package gameSystem;
 
+/**
+ * Directions you can go on map.
+ * @author Afonso Batista
+ *
+ */
 public enum Directions {
 	NORTH, SOUTH, EAST, WEST;
 	
