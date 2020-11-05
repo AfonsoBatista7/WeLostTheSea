@@ -2,6 +2,10 @@ package entety.exceptions;
 
 import entety.Entity;
 
+/**
+ * @author Afonso Batista
+ *
+ */
 public class ObjectOccupiedException extends RuntimeException {
 	
 	/**

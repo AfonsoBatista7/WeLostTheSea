@@ -1,5 +1,8 @@
 package entety.exceptions;
 
+/**
+ * @author Afonso Batista
+ */
 public class ItemNotInBagException extends RuntimeException {
 
 	

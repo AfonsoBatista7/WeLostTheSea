@@ -1,5 +1,9 @@
 package entety.exceptions;
 
+/**
+ * @author Afonso Batista
+ *
+ */
 public class StakedItemException extends RuntimeException {
 
 	/**

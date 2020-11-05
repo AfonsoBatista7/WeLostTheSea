@@ -4,16 +4,10 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
-
-import entety.exceptions.BagFullException;
-import entety.exceptions.EmpetyBagException;
-import entety.exceptions.ItemNotInBagException;
-import entety.exceptions.ObjectOccupiedException;
-import entety.exceptions.SameActionException;
-import entety.exceptions.StakedItemException;
 import gameSystem.*;
 import gameSystem.exceptions.*;
 import locations.exceptions.*;
+import entety.exceptions.*;
 import objects.*;
 
 /**

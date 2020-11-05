@@ -5,6 +5,10 @@ import java.util.*;
 import entety.exceptions.ItemNotInBagException;
 import objects.*;
 
+/**
+ * The player.
+ * @author Afonso Batista
+ */
 public interface Player extends Entity {
 
 	/**
@@ -14,10 +18,13 @@ public interface Player extends Entity {
 	
 	/**
 	 * @param item - item.
-	 * @return The total quantity of an item. 
+	 * @return the total quantity of an item. 
 	 */
 	int getQuantity(String item) throws ItemNotInBagException;
 
+	/**
+	 * @return the total of special items gathered.
+	 */
 	int itemsGathered();
 }
 
