@@ -1,6 +1,6 @@
 package objects;
 
-import entety.Entity;
+import entity.Entity;
 import gameSystem.Propertys;
 
 public interface NonItem extends Object {

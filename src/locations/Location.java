@@ -2,10 +2,14 @@ package locations;
 
 import java.util.*;
 
-import entety.Entity;
+import entity.Entity;
 import locations.exceptions.*;
 import objects.*;
 
+/**
+ * @author Afonso Batista
+ *
+ */
 public interface Location {
 
 	/**
@@ -44,10 +48,15 @@ public interface Location {
 	int getEastLocation();
 	
 	/**
-	 * @param items - items the player want to pick up.
+	 * An entity gets an <item> from a location.
+	 * @param item - item an entity want to pick up.
 	 */
 	Item getItem(String item) throws NotAnItemException, ObjectNotInLocationException;
 	
+	/**
+	 * An entity drops an <item> at a location.
+	 * @param item - item an entity want to drop at a location.
+	 */
 	void dropItem(Item item);
 	
 	/**

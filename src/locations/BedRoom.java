@@ -7,6 +7,14 @@ import objects.items.*;
 import objects.*;
 import objects.nonItems.*;
 
+/**
+ * The player BedRoom.
+ * @author Afonso Batista
+ */
+/**
+ * @author Afonso Batista
+ *
+ */
 public class BedRoom extends LocationClass {
 	
 	private static final String BEDROOM_SMALL_DESCRIPTION = "There's a beautiful day outside...\n";
@@ -25,6 +33,7 @@ public class BedRoom extends LocationClass {
 		}
 	};
 	
+	//List of objects in this location.
 	private static Map<String, NonItem> objects = new HashMap<String, NonItem>() {
 		private static final long serialVersionUID = -6565627091200982584L;
 

@@ -2,10 +2,14 @@ package locations;
 
 import java.util.*;
 
-import entety.Entity;
+import entity.Entity;
 import locations.exceptions.*;
 import objects.*;
 
+/**
+ * @author Afonso Batista
+ *
+ */
 public class LocationClass implements Location {
 
 	private Map<String, LinkedList<Item>> locationItems;
@@ -73,15 +77,7 @@ public class LocationClass implements Location {
 		if(list==null) throw new ObjectNotInLocationException(itemType);
 		return list.iterator();
 	}
-	
-	private boolean itsAnItem(String item) {
-		return locationObjects.get(item.toLowerCase())==null;
-	}
-	
-	private boolean itsAnNonItem(String object) {
-		return locationItems.get(object.toLowerCase())==null;
-	}
-	
+		
 	public boolean nonItemNotInLocation(String object) {
 		if(!itsAnNonItem(object)) throw new ItsAnItemException(object);
 		return locationObjects.get(object.toLowerCase())==null;
@@ -129,6 +125,23 @@ public class LocationClass implements Location {
 	public int itemQuant(String itemType) {
 		return locationItems.get(itemType.toLowerCase()).size();
 	}
+	
+	/**
+	 * @param item - item to see if it is an Item.
+	 * @return true if <item> is an item and false if not.
+	 */
+	private boolean itsAnItem(String item) {
+		return locationObjects.get(item.toLowerCase())==null;
+	}
+	
+	/**
+	 * @param object - object to see if it is a nonItem.
+	 * @return true if <item> is a nonItem and false if not.
+	 */
+	private boolean itsAnNonItem(String object) {
+		return locationItems.get(object.toLowerCase())==null;
+	}
+
 	
 }
 	

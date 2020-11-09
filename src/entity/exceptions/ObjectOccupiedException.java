@@ -1,6 +1,6 @@
-package entety.exceptions;
+package entity.exceptions;
 
-import entety.Entity;
+import entity.Entity;
 
 /**
  * @author Afonso Batista

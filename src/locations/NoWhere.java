@@ -7,6 +7,10 @@ import java.util.Map;
 import gameSystem.Directions;
 import objects.*;
 
+/**
+ * NoWhere location.
+ * @author Afonso Batista
+ */
 public class NoWhere extends LocationClass {
 
 	private static final String NOWHERE_SMALL_DESCRIPTION = "Ooh... What is this place I can't go anywhere... Its all darkness...\n";

@@ -1,8 +1,8 @@
-package entety;
+package entity;
 
 import java.util.*;
 
-import entety.exceptions.ItemNotInBagException;
+import entity.exceptions.ItemNotInBagException;
 import objects.*;
 
 /**

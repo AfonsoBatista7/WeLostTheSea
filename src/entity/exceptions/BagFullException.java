@@ -1,4 +1,4 @@
-package entety.exceptions;
+package entity.exceptions;
 
 /**
  * If bag is Full.

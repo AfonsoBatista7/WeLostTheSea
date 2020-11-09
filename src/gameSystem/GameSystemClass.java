@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import entety.*;
+import entity.*;
 import gameSystem.exceptions.*;
 import locations.*;
 import locations.exceptions.*;

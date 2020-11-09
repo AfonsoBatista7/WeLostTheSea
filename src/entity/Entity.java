@@ -1,8 +1,8 @@
-package entety;
+package entity;
 
-import entety.exceptions.BagFullException;
-import entety.exceptions.ItemNotInBagException;
-import entety.exceptions.StakedItemException;
+import entity.exceptions.BagFullException;
+import entity.exceptions.ItemNotInBagException;
+import entity.exceptions.StakedItemException;
 import gameSystem.Actions;
 import locations.Location;
 import objects.Item;

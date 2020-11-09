@@ -4,10 +4,10 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
+import entity.exceptions.*;
 import gameSystem.*;
 import gameSystem.exceptions.*;
 import locations.exceptions.*;
-import entety.exceptions.*;
 import objects.*;
 
 /**

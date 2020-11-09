@@ -1,4 +1,4 @@
-package entety.exceptions;
+package entity.exceptions;
 
 /**
  * @author Afonso Batista

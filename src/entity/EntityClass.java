@@ -1,4 +1,4 @@
-package entety;
+package entity;
 
 import locations.Location;
 import objects.Item;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import entety.exceptions.*;
+import entity.exceptions.*;
 import gameSystem.Actions;
 
 /**

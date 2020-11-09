@@ -1,5 +1,9 @@
 package gameSystem.exceptions;
 
+/**
+ * @author Afonso Batista
+ *
+ */
 public class WalkUsingObjectException extends RuntimeException{
 
 	/**
