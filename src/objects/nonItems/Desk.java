@@ -2,6 +2,10 @@ package objects.nonItems;
 import gameSystem.Propertys;
 import objects.*;
 
+/**
+ * @author Afonso Batista
+ *
+ */
 public class Desk extends NonItemClass {
 
 	private static final String TYPE = "Desk";

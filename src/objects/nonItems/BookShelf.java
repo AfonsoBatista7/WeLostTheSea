@@ -1,5 +1,9 @@
 package objects.nonItems;
 
+/**
+ * @author Afonso Batista
+ *
+ */
 public class BookShelf extends Shelf {
 
 	private static final String TYPE = "BookShelf";

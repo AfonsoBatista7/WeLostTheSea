@@ -3,6 +3,10 @@ package objects;
 import entity.Entity;
 import gameSystem.Propertys;
 
+/**
+ * @author Afonso Batista
+ *
+ */
 public class NonItemClass extends ObjectClass implements NonItem {
 	
 	private String direction;

@@ -1,5 +1,9 @@
 package objects;
 
+/**
+ * @author Afonso Batista
+ *
+ */
 public class ObjectClass implements Object {
 
 	private String type, description;

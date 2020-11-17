@@ -1,5 +1,9 @@
 package objects;
 
+/**
+ * @author Afonso Batista
+ *
+ */
 public interface Object {
 
 	/**

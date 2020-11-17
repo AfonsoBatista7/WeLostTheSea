@@ -2,6 +2,10 @@ package objects.items;
 
 import objects.ItemClass;
 
+/**
+ * Book.
+ * @author Afonso Batista
+ */
 public class Book extends ItemClass {
 
 	private static final String TYPE = "Book",
@@ -21,10 +25,16 @@ public class Book extends ItemClass {
 		this.text = text;
 	}
 	
+	/**
+	 * @return book title.
+	 */
 	public String getBookTitle() {
 		return bookTitle;
 	}
 	
+	/**
+	 * @return book text.
+	 */
 	public String readBook() {
 		return text;
 	}
