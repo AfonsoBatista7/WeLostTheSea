@@ -6,6 +6,7 @@ import objects.NonItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class EntityClass implements Entity {
 	private Location location;
 	private NonItem objectUsing;
 	private int bagSize;
-	private Map<String, ArrayList<Item>> bag;
+	protected Map<String, ArrayList<Item>> bag;
 	
 	private static final int BAG_DEFAULT_SIZE = 10, STACK_DEFAULT_SIZE = 64;
 	

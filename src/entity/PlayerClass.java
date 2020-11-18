@@ -11,7 +11,6 @@ public class PlayerClass extends EntityClass implements Player {
 	private static final int MONEY_DEFAULT = 100, ACTION = 0;
 	
 	private int itemsGathered;
-	private Map<String, ArrayList<Item>> bag;
 	
 	public PlayerClass(String name, Location location) {
 		super(name, location, MONEY_DEFAULT, ACTION);
