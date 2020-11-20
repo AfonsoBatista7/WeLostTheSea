@@ -84,4 +84,8 @@ public interface Location {
 	NonItem getObject(String object);
 	
 	void actionObject(NonItem object, Entity user);
+	
+	Entity getEntity(String name);
+	
+	Iterator<Entity> allEntities();
 }

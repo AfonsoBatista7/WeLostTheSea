@@ -26,33 +26,34 @@ public class Main {
 	
 	
 	/* Success Constants */
-	private static final String SUCCESS_START = "\nWelcome to your Adventure!";
-	private static final String SUCCESS_MENU = "\n%s* We Lost The Sea *%s\n%s( Menu )%s\n**%s**\n*%s*\n%sStart\n%sInformation\n%sCredits\n%sExit\n%s(*Test*)\n*%s*\n**%s**\n\n";
-	private static final String SUCCESS_INF = "\nWe Lost The Sea is a Text Adventure type Game, you just need to type what you want to do and create your own journey.\n"
+	private static final String SUCCESS_START = "\nWelcome to your Adventure!",
+		SUCCESS_MENU = "\n%s* We Lost The Sea *%s\n%s( Menu )%s\n**%s**\n*%s*\n%sStart\n%sInformation\n%sCredits\n%sExit\n%s(*Test*)\n*%s*\n**%s**\n\n",
+		SUCCESS_INF = "\nWe Lost The Sea is a Text Adventure type Game, you just need to type what you want to do and create your own journey.\n"
 						+ "\nAny command mismatch you can type ( Help ) to print a list of all the commands in game.\n"
 						+ "\nYou can walk for any direction you want (if there aren't some type of object blocking your way), such as ( 'N' - North 'S' - South 'E' - East 'W' - West ).\n"
-						+ "\nAnd a lot more to discover... Good luck Adventurer!!\n\n";
-	private static final String SUCCESS_CREDITS = "\nWE LOST THE SEE\nA Text Adventure Game\nBy Afonso Batista ( 2019-2020 ) \nThanks for playing this game!\n\n";
-	private static final String SUCCESS_DISCRIPTION_MODE_ON = "\nYour Adventure is now in description mode, which always gives bigger descriptions of locations.\n\n";
-	private static final String SUCCESS_DESCRIPTION_MODE_OFF = "\nYour Adventure is no longer in description mode.\n\n";
-	private static final String SUCCESS_MINIGAME = "\nInsert numbers between 0 and %d\nYou have %s guesses\n";
-	private static final String SUCCESS_MYNAME = "\nYour Name is %s don't you remember ?\n\n";
-	private static final String SUCCESS_GET_1 = "\nTaken.";
-	private static final String SUCCESS_GET_2 = "\nYou have put %s in your Bag.";
-	private static final String SUCCESS_GET_3 = "\nNice catch, %s!";
-	private static final String SUCCESS_GET_4 = "\nYou get hit by a wave of laziness, causing you to refuse to pick up the item...\n";
-	private static final String SUCCESS_DROP_1 = "\nYou have droped the item.";
-	private static final String SUCCESS_DROP_2 = "\nNow %s are droped in the middle of %s.";
-	private static final String SUCCESS_DROP_3 = "\nYou throw away as far as you can %s!";
-	private static final String SUCCESS_DROP_4 = "\nBetween wind sounds %s says :\n\"hmmm now I fell lighter...\"";
-	private static final String SUCCESS_ITEM_QUANTITY = "\nYou have %d of that item\n\n";
-	private static final String SUCCESS_WALKING = "\nYou walked a couple of steps to the %s.\n";
-	private static final String SUCCESS_SIT = "\nYou sat on a %s.\n\n";
-	private static final String SUCCESS_LAY = "\nYou Lay down in %s.\n\n";
-	private static final String SUCCESS_STAND = "\nYou stand up.\n";
-	private static final String SUCCESS_PUT = "\nYou have put %s on %s.\n\n";
-	private static final String SUCCESS_CLOSE = "\nYou have closed %s.\n\n";
-	private static final String SUCCESS_EXIT = "\nLeaving...";
+						+ "\nAnd a lot more to discover... Good luck Adventurer!!\n\n",
+		SUCCESS_CREDITS = "\nWE LOST THE SEE\nA Text Adventure Game\nBy Afonso Batista ( 2019-2020 ) \nThanks for playing this game!\n\n",
+		SUCCESS_DISCRIPTION_MODE_ON = "\nYour Adventure is now in description mode, which always gives bigger descriptions of locations.\n\n",
+		SUCCESS_DESCRIPTION_MODE_OFF = "\nYour Adventure is no longer in description mode.\n\n",
+		SUCCESS_MINIGAME = "\nInsert numbers between 0 and %d\nYou have %s guesses\n",
+		SUCCESS_MYNAME = "\nYour Name is %s don't you remember ?\n\n",
+		SUCCESS_GET_1 = "\nTaken.",
+		SUCCESS_GET_2 = "\nYou have put %s in your Bag.",
+		SUCCESS_GET_3 = "\nNice catch, %s!",
+		SUCCESS_GET_4 = "\nYou get hit by a wave of laziness, causing you to refuse to pick up the item...\n",
+		SUCCESS_DROP_1 = "\nYou have droped the item.",
+		SUCCESS_DROP_2 = "\nNow %s are droped in the middle of %s.",
+		SUCCESS_DROP_3 = "\nYou throw away as far as you can %s!",
+		SUCCESS_DROP_4 = "\nBetween wind sounds %s says :\n\"hmmm now I fell lighter...\"",
+		SUCCESS_ITEM_QUANTITY = "\nYou have %d of that item\n\n",
+		SUCCESS_WALKING = "\nYou walked a couple of steps to the %s.\n",
+		SUCCESS_SIT = "\nYou sat on a %s.\n\n",
+		SUCCESS_LAY = "\nYou Lay down in %s.\n\n",
+		SUCCESS_STAND = "\nYou stand up.\n",
+		SUCCESS_PUT = "\nYou have put %s on %s.\n\n",
+		SUCCESS_CLOSE = "\nYou have closed %s.\n\n",
+		SUCCESS_PLAYER_MONEY = "\nYou have %d$ in your packet.\n\n",
+		SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
 	private static final String ERROR_INVALID_COMMAND = "\nHoo man! That must be an encrypted type of language I don't understand!\n\n";
@@ -104,7 +105,8 @@ public class Main {
 		LAY("<object name> - You lay on an object."), STAND("- You stand up if you're down."), PUT("<object name> <second object name> - Put an object above a second object."), 
 		TURN("<object name> - Turns an object on or off."), CLOSE("<object name> - Close an object."),
 		CLICK("<program name> - Clicks on a program."), ITEMS("- Tells you every item you can encounter at the location you in."),
-		OBJECTS("- Tells you every object you can find at the location yuor in."), CREDITS("- Shows the credits of the game."), 
+		OBJECTS("- Tells you every object you can find at the location yuor in."), SELL("<item name> <person name> - Sells an item to another person."), 
+		BUY("<person name> - First tells you all the seller have to sell and then you can buy from him."), CREDITS("- Shows the credits of the game."), 
 		HELP("- Shows the available commands"), EXIT("- Ends your adventure until you come back."), TEST("- Just for testing..."), UNKNOWN("");
 		
 		private String description;
@@ -231,6 +233,12 @@ public class Main {
 				break;
 			case OBJECTS:
 				locationObjects(game);
+				break;
+			case SELL:
+				sell(in, game);
+				break;
+			case BUY:
+				buy(in, game);
 				break;
 			case HELP:
 				help();
@@ -558,7 +566,7 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void playerMoney(GameSystem game) {
-		
+		printString(String.format(SUCCESS_PLAYER_MONEY,game.getPlayerBalance()), MAIN_SPEED);
 	}
 
 	/**
@@ -568,7 +576,7 @@ public class Main {
 	private static void playerStatus(GameSystem game) {
 		location(game);
 		System.out.printf("\nPLAYER"+multiplier(25-game.getPlayerName().length(), " ") 
-						+"%s\nMONEY"+multiplier(25-Integer.toString(game.getPlayerBalance()).length(), " ")
+						+"%s\nMONEY"+multiplier(25-Double.toString(game.getPlayerBalance()).length(), " ")
 						+"$%d\nITEMS GATHERED"+multiplier(17-Integer.toString(game.itemsGathered()).length(), " ")
 						+"%d\n\nTIME PLAYED"+ multiplier(19-game.timePlayed().length(), " ")
 						+" %s\nADVENTURE STARTED    %s\n\n", 
@@ -659,6 +667,23 @@ public class Main {
 	 */
 	private static void stand(GameSystem game) {
 		
+	}
+	
+	private static void buy(Scanner in, GameSystem game) {
+		
+		
+	}
+	
+	private static void sell(Scanner in, GameSystem game) {
+		String item = in.next(),
+			   entity = in.next();
+		in.nextLine();
+		
+		try {
+			game.sell(item, entity);
+		} catch() {
+			
+		}
 	}
 	
 	/**

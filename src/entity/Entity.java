@@ -33,19 +33,19 @@ public interface Entity {
 	/**
 	 * @return the entity total money.
 	 */
-	int getBalance();
+	double getBalance();
 	
 	/**
 	 * Buy something.
 	 * @param price - Money you have to pay.
 	 */
-	void buy(int price);
+	void buy(double price);
 	
 	/**
 	 * Sell something.
 	 * @param price - Money you have to gain.
 	 */
-	void sell(int price);
+	void sell(double price);
 	
 	/**
 	 * @return the respective action number.
@@ -86,5 +86,7 @@ public interface Entity {
 	 * @throws ItemNotInBagException - If the wanted item is not in the bag.
 	 */
 	 Item dropItem(String item) throws ItemNotInBagException;
+	 
+	 double getSellTax();
 	
 }

@@ -134,7 +134,7 @@ public interface GameSystem {
 	/**
 	 * @return the player money quantity at the time.
 	 */
-	int getPlayerBalance();
+	double getPlayerBalance();
 	
 	/**
 	 * @return the date that the player has started the game for the first time.
@@ -152,6 +152,10 @@ public interface GameSystem {
 	 * @param object - The object you want to do the action against.
 	 */
 	void action(Propertys property, String object);
+	
+	void buy(String item, String seller);
+	
+	void sell(String item, String buyer);
 	
 }
 

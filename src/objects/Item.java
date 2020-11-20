@@ -15,4 +15,6 @@ public interface Item extends Object {
 	 * @param name - New item name.
 	 */
 	void setItemName(String name);
+	
+	double getItemPrice();
 }

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import entity.Entity;
+import entity.EntityClass;
 import gameSystem.Directions;
 import objects.*;
 
@@ -23,8 +25,11 @@ public class NoWhere extends LocationClass {
 	
 	private static Map<String, NonItem> objects = new HashMap<String, NonItem>() {
 		private static final long serialVersionUID = -6565627091200982584L; {}};
+		
+		private static Map<String, Entity> entitys = new HashMap<String, Entity>() {
+			private static final long serialVersionUID = -6565627091200982584L; {}};
 	
 	public NoWhere() {
-		super(NOWHERE_NAME, NOWHERE_BIG_DESCRIPTION, NOWHERE_SMALL_DESCRIPTION, items, objects, 0, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
+		super(NOWHERE_NAME, NOWHERE_BIG_DESCRIPTION, NOWHERE_SMALL_DESCRIPTION, items, objects, entitys, 0, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
 	}
 }

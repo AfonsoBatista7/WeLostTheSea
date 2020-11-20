@@ -3,6 +3,7 @@ package entity;
 import locations.Location;
 import objects.Item;
 import objects.NonItem;
+import objects.items.Coin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,27 +21,29 @@ import gameSystem.Actions;
 public class EntityClass implements Entity {
 
 	private String name;
-	private int money, action;
+	private int action, bagSize;
 	private Location location;
 	private NonItem objectUsing;
-	private int bagSize;
+	private double money, sellTax;
 	protected Map<String, ArrayList<Item>> bag;
 	
 	private static final int BAG_DEFAULT_SIZE = 10, STACK_DEFAULT_SIZE = 64;
+	private static final double SELL_TAX= 1.5; 							// POR ENQUANTO É FIXO MAS QUERIA POR VARIAS CLASSES COM TAX DIFERENTES.
 	
-	public EntityClass(String name, Location location, int money, int action) {
+	public EntityClass(String name, Location location, double money, int action) {
 		this.name = name;
 		this.location = location;
 		this.money = money;
 		this.action = action;
-		bagSize=BAG_DEFAULT_SIZE;
+		bagSize = BAG_DEFAULT_SIZE;
+		sellTax = SELL_TAX;
 		bag = new HashMap<String, ArrayList<Item>>(bagSize);
 	}
 	
-	public EntityClass(String name, Location location, int action) {
+	public EntityClass(String name, int action) {
 		this.name = name;
-		this.location = location;
 		this.action = action;
+		money = 10000000;
 	}
 	
 	public NonItem getUsingObject() {
@@ -59,7 +62,7 @@ public class EntityClass implements Entity {
 		location = newLocation;
 	}
 	
-	public int getBalance() {
+	public double getBalance() {
 		return money;
 	}
 	
@@ -67,11 +70,15 @@ public class EntityClass implements Entity {
 		return action;
 	}
 	
-	public void buy(int price) {
+	public double getSellTax() {
+		return sellTax;
+	}
+	
+	public void buy(double price) {
 		money=-price;
 	}
 	
-	public void sell(int price) {
+	public void sell(double price) {
 		money+=price;
 	}
 	
@@ -87,7 +94,7 @@ public class EntityClass implements Entity {
 	public void action(Actions action, NonItem object) {
 		int actionValue = action.getValue();
 		
-		if(!object.isAvailable()) throw new ObjectOccupiedException(object.getUser());         //MELHORAR CODIGO
+		if(!object.isAvailable()) throw new ObjectOccupiedException(object.getUser());         
 		if(usingObject()) getLocation().actionObject(objectUsing, this);
 		objectUsing = object;
 		getLocation().actionObject(object, this);
@@ -97,8 +104,8 @@ public class EntityClass implements Entity {
 	
 	public void getItem(Item item) {
 		if(isBagFull()) throw new BagFullException();
-		
 		String itemType = item.getObjectType();
+		if(itemType.equals("Coin")) { money+= ((Coin) item).getCoinValue(); return; }
 		ArrayList<Item> list = bag.get(itemType);
 		
 		if(list==null) {

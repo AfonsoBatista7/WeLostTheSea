@@ -2,6 +2,8 @@ package locations;
 
 import java.util.*;
 
+import entity.Entity;
+import entity.EntityClass;
 import gameSystem.Directions;
 import objects.items.*;
 import objects.*;
@@ -30,6 +32,7 @@ public class BedRoom extends LocationClass {
 		{
 			put("book", new LinkedList<Item>(Arrays.asList(new Book("Instruction Manual",""), new Book("Diary",""), new Book())));
 			put("sword", new LinkedList<Item>(Arrays.asList(new ItemClass("Sword","", "Master Sword"))));
+			put("coin", new LinkedList<Item>(Arrays.asList(new Coin())));
 		}
 	};
 	
@@ -47,7 +50,15 @@ public class BedRoom extends LocationClass {
 		}
 	};
 	
+	private static Map<String, Entity> entitys = new HashMap<String, Entity>() {
+		private static final long serialVersionUID = -6565627091200982584L;
+
+		{
+			put("mom", new EntityClass("Mom", 0));
+		}
+	};
+	
 	public BedRoom() {
-		super(BEDROOM_NAME, BEDROOM_BIG_DESCRIPTION, BEDROOM_SMALL_DESCRIPTION, items, objects, 1, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
+		super(BEDROOM_NAME, BEDROOM_BIG_DESCRIPTION, BEDROOM_SMALL_DESCRIPTION, items, objects, entitys, 1, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
 	}
 }

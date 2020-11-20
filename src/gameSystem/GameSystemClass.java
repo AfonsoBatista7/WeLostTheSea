@@ -181,26 +181,36 @@ public class GameSystemClass implements GameSystem {
 	
 	/**
 	 * @param entity - The entity.
-	 * @return the total current money the <entity> have+.
+	 * @return the total current money the <entity> have.
 	 */
-	private int getBalance(Entity entity) {
+	private double getBalance(Entity entity) {
 		return entity.getBalance();
 	}
 	
-	public int getPlayerBalance() {
+	public double getPlayerBalance() {
 		return getBalance(player);
 	}
 	
-	public void buy(int price, String item, Entity seller) {
-		player.buy(price); seller.sell(price);
-		Item getItem = seller.dropItem(item);										//TODO test and exceptions
-		player.getItem(getItem);
+	public void buy(String item, String seller) {
+		Entity entSeller = player.getLocation().getEntity(seller);	
+		transactionSellBuy(item, player, entSeller);
 	}
 	
-	public void sell(int price, String item, Entity buyer) {
-		buyer.buy(price); player.sell(price);
-		Item sellItem = player.dropItem(item);										//TODO test and exceptions
+	public void sell(String item, String buyer) {
+		Entity entBuyer = player.getLocation().getEntity(buyer);
+		transactionSellBuy(item, entBuyer, player);
+	}
+	
+	private void transactionSellBuy(String item, Entity buyer, Entity seller ) {
+		Item sellItem = seller.dropItem(item);
+		double price = getItemTotalPrice(seller.getSellTax(),sellItem.getItemPrice());
+		
+		buyer.buy(price); seller.sell(price);									
 		buyer.getItem(sellItem);
+	}
+	
+	public double getItemTotalPrice(double tax, double itemPrice) {
+		return tax*itemPrice;
 	}
 	
 	public int itemsGathered() {

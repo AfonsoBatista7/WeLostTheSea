@@ -8,7 +8,8 @@ import objects.*;
 
 public class PlayerClass extends EntityClass implements Player {
 
-	private static final int MONEY_DEFAULT = 100, ACTION = 0;
+	private static final int ACTION = 0;
+	private static final double MONEY_DEFAULT = 1000;
 	
 	private int itemsGathered;
 	

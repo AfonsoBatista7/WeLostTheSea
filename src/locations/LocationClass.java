@@ -14,15 +14,18 @@ public class LocationClass implements Location {
 
 	private Map<String, LinkedList<Item>> locationItems;
 	private Map<String, NonItem> locationObjects;
+	private Map<String, Entity> locationEntitys;
 	private String locationName, bigDescription, smallDescription;
 	private int n, s, w, e;
 	
-	public LocationClass(String locationName ,String bigDescription, String smallDescription ,Map<String, LinkedList<Item>> items, Map<String, NonItem> objects, int n, int s, int w, int e) {
+	public LocationClass(String locationName ,String bigDescription, String smallDescription ,
+			Map<String, LinkedList<Item>> items, Map<String, NonItem> objects, Map<String, Entity> entitys ,int n, int s, int w, int e) {
+		locationItems = items;
+		locationObjects = objects;
+		locationEntitys = entitys;
 		this.locationName = locationName;
 		this.bigDescription = bigDescription;
 		this.smallDescription = smallDescription;
-		this.locationItems = items;
-		this.locationObjects = objects;
 		this.n = n;
 		this.s = s;
 		this.w = w;
@@ -76,6 +79,17 @@ public class LocationClass implements Location {
 		List<Item> list = locationItems.get(itemType.toLowerCase());
 		if(list==null) throw new ObjectNotInLocationException(itemType);
 		return list.iterator();
+	}
+	
+	public Iterator<Entity> allEntities() {
+		if(locationEntitys.isEmpty()) throw new NoEntitiesException();
+		return locationEntitys.values().iterator();
+	}
+	
+	public Entity getEntity(String name) {
+		Entity entity = locationEntitys.get(name);
+		if(entity==null) throw new EntityNotInLocationException();
+		return entity;
 	}
 		
 	public boolean nonItemNotInLocation(String object) {
