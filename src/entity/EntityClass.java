@@ -105,7 +105,7 @@ public class EntityClass implements Entity {
 	public void getItem(Item item) {
 		if(isBagFull()) throw new BagFullException();
 		String itemType = item.getObjectType();
-		if(itemType.equals("Coin")) { money+= ((Coin) item).getCoinValue(); return; }
+		if(item instanceof Coin) { money+= (item.getItemPrice()); return; }
 		ArrayList<Item> list = bag.get(itemType);
 		
 		if(list==null) {
