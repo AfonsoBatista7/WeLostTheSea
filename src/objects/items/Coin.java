@@ -7,14 +7,9 @@ public class Coin extends ItemClass {
 								DESCRIPTION = "A, sometimes valuable item, you can used it as a form of payment to optime other items";
 	private static final double PRICE = 10;
 	
-	private int value;
+	private static final double PRICE = 10.0;
 	
 	public Coin() {
 		super(TYPE, DESCRIPTION, PRICE);
-		value=10;
-	}
-	
-	public int getCoinValue() {
-		return value;
 	}
 }

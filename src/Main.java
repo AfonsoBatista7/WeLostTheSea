@@ -52,24 +52,24 @@ public class Main {
 		SUCCESS_STAND = "\nYou stand up.\n",
 		SUCCESS_PUT = "\nYou have put %s on %s.\n\n",
 		SUCCESS_CLOSE = "\nYou have closed %s.\n\n",
-		SUCCESS_PLAYER_MONEY = "\nYou have %.1f$ in your packet.\n\n",
+		SUCCESS_PLAYER_MONEY = "\nYou have %.2f$ in your pocket.\n\n",
 		SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
-	private static final String ERROR_INVALID_COMMAND = "\nHoo man! That must be an encrypted type of language I don't understand!\n\n";
-	private static final String ERROR_TOO_LONG_NAME = "\nWooow! Looks like your name is to big for me to handle... Try write a smaller one. (<22)\n";
-	private static final String ERROR_OBJECT_NOT_IN_LOCATION = "\n%s doesn't exist in this location...";
-	private static final String ERROR_NOT_AN_ITEM = "\nYou tried realy hard but, you couldn't put a %s in your bag...";
-	private static final String ERROR_NO_SPACE = "\nYou can't put these item in your bag while it's full.\nYou need to drop something.";
-	private static final String ERROR_STAKED_ITEM = "\nYou can't put more %ss in your bag.";
-	private static final String ERROR_EMPTY_BAG = " * Empty *\n";
-	private static final String ERROR_ITEM_NOT_IN_BAG = "\nYou don't have %s on your bag.";
-	private static final String ERROR_NO_ITEMS_IN_LOCATION = "\nThere's no items in this location.\n";
-	private static final String ERROR_ITS_AN_ITEM = "\nThats not an object, %s is an item.\n\n";
-	private static final String ERROR_DIFERENT_PROPERTY = "\nYou can't %s in this object.\n\n";
-	private static final String ERROR_ALREADY_DOING_THAT = "\n%s is already doing that.\n\n";
-	private static final String ERROR_NO_EXIT = "\nYou can't go that way.\n\n";
-	private static final String ERROR_WALK_OBJECT ="\nYou stop what you're doing and,";
+	private static final String ERROR_INVALID_COMMAND = "\nHoo man! That must be an encrypted type of language I don't understand!\n\n",
+		ERROR_TOO_LONG_NAME = "\nWooow! Looks like your name is to big for me to handle... Try write a smaller one. (<22)\n",
+		ERROR_OBJECT_NOT_IN_LOCATION = "\n%s doesn't exist in this location...",
+		ERROR_NOT_AN_ITEM = "\nYou tried realy hard but, you couldn't put a %s in your bag...",
+		ERROR_NO_SPACE = "\nYou can't put these item in your bag while it's full.\nYou need to drop something.",
+		ERROR_STAKED_ITEM = "\nYou can't put more %ss in your bag.",
+		ERROR_EMPTY_BAG = " * Empty *\n",
+		ERROR_ITEM_NOT_IN_BAG = "\nYou don't have %s on your bag.",
+	 	ERROR_NO_ITEMS_IN_LOCATION = "\nThere's no items in this location.\n",
+	 	ERROR_ITS_AN_ITEM = "\nThats not an object, %s is an item.\n\n",
+	 	ERROR_DIFERENT_PROPERTY = "\nYou can't %s in this object.\n\n",
+	 	ERROR_ALREADY_DOING_THAT = "\n%s is already doing that.\n\n",
+	 	ERROR_NO_EXIT = "\nYou can't go that way.\n\n",
+	 	ERROR_WALK_OBJECT ="\nYou stop what you're doing and,";
 
 	
 	public static void main(String[] args) {
@@ -566,7 +566,7 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void playerMoney(GameSystem game) {
-		printString(String.format(SUCCESS_PLAYER_MONEY,game.getPlayerBalance()), MAIN_SPEED);
+		printString(String.format(SUCCESS_PLAYER_MONEY, game.getPlayerBalance()), MAIN_SPEED);
 	}
 
 	/**
@@ -681,11 +681,9 @@ public class Main {
 		
 		try {
 			game.sell(item, entity);
-		} catch(EntityNotInLocationException e) {
-			printString("%s is not in this location.", MAIN_SPEED);
-		} //catch(NoMoneyException e) {
-			//printString("You dont have enough money to",MAIN_SPEED);
-		//}
+		} catch() {
+			
+		}
 	}
 	
 	/**

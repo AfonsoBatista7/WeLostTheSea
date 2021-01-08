@@ -28,7 +28,7 @@ public class EntityClass implements Entity {
 	protected Map<String, ArrayList<Item>> bag;
 	
 	private static final int BAG_DEFAULT_SIZE = 10, STACK_DEFAULT_SIZE = 64;
-	private static final double SELL_TAX= 1.5; 							// POR ENQUANTO É FIXO MAS QUERIA POR VARIAS CLASSES COM TAX DIFERENTES.
+	private static final double SELL_TAX= 1.5; 							// POR ENQUANTO ï¿½ FIXO MAS QUERIA POR VARIAS CLASSES COM TAX DIFERENTES.
 	
 	public EntityClass(String name, Location location, double money, int action) {
 		this.name = name;
@@ -107,6 +107,7 @@ public class EntityClass implements Entity {
 		if(isBagFull()) throw new BagFullException();
 		if(item instanceof Coin) { money+= ((Coin) item).getCoinValue(); return; }
 		String itemType = item.getObjectType();
+		if(item instanceof Coin) { money+= (item.getItemPrice()); return; }
 		ArrayList<Item> list = bag.get(itemType);
 		
 		if(list==null) {
