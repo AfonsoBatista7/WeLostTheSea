@@ -31,7 +31,7 @@ public class BedRoom extends LocationClass {
 
 		{
 			put("book", new LinkedList<Item>(Arrays.asList(new Book("Instruction Manual",""), new Book("Diary",""), new Book())));
-			put("sword", new LinkedList<Item>(Arrays.asList(new ItemClass("Sword","", "Master Sword"))));
+			put("sword", new LinkedList<Item>(Arrays.asList(new ItemClass("Sword", "Master Sword", 1000))));
 			put("coin", new LinkedList<Item>(Arrays.asList(new Coin())));
 		}
 	};
@@ -54,7 +54,7 @@ public class BedRoom extends LocationClass {
 		private static final long serialVersionUID = -6565627091200982584L;
 
 		{
-			put("mom", new EntityClass("Mom", 0));
+			put("mom", new EntityClass("Mom", 0, new ArrayList<Item>(Arrays.asList(new Book("Mom Advices", "")))));
 		}
 	};
 	

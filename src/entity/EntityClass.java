@@ -40,7 +40,7 @@ public class EntityClass implements Entity {
 		bag = new HashMap<String, ArrayList<Item>>(bagSize);
 	}
 	
-	public EntityClass(String name, int action) {
+	public EntityClass(String name, int action, ArrayList<Item> bag) {
 		this.name = name;
 		this.action = action;
 		money = 10000000;
@@ -75,6 +75,7 @@ public class EntityClass implements Entity {
 	}
 	
 	public void buy(double price) {
+		if(money<price) throw new NoMoneyException();
 		money=-price;
 	}
 	
@@ -104,8 +105,8 @@ public class EntityClass implements Entity {
 	
 	public void getItem(Item item) {
 		if(isBagFull()) throw new BagFullException();
+		if(item instanceof Coin) { money+= ((Coin) item).getCoinValue(); return; }
 		String itemType = item.getObjectType();
-		if(itemType.equals("Coin")) { money+= ((Coin) item).getCoinValue(); return; }
 		ArrayList<Item> list = bag.get(itemType);
 		
 		if(list==null) {

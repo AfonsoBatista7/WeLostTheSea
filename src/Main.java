@@ -52,7 +52,7 @@ public class Main {
 		SUCCESS_STAND = "\nYou stand up.\n",
 		SUCCESS_PUT = "\nYou have put %s on %s.\n\n",
 		SUCCESS_CLOSE = "\nYou have closed %s.\n\n",
-		SUCCESS_PLAYER_MONEY = "\nYou have %d$ in your packet.\n\n",
+		SUCCESS_PLAYER_MONEY = "\nYou have %.1f$ in your packet.\n\n",
 		SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
@@ -681,9 +681,11 @@ public class Main {
 		
 		try {
 			game.sell(item, entity);
-		} catch() {
-			
-		}
+		} catch(EntityNotInLocationException e) {
+			printString("%s is not in this location.", MAIN_SPEED);
+		} //catch(NoMoneyException e) {
+			//printString("You dont have enough money to",MAIN_SPEED);
+		//}
 	}
 	
 	/**
