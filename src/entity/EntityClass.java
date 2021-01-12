@@ -28,7 +28,7 @@ public class EntityClass implements Entity {
 	protected Map<String, ArrayList<Item>> bag;
 	
 	private static final int BAG_DEFAULT_SIZE = 10, STACK_DEFAULT_SIZE = 64;
-	private static final double SELL_TAX= 1.5; 							// POR ENQUANTO � FIXO MAS QUERIA POR VARIAS CLASSES COM TAX DIFERENTES.
+	private static final double SELL_TAX= 1.5; 							// POR ENQUANTO FIXO MAS QUERIA POR VARIAS CLASSES COM TAX DIFERENTES.
 	
 	public EntityClass(String name, Location location, double money, int action) {
 		this.name = name;
@@ -43,7 +43,18 @@ public class EntityClass implements Entity {
 	public EntityClass(String name, int action, ArrayList<Item> bag) {
 		this.name = name;
 		this.action = action;
+		bagSize = BAG_DEFAULT_SIZE;
+		this.bag = new HashMap<String, ArrayList<Item>>(bagSize);
+		putInBag(bag);
 		money = 10000000;
+	}
+	
+	private void putInBag(ArrayList<Item> bag) {
+		Iterator<Item> it = bag.iterator();
+		while(it.hasNext()) {
+			Item item = it.next();
+			getItem(item);
+		}
 	}
 	
 	public NonItem getUsingObject() {
@@ -75,8 +86,9 @@ public class EntityClass implements Entity {
 	}
 	
 	public void buy(double price) {
+		System.out.println(money);
 		if(money<price) throw new NoMoneyException();
-		money=-price;
+		money-=price;
 	}
 	
 	public void sell(double price) {
@@ -105,7 +117,6 @@ public class EntityClass implements Entity {
 	
 	public void getItem(Item item) {
 		if(isBagFull()) throw new BagFullException();
-		if(item instanceof Coin) { money+= ((Coin) item).getCoinValue(); return; }
 		String itemType = item.getObjectType();
 		if(item instanceof Coin) { money+= (item.getItemPrice()); return; }
 		ArrayList<Item> list = bag.get(itemType);
@@ -119,7 +130,6 @@ public class EntityClass implements Entity {
 	}
 	
 	public Item dropItem(String item) {
-		
 		item = item.substring(0,1).toUpperCase() + item.substring(1).toLowerCase();
 		List<Item> list = bag.get(item);
 					

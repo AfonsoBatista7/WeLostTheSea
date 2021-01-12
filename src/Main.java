@@ -53,6 +53,7 @@ public class Main {
 		SUCCESS_PUT = "\nYou have put %s on %s.\n\n",
 		SUCCESS_CLOSE = "\nYou have closed %s.\n\n",
 		SUCCESS_PLAYER_MONEY = "\nYou have %.2f$ in your pocket.\n\n",
+		SUCCESS_SELL_ITEM = "\nYou sold a %s to %s and won %.2f$ in the trasanction.\n\n",
 		SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
@@ -680,9 +681,12 @@ public class Main {
 		in.nextLine();
 		
 		try {
-			game.sell(item, entity);
-		} catch() {
-			
+			double price = game.sell(item, entity);
+			printString(String.format(SUCCESS_SELL_ITEM, item, entity, price),MAIN_SPEED);
+		} catch(ItemNotInBagException e) {
+			printString(String.format(ERROR_ITEM_NOT_IN_BAG+"\n\n", item), MAIN_SPEED);
+		} catch(EntityNotInLocationException e) {
+			printString(String.format("\n"+entity+" isn't in "+game.getLocationName()+".\n\n", game.getPlayerName().toUpperCase()), MAIN_SPEED);
 		}
 	}
 	

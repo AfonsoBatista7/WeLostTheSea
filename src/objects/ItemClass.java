@@ -22,12 +22,6 @@ public class ItemClass extends ObjectClass implements Item {
 		this.price = price;
 	}
 	
-	public ItemClass(String type, String description, double price, String name) {
-		super(type, description);
-		this.name = name;
-		this.price = price;
-	}
-	
 	public String getItemName() {
 		return name;
 	}

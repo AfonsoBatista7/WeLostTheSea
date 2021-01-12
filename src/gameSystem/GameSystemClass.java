@@ -191,22 +191,30 @@ public class GameSystemClass implements GameSystem {
 		return getBalance(player);
 	}
 	
-	public void buy(String item, String seller) {
+	public double buy(String item, String seller) {
 		Entity entSeller = player.getLocation().getEntity(seller);	
-		transactionSellBuy(item, player, entSeller);
+		return transactionSellBuy(item, player, entSeller);
 	}
 	
-	public void sell(String item, String buyer) {
+	public double sell(String item, String buyer) {
 		Entity entBuyer = player.getLocation().getEntity(buyer);
-		transactionSellBuy(item, entBuyer, player);
+		return transactionSellBuy(item, entBuyer, player);
 	}
+
 	
-	private void transactionSellBuy(String item, Entity buyer, Entity seller ) {
+	/**
+	 * @param item
+	 * @param buyer
+	 * @param seller
+	 * @return
+	 */
+	private double transactionSellBuy(String item, Entity buyer, Entity seller ) {
 		Item sellItem = seller.dropItem(item);
 		double price = getItemTotalPrice(seller.getSellTax(),sellItem.getItemPrice());
 		
 		buyer.buy(price); seller.sell(price);									
 		buyer.getItem(sellItem);
+		return price;
 	}
 	
 	public double getItemTotalPrice(double tax, double itemPrice) {
