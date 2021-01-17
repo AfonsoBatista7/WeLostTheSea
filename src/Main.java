@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -23,6 +24,7 @@ public class Main {
 	/* Game lines */
 	private static final String START_NEW_PLAYER = "\nSo... Whats your name?\n\n> ";
 	private static final String START_IS_THAT_YOUR_NAME = "\nHi %s is that your name?\n Yes or No?\n\n> ";
+	private static final String ITEM_QUANTITY_QUESTION = "\nHow much items do you want to sell?: ";
 	
 	
 	/* Success Constants */
@@ -53,7 +55,7 @@ public class Main {
 		SUCCESS_PUT = "\nYou have put %s on %s.\n\n",
 		SUCCESS_CLOSE = "\nYou have closed %s.\n\n",
 		SUCCESS_PLAYER_MONEY = "\nYou have %.2f$ in your pocket.\n\n",
-		SUCCESS_SELL_ITEM = "\nYou sold a %s to %s and won %.2f$ in the trasanction.\n\n",
+		SUCCESS_SELL_ITEM = "\nYou sold a %s to %s and won %.2f$ in the transaction.\n\n",
 		SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
@@ -70,7 +72,9 @@ public class Main {
 	 	ERROR_DIFERENT_PROPERTY = "\nYou can't %s in this object.\n\n",
 	 	ERROR_ALREADY_DOING_THAT = "\n%s is already doing that.\n\n",
 	 	ERROR_NO_EXIT = "\nYou can't go that way.\n\n",
-	 	ERROR_WALK_OBJECT ="\nYou stop what you're doing and,";
+	 	ERROR_WALK_OBJECT ="\nYou stop what you're doing and,",
+	 	ERROR_SCANNER_NUM = "\nTry to insert a number in quantity.\n\n",
+		ERROR_QUANTITY = "\nYou need to insert a quantity >= 1\n\n";
 
 	
 	public static void main(String[] args) {
@@ -679,14 +683,25 @@ public class Main {
 		String item = in.next(),
 			   entity = in.next();
 		in.nextLine();
+		int quantity=1;
 		
 		try {
-			double price = game.sell(item, entity);
+			if(game.getQuantity(item)>1) {
+				printString(ITEM_QUANTITY_QUESTION, MAIN_SPEED);
+				quantity = in.nextInt();
+				in.nextLine();
+			}
+			double price = game.sell(item, entity, quantity);
 			printString(String.format(SUCCESS_SELL_ITEM, item, entity, price),MAIN_SPEED);
+		} catch(InputMismatchException e) {
+			printString(ERROR_SCANNER_NUM, MAIN_SPEED);
+			in.nextLine();
 		} catch(ItemNotInBagException e) {
 			printString(String.format(ERROR_ITEM_NOT_IN_BAG+"\n\n", item), MAIN_SPEED);
 		} catch(EntityNotInLocationException e) {
 			printString(String.format("\n"+entity+" isn't in "+game.getLocationName()+".\n\n", game.getPlayerName().toUpperCase()), MAIN_SPEED);
+		} catch(QuantityErrorException e) {
+			printString(ERROR_QUANTITY, MAIN_SPEED);
 		}
 	}
 	

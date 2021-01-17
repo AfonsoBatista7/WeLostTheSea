@@ -86,7 +86,6 @@ public class EntityClass implements Entity {
 	}
 	
 	public void buy(double price) {
-		System.out.println(money);
 		if(money<price) throw new NoMoneyException();
 		money-=price;
 	}
@@ -156,6 +155,13 @@ public class EntityClass implements Entity {
 	 */
 	private boolean isBagFull() {
 		return bag.size()==bagSize;
+	}
+	
+	public int getQuantity(String item) {
+		ArrayList<Item> items = bag.get(item);
+		if(items==null) throw new ItemNotInBagException(item);
+		
+		return items.size();
 	}
 
 }

@@ -17,13 +17,6 @@ public class PlayerClass extends EntityClass implements Player {
 		super(name, location, MONEY_DEFAULT, ACTION);
 	}
 	
-	public int getQuantity(String item) {
-		ArrayList<Item> items = bag.get(item);
-		if(items==null) throw new ItemNotInBagException(item);
-		
-		return items.size();
-	}
-	
 	public void upgradeBag(int size) {
 		Map<String, ArrayList<Item>> newBag = new HashMap<String, ArrayList<Item>>(size);
 		newBag.putAll(bag);

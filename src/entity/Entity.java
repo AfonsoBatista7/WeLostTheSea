@@ -88,5 +88,11 @@ public interface Entity {
 	 Item dropItem(String item) throws ItemNotInBagException;
 	 
 	 double getSellTax();
+	 
+	 /**
+	 * @param item - item.
+	 * @return the total quantity of an item. 
+	 */
+	int getQuantity(String item) throws ItemNotInBagException;
 	
 }

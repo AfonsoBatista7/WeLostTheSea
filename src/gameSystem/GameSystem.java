@@ -153,9 +153,9 @@ public interface GameSystem {
 	 */
 	void action(Propertys property, String object);
 	
-	double buy(String item, String seller);
+	double buy(String item, String seller, int quantity);
 	
-	double sell(String item, String buyer);
+	double sell(String item, String buyer, int quantity);
 	
 }
 

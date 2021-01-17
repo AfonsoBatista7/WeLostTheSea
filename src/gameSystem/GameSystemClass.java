@@ -191,14 +191,14 @@ public class GameSystemClass implements GameSystem {
 		return getBalance(player);
 	}
 	
-	public double buy(String item, String seller) {
+	public double buy(String item, String seller, int quantity) {
 		Entity entSeller = player.getLocation().getEntity(seller);	
-		return transactionSellBuy(item, player, entSeller);
+		return transactionSellBuy(item, player, entSeller, quantity);
 	}
 	
-	public double sell(String item, String buyer) {
+	public double sell(String item, String buyer, int quantity) {
 		Entity entBuyer = player.getLocation().getEntity(buyer);
-		return transactionSellBuy(item, entBuyer, player);
+		return transactionSellBuy(item, entBuyer, player, quantity);
 	}
 
 	
@@ -208,17 +208,23 @@ public class GameSystemClass implements GameSystem {
 	 * @param seller
 	 * @return
 	 */
-	private double transactionSellBuy(String item, Entity buyer, Entity seller ) {
-		Item sellItem = seller.dropItem(item);
-		double price = getItemTotalPrice(seller.getSellTax(),sellItem.getItemPrice());
+	private double transactionSellBuy(String item, Entity buyer, Entity seller , int quantity) {
+		if(quantity<1) throw new QuantityErrorException();
+		int itemQuantity = seller.getQuantity(toSearch(item));
+		int trueQuantity;
+		Item sellItem=seller.dropItem(item);
+		for(trueQuantity=1;trueQuantity<quantity && trueQuantity<itemQuantity;trueQuantity++)
+			seller.dropItem(item);
+		double price = getItemTotalPrice(seller.getSellTax(),sellItem.getItemPrice(), trueQuantity);
 		
-		buyer.buy(price); seller.sell(price);									
-		buyer.getItem(sellItem);
+		buyer.buy(price); seller.sell(price);	
+		for(int i=0; i<trueQuantity;i++)
+			buyer.getItem(sellItem);
 		return price;
 	}
 	
-	public double getItemTotalPrice(double tax, double itemPrice) {
-		return tax*itemPrice;
+	public double getItemTotalPrice(double tax, double itemPrice, int quantity) {
+		return tax*itemPrice*quantity;
 	}
 	
 	public int itemsGathered() {
