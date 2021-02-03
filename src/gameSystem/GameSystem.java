@@ -157,5 +157,6 @@ public interface GameSystem {
 	
 	double sell(String item, String buyer, int quantity);
 	
+	 int getEntityQuantity(String entity, String item);
 }
 

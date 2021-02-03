@@ -22,9 +22,11 @@ public class Main {
 	private static final int MAIN_SPEED = 65;
 	
 	/* Game lines */
-	private static final String START_NEW_PLAYER = "\nSo... Whats your name?\n\n> ";
-	private static final String START_IS_THAT_YOUR_NAME = "\nHi %s is that your name?\n Yes or No?\n\n> ";
-	private static final String ITEM_QUANTITY_QUESTION = "\nHow much items do you want to sell?: ";
+	private static final String START_NEW_PLAYER = "\nSo... Whats your name?\n\n> ",
+								START_IS_THAT_YOUR_NAME = "\nHi %s is that your name?\n Yes or No?\n\n> ",
+								ITEM_QUANTITY_QUESTION_SELL = "\nHow much items do you want to sell?: ",
+								ITEM_QUANTITY_QUESTION_BUY = "\nnHow much items do you want to buy?:";
+			
 	
 	
 	/* Success Constants */
@@ -55,7 +57,8 @@ public class Main {
 		SUCCESS_PUT = "\nYou have put %s on %s.\n\n",
 		SUCCESS_CLOSE = "\nYou have closed %s.\n\n",
 		SUCCESS_PLAYER_MONEY = "\nYou have %.2f$ in your pocket.\n\n",
-		SUCCESS_SELL_ITEM = "\nYou sold a %s to %s and won %.2f$ in the transaction.\n\n",
+		SUCCESS_SELL_ITEM = "\nYou have sold a %s to %s and earn %.2f$ in the transaction.\n\n",
+		SUCCESS_BUY_ITEM = "\nYou have bought a %s to %s and paid %.2f$ in the trasaction.\n\n",
 		SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
@@ -67,6 +70,7 @@ public class Main {
 		ERROR_STAKED_ITEM = "\nYou can't put more %ss in your bag.",
 		ERROR_EMPTY_BAG = " * Empty *\n",
 		ERROR_ITEM_NOT_IN_BAG = "\nYou don't have %s on your bag.",
+		ERROR_ITEM_NOT_IN_BAG_TRANSACTION = "\n%s don't have %s in bag.\n\n",
 	 	ERROR_NO_ITEMS_IN_LOCATION = "\nThere's no items in this location.\n",
 	 	ERROR_ITS_AN_ITEM = "\nThats not an object, %s is an item.\n\n",
 	 	ERROR_DIFERENT_PROPERTY = "\nYou can't %s in this object.\n\n",
@@ -240,10 +244,10 @@ public class Main {
 				locationObjects(game);
 				break;
 			case SELL:
-				sell(in, game);
+				transaction(in, game, Command.SELL);
 				break;
 			case BUY:
-				buy(in, game);
+				transaction(in, game, Command.BUY);
 				break;
 			case HELP:
 				help();
@@ -674,35 +678,54 @@ public class Main {
 		
 	}
 	
-	private static void buy(Scanner in, GameSystem game) {
-		
-		
-	}
-	
-	private static void sell(Scanner in, GameSystem game) {
+	/**
+	 * Buy or sell an item with a entity.
+	 * @param in - Scanner
+	 * @param game - GameSystem
+	 * @param transaction - BUY or SELL
+	 */
+	private static void transaction(Scanner in, GameSystem game, Command transaction) {
 		String item = in.next(),
-			   entity = in.next();
-		in.nextLine();
-		int quantity=1;
-		
-		try {
-			if(game.getQuantity(item)>1) {
-				printString(ITEM_QUANTITY_QUESTION, MAIN_SPEED);
-				quantity = in.nextInt();
-				in.nextLine();
-			}
-			double price = game.sell(item, entity, quantity);
-			printString(String.format(SUCCESS_SELL_ITEM, item, entity, price),MAIN_SPEED);
-		} catch(InputMismatchException e) {
-			printString(ERROR_SCANNER_NUM, MAIN_SPEED);
+				   entity = in.next();
 			in.nextLine();
-		} catch(ItemNotInBagException e) {
-			printString(String.format(ERROR_ITEM_NOT_IN_BAG+"\n\n", item), MAIN_SPEED);
-		} catch(EntityNotInLocationException e) {
-			printString(String.format("\n"+entity+" isn't in "+game.getLocationName()+".\n\n", game.getPlayerName().toUpperCase()), MAIN_SPEED);
-		} catch(QuantityErrorException e) {
-			printString(ERROR_QUANTITY, MAIN_SPEED);
-		}
+			int quantity=1;
+			double price;
+			
+			try {
+				switch(transaction) {
+					case BUY:
+						if(game.getEntityQuantity(entity, item)>1) {
+							printString(ITEM_QUANTITY_QUESTION_BUY, MAIN_SPEED);
+							quantity = in.nextInt();
+							in.nextLine();
+						}
+						price = game.buy(item, entity, quantity);
+						printString(String.format(SUCCESS_BUY_ITEM, item, entity, price),MAIN_SPEED);
+						break;
+					case SELL:
+						if(game.getQuantity(item)>1) {
+							printString(ITEM_QUANTITY_QUESTION_SELL, MAIN_SPEED);
+							quantity = in.nextInt();
+							in.nextLine();
+						}
+						price = game.sell(item, entity, quantity);
+						printString(String.format(SUCCESS_SELL_ITEM, item, entity, price),MAIN_SPEED);
+						break;
+					default:
+						break;
+				}
+			} catch(InputMismatchException e) {
+				printString(ERROR_SCANNER_NUM, MAIN_SPEED);
+				in.nextLine();
+			} catch(ItemNotInBagException e) {
+				String seller = entity;
+				if(transaction.equals(Command.SELL)) seller = "You";	
+				printString(String.format(ERROR_ITEM_NOT_IN_BAG_TRANSACTION, seller, item), MAIN_SPEED);
+			} catch(EntityNotInLocationException e) {
+				printString(String.format("\n"+entity+" isn't in "+game.getLocationName()+".\n\n", game.getPlayerName().toUpperCase()), MAIN_SPEED);
+			} catch(QuantityErrorException e) {
+				printString(ERROR_QUANTITY, MAIN_SPEED);
+			}
 	}
 	
 	/**

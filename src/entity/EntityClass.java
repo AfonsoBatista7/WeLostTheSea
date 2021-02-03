@@ -46,6 +46,7 @@ public class EntityClass implements Entity {
 		bagSize = BAG_DEFAULT_SIZE;
 		this.bag = new HashMap<String, ArrayList<Item>>(bagSize);
 		putInBag(bag);
+		sellTax = SELL_TAX;
 		money = 10000000;
 	}
 	

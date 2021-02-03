@@ -111,6 +111,11 @@ public class GameSystemClass implements GameSystem {
 		return player.getQuantity(toSearch(item));
 	}
 	
+	public int getEntityQuantity(String entity, String item) {
+		
+		return player.getLocation().getEntity(entity).getQuantity(toSearch(item));
+	}
+	
 	/**
 	 * @param object - object name.
 	 * @return the object name with a capital letter.
@@ -210,8 +215,8 @@ public class GameSystemClass implements GameSystem {
 	 */
 	private double transactionSellBuy(String item, Entity buyer, Entity seller , int quantity) {
 		if(quantity<1) throw new QuantityErrorException();
-		int itemQuantity = seller.getQuantity(toSearch(item));
-		int trueQuantity;
+		int itemQuantity = seller.getQuantity(toSearch(item)),
+			trueQuantity;
 		Item sellItem=seller.dropItem(item);
 		for(trueQuantity=1;trueQuantity<quantity && trueQuantity<itemQuantity;trueQuantity++)
 			seller.dropItem(item);
