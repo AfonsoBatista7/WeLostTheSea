@@ -22,8 +22,8 @@ public class Main {
 	private static final int MAIN_SPEED = 65;
 	
 	/* Game lines */
-	private static final String START_NEW_PLAYER = "\nSo... Whats your name?\n\n> ",
-								START_IS_THAT_YOUR_NAME = "\nHi %s is that your name?\n Yes or No?\n\n> ",
+	private static final String START_NEW_PLAYER = "\n[SAILON] - And yours is...\n\n> ",
+								START_IS_THAT_YOUR_NAME = "\n[SAILON] - Hi %s is that realy your name?\n Yes or No?\n\n> ",               // I want to have an easter egg that if the playes choses the name Sailon he gets a custom message.
 								ITEM_QUANTITY_QUESTION_SELL = "\nHow much items do you want to sell?: ",
 								ITEM_QUANTITY_QUESTION_BUY = "\nnHow much items do you want to buy?:";
 			
@@ -63,7 +63,7 @@ public class Main {
 	
 	/* Error Constants*/
 	private static final String ERROR_INVALID_COMMAND = "\nHoo man! That must be an encrypted type of language I don't understand!\n\n",
-		ERROR_TOO_LONG_NAME = "\nWooow! Looks like your name is to big for me to handle... Try write a smaller one. (<22)\n",
+		ERROR_TOO_LONG_NAME = "\n[SAILON] - Wooow! Looks like your name is to big for me to handle... You are definitively trying to prank me... Try a smaller one. (<22)\n",
 		ERROR_OBJECT_NOT_IN_LOCATION = "\n%s doesn't exist in this location...",
 		ERROR_NOT_AN_ITEM = "\nYou tried realy hard but, you couldn't put a %s in your bag...",
 		ERROR_NO_SPACE = "\nYou can't put these item in your bag while it's full.\nYou need to drop something.",
@@ -290,7 +290,9 @@ public class Main {
 			
 			char character = text.charAt(i);
 			counter++;
-		    System.out.printf("%c", character);                           //Meter a primeira letra de cada frase em maiuscula
+			
+				
+			System.out.printf("%c", character);                           
 		    
 		    if(counter>=60 && text.length()-i>60 && Character.compare(' ',character)==0) {
 		    	counter=0; System.out.println("");
@@ -343,12 +345,20 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void start(Scanner in, GameSystem game) {
-		printString(SUCCESS_START, MAIN_SPEED);
-		newPlayer(in, game);
+		//printString(SUCCESS_START, MAIN_SPEED);
+		printString("\n...",500); coolDown(500); printString("\n...",500); coolDown(500); printString("\n...\n",500);
+		printString("\nWhere am I?\n\n",MAIN_SPEED*2); coolDown(500);
+		printString("\n*You look around to see where you are.*\n\n", MAIN_SPEED*2); coolDown(500);
+		printString("\n[You are on a beautiful beach with bright sand and crystal water, the air is neither too much hot or to much cold, the sun light reflects on the sea and warms"
+				+ " your skin, bones and soul like a fireplace on a cold day of winter. You feel like everything is happyness and joy.]\n\n", 100); coolDown(500);
+		System.out.print("[ PRESS ENTER TO CONTINUE ]"); in.nextLine(); in.nextLine();
+		printString("\nSuddenly! ",60); coolDown(600); printString("A realy old man, with a big grey beard, that seems to be a master of wisdom, approaches at you...\n\n", MAIN_SPEED);
+		coolDown(500);
+		printString("\n[???] - Do you mind if I sit next to you young man?\n\n>", MAIN_SPEED*2);
+ 		newPlayer(in, game);
 		game.startTimer();
 		printString(String.format("\nHey %s, in this universe where you just entered, you will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()), MAIN_SPEED);
-		System.out.print("[ PRESS ENTER TO CONTINUE ]");
-		in.nextLine();
+		System.out.print("[ PRESS ENTER TO CONTINUE ]"); in.nextLine();
 		enterNewLocation(game);
 		printString("You are standing in the middle of your Room...\n\n", MAIN_SPEED);
 	}
@@ -431,6 +441,11 @@ public class Main {
 		String option;
 		String name;
 		
+		option = in.next().toUpperCase(); in.nextLine();
+		if(option.equals(YES)) printString("\n[???] - Never talk to strangers... I compreend you position young man...\n\n", MAIN_SPEED);
+		else if(option.equals(NO)) printString("\n[???] - Thank you very much young man, I can feel your good energy...\n\n",MAIN_SPEED);
+		// falta a obção em que o jogador responde nem que sim nem que nao.
+		printString("[???] - Soooo... Anyway... Hi, my name is Sailon", MAIN_SPEED); coolDown(500);
 		do {
 			printString(START_NEW_PLAYER, MAIN_SPEED);
 			name = in.next()+in.nextLine();
@@ -445,9 +460,9 @@ public class Main {
 			printString(ERROR_TOO_LONG_NAME, MAIN_SPEED);
 			newPlayer(in,game);
 		} catch(InvalidOptionException e) {
-			printString(ERROR_INVALID_COMMAND, MAIN_SPEED);
+			printString("[SAILON] - You see young man... I'm old... but I'm not that old... what in the world \""+option+"\" means in this situation?\n\n", MAIN_SPEED);
 			newPlayer(in,game);
-		}
+		} 
 	}
 	
 	/**
