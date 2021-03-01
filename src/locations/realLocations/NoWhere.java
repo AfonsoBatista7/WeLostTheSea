@@ -1,12 +1,13 @@
-package locations;
+package locations.realLocations;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
 import entity.Entity;
-import entity.EntityClass;
 import gameSystem.Directions;
+import gameSystem.Locations;
+import locations.LocationClass;
 import objects.*;
 
 /**
@@ -15,6 +16,11 @@ import objects.*;
  */
 public class NoWhere extends LocationClass {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3582525387350679900L;
+	
 	private static final String NOWHERE_SMALL_DESCRIPTION = "Ooh... What is this place I can't go anywhere... Its all darkness...\n";
 	private static final String NOWHERE_BIG_DESCRIPTION = NOWHERE_SMALL_DESCRIPTION + "Seems like I'm falling into a painless void...\n";
 	
@@ -30,6 +36,6 @@ public class NoWhere extends LocationClass {
 			private static final long serialVersionUID = -6565627091200982584L; {}};
 	
 	public NoWhere() {
-		super(NOWHERE_NAME, NOWHERE_BIG_DESCRIPTION, NOWHERE_SMALL_DESCRIPTION, items, objects, entitys, 0, Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
+		super(NOWHERE_NAME, NOWHERE_BIG_DESCRIPTION, NOWHERE_SMALL_DESCRIPTION, items, objects, entitys, Locations.BEDROOM.getValue(), Directions.NO_EXIT, Directions.NO_EXIT, Directions.NO_EXIT);
 	}
 }

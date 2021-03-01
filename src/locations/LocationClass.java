@@ -1,5 +1,6 @@
 package locations;
 
+import java.io.Serializable;
 import java.util.*;
 
 import entity.Entity;
@@ -10,8 +11,13 @@ import objects.*;
  * @author Afonso Batista
  *
  */
-public class LocationClass implements Location {
+public class LocationClass implements Location, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7021493368825983509L;
+	
 	private Map<String, LinkedList<Item>> locationItems;
 	private Map<String, NonItem> locationObjects;
 	private Map<String, Entity> locationEntitys;

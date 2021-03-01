@@ -3,7 +3,7 @@ package entity.exceptions;
 /**
  * @author Afonso Batista
  */
-public class EmpetyBagException extends RuntimeException{
+public class EmpetyBagException extends RuntimeException {
 
 	/**
 	 * Bag is empty.

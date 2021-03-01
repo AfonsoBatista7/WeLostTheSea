@@ -2,6 +2,11 @@ package objects;
 
 public class ItemClass extends ObjectClass implements Item {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4691512550620509919L;
+	
 	private String name;
 	private double price;
 	

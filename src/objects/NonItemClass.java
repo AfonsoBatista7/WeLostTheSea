@@ -9,6 +9,11 @@ import gameSystem.Propertys;
  */
 public class NonItemClass extends ObjectClass implements NonItem {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1889613798462084732L;
+	
 	private String direction;
 	private Propertys property;
 	private boolean available;

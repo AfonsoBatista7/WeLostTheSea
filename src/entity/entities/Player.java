@@ -1,8 +1,8 @@
-package entity;
+package entity.entities;
 
 import java.util.*;
 
-import entity.exceptions.ItemNotInBagException;
+import entity.Entity;
 import objects.*;
 
 /**
@@ -20,5 +20,6 @@ public interface Player extends Entity {
 	 * @return the total of special items gathered.
 	 */
 	int itemsGathered();
+
 }
 

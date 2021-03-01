@@ -8,6 +8,11 @@ import objects.*;
  */
 public class ArmChair extends NonItemClass {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6384316036197636541L;
+	
 	private static final String TYPE = "ArmChair";
 	private static final Propertys PROPERTY = Propertys.SIT;
 	

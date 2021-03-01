@@ -8,6 +8,11 @@ import objects.*;
  */
 public class Shelf extends NonItemClass {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 996434547798736186L;
+	
 	private static final String TYPE = "Shelf";
 	private static final Propertys PROPERTY = Propertys.PUT;
 	

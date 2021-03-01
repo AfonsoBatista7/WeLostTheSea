@@ -19,6 +19,12 @@ public interface Entity {
 	 */
 	String getName();
 	
+	
+	/**
+	 *  Sets an entity name.
+	 */
+	void setName(String name); 
+	
 	/**
 	 * @return Entity location.
 	 */

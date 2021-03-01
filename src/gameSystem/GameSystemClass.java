@@ -1,56 +1,63 @@
 package gameSystem;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import entity.*;
+import entity.entities.Player;
+import entity.entities.PlayerClass;
 import gameSystem.exceptions.*;
 import locations.*;
 import locations.exceptions.*;
+import locations.realLocations.*;
 import objects.*;
 
-public class GameSystemClass implements GameSystem {
+public class GameSystemClass implements GameSystem, Serializable {
+	
+	
+	private static final long serialVersionUID = -3879778870212962205L;
 	
 	private List<Location> map;
 	private Player player;
 	private String timePlayed;
 	private LocalDate startDate;
+	transient private Timer timer;
 	private boolean descriptionsMode;
 	private int timePlayedMinutes, timePlayedHours;
-	
 	public GameSystemClass() {
-		map = new ArrayList<Location>(Arrays.asList(new BedRoom(), new NoWhere()));
+		map = new ArrayList<Location>(Arrays.asList(new Dream(), new BedRoom(), new NoWhere()));
+		player = new PlayerClass(map.get(Locations.DREAM.getValue()));
 		
 		descriptionsMode = true;
 		startDate = LocalDate.now();
 	}
 	
-	DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-	Timer timer = new Timer();
-	
-	TimerTask taskMinutes = new TimerTask() {
-		public void run() {
-			if(timePlayedMinutes<59)
-				timePlayedMinutes++;
-			else {
-				timePlayedMinutes=0;
-				timePlayedHours++;
-			}	
-		}
-	};
+	transient TimerTask taskMinutes;
 	
 	public String getStartDate() {
-		return startDate.format(format);
+		return startDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 	} 
 	
 	public void startTimer() {
+		timer = new Timer();
+		taskMinutes = new TimerTask() {
+			public void run() {
+				if(timePlayedMinutes<59)
+					timePlayedMinutes++;
+				else {
+					timePlayedMinutes=0;
+					timePlayedHours++;
+				}	
+			}
+		};
 		timer.scheduleAtFixedRate(taskMinutes, 60000, 60000);
 	}
 	
 	public void newPlayer(String name) {
 		if(name.length()>22) throw new TooLongNameException();
-		player = new PlayerClass(name, map.get(0));
+		player.setName(name);
 	}
 	
 	public String timePlayed() {
@@ -63,8 +70,8 @@ public class GameSystemClass implements GameSystem {
 		return timePlayed;
 	}
 	
-	public void teleportToLocation(Location location) {
-		player.setLocation(location);
+	public void setPlayerLocation(int location) {
+		player.setLocation(map.get(location));
 	}
 	
 	public Iterator<String> splitItems(String items) {
@@ -260,6 +267,7 @@ public class GameSystemClass implements GameSystem {
 	public boolean sameProperty(Propertys property, NonItem object) {
 		return object.getObjectProperty().equals(property);
 	}
+	
 	
 	public void exit() {
 		timer.cancel();

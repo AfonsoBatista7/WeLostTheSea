@@ -8,6 +8,11 @@ import objects.ItemClass;
  */
 public class Book extends ItemClass {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1968117443768505148L;
+	
 	private static final String TYPE = "Book",
 								DESCRIPTION = "An item that you can read. When it's read, shares the knowledge it has with the reader.\n"
 										    + " (Sometimes there are some hidden tips that can help a lost adventurer)";

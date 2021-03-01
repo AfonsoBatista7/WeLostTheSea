@@ -5,9 +5,8 @@ import objects.Item;
 import objects.NonItem;
 import objects.items.Coin;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,45 +17,44 @@ import gameSystem.Actions;
  * The Entity Class.
  * @author Afonso Batista
  */
-public class EntityClass implements Entity {
+public class EntityClass implements Entity, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 361861719932985800L;
+	
 	private String name;
 	private int action, bagSize;
 	private Location location;
 	private NonItem objectUsing;
 	private double money, sellTax;
-	protected Map<String, ArrayList<Item>> bag;
+	public Map<String, ArrayList<Item>> bag;
 	
-	private static final int BAG_DEFAULT_SIZE = 10, STACK_DEFAULT_SIZE = 64;
-	private static final double SELL_TAX= 1.5; 							// POR ENQUANTO FIXO MAS QUERIA POR VARIAS CLASSES COM TAX DIFERENTES.
 	
-	public EntityClass(String name, Location location, double money, int action) {
+	private static final int STACK_DEFAULT_SIZE = 64;
+	private static final double SELL_TAX= 1.5; 				// POR ENQUANTO FIXO MAS QUERIA POR VARIAS CLASSES COM TAX DIFERENTES.
+	protected static final int BAG_DEFAULT_SIZE = 10;
+	
+	public EntityClass(String name, Location location, double money, int action, Map<String, ArrayList<Item>> bag) {
 		this.name = name;
 		this.location = location;
 		this.money = money;
 		this.action = action;
-		bagSize = BAG_DEFAULT_SIZE;
 		sellTax = SELL_TAX;
-		bag = new HashMap<String, ArrayList<Item>>(bagSize);
+		this.bag = bag;
+		bagSize = BAG_DEFAULT_SIZE;
 	}
 	
-	public EntityClass(String name, int action, ArrayList<Item> bag) {
+	public EntityClass(String name, int action, Map<String, ArrayList<Item>> bag) {
 		this.name = name;
 		this.action = action;
-		bagSize = BAG_DEFAULT_SIZE;
-		this.bag = new HashMap<String, ArrayList<Item>>(bagSize);
-		putInBag(bag);
 		sellTax = SELL_TAX;
 		money = 10000000;
+		this.bag = bag;
+		bagSize = 10000;
 	}
 	
-	private void putInBag(ArrayList<Item> bag) {
-		Iterator<Item> it = bag.iterator();
-		while(it.hasNext()) {
-			Item item = it.next();
-			getItem(item);
-		}
-	}
 	
 	public NonItem getUsingObject() {
 		return objectUsing;
@@ -64,6 +62,10 @@ public class EntityClass implements Entity {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public Location getLocation() {

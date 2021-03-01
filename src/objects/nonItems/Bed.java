@@ -8,6 +8,11 @@ import objects.*;
  */
 public class Bed extends NonItemClass {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2411011574129991560L;
+	
 	private static final String TYPE = "Bed";
 	private static final Propertys PROPERTY = Propertys.LAY;
 	

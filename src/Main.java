@@ -1,3 +1,7 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Iterator;
@@ -22,15 +26,16 @@ public class Main {
 	private static final int MAIN_SPEED = 65;
 	
 	/* Game lines */
-	private static final String START_NEW_PLAYER = "\n[SAILON] - And yours is...\n\n> ",
-								START_IS_THAT_YOUR_NAME = "\n[SAILON] - Hi %s is that realy your name?\n Yes or No?\n\n> ",               // I want to have an easter egg that if the playes choses the name Sailon he gets a custom message.
-								ITEM_QUANTITY_QUESTION_SELL = "\nHow much items do you want to sell?: ",
-								ITEM_QUANTITY_QUESTION_BUY = "\nnHow much items do you want to buy?:";
+	private static final String 
+		START_NEW_PLAYER = "\n[SAILON] - And yours is...\n\n> ",
+		START_IS_THAT_YOUR_NAME = "\n[SAILON] - Hi %s is that realy your name?\n Yes or No?\n\n> ",               // I want to have an easter egg that if the playes choses the name Sailon he gets a custom message.
+		ITEM_QUANTITY_QUESTION_SELL = "\nHow much items do you want to sell?: ",
+		ITEM_QUANTITY_QUESTION_BUY = "\nnHow much items do you want to buy?:";
 			
 	
 	
 	/* Success Constants */
-	private static final String SUCCESS_START = "\nWelcome to your Adventure!",
+	private static final String 
 		SUCCESS_MENU = "\n%s* We Lost The Sea *%s\n%s( Menu )%s\n**%s**\n*%s*\n%sStart\n%sInformation\n%sCredits\n%sExit\n%s(*Test*)\n*%s*\n**%s**\n\n",
 		SUCCESS_INF = "\nWe Lost The Sea is a Text Adventure type Game, you just need to type what you want to do and create your own journey.\n"
 						+ "\nAny command mismatch you can type ( Help ) to print a list of all the commands in game.\n"
@@ -62,7 +67,8 @@ public class Main {
 		SUCCESS_EXIT = "\nLeaving...";
 	
 	/* Error Constants*/
-	private static final String ERROR_INVALID_COMMAND = "\nHoo man! That must be an encrypted type of language I don't understand!\n\n",
+	private static final String 
+		ERROR_INVALID_COMMAND = "\nHoo man! That must be an encrypted type of language I don't understand!\n\n",
 		ERROR_TOO_LONG_NAME = "\n[SAILON] - Wooow! Looks like your name is to big for me to handle... You are definitively trying to prank me... Try a smaller one. (<22)\n",
 		ERROR_OBJECT_NOT_IN_LOCATION = "\n%s doesn't exist in this location...",
 		ERROR_NOT_AN_ITEM = "\nYou tried realy hard but, you couldn't put a %s in your bag...",
@@ -89,14 +95,14 @@ public class Main {
 		do{
 			System.out.print("> ");
 			cm = getCommand(in);
-			exeFirstOption(in, game, cm);
-		} while(!cm.equals(Command.START) && !cm.equals(Command.TEST) && !cm.equals(Command.EXIT));
+			game = exeFirstOption(in, game, cm);
+		} while(!cm.equals(Command.START) && !cm.equals(Command.TEST) && !cm.equals(Command.LOAD) && !cm.equals(Command.EXIT));
 		
-		if(cm.equals(Command.START) || cm.equals(Command.TEST)) {
+		if(cm.equals(Command.START) || cm.equals(Command.TEST) || cm.equals(Command.LOAD)) {
 			do{
 				System.out.print("> ");
 				cm = getCommand(in);
-				exeOption(in, game, cm);
+				game = exeOption(in, game, cm);
 			} while(!cm.equals(Command.EXIT));
 		}
 		in.close();
@@ -116,7 +122,7 @@ public class Main {
 		CLICK("<program name> - Clicks on a program."), ITEMS("- Tells you every item you can encounter at the location you in."),
 		OBJECTS("- Tells you every object you can find at the location yuor in."), SELL("<item name> <person name> - Sells an item to another person."), 
 		BUY("<person name> - First tells you all the seller have to sell and then you can buy from him."), CREDITS("- Shows the credits of the game."), 
-		HELP("- Shows the available commands"), EXIT("- Ends your adventure until you come back."), TEST("- Just for testing..."), UNKNOWN("");
+		HELP("- Shows the available commands"), SAVE("- Saves your game state"), LOAD("- Loads a old save state"),EXIT("- Ends your adventure until you come back."), TEST("- Just for testing..."), UNKNOWN("");
 		
 		private String description;
 
@@ -146,7 +152,7 @@ public class Main {
 	 * @param game - GameSystem
 	 * @param option - the user input.
 	 */
-	private static void exeFirstOption(Scanner in, GameSystem game, Command cm) {
+	private static GameSystem exeFirstOption(Scanner in, GameSystem game, Command cm) {
 		switch(cm) {
 			case START:
 				start(in,game);
@@ -163,6 +169,9 @@ public class Main {
 			case EXIT:
 				exit(game);
 				break;
+			case LOAD:
+				game = load();
+				break;
 			case HELP:
 				help();
 				break;
@@ -170,6 +179,7 @@ public class Main {
 				defaultError(in);
 				break;
 		}
+		return game;
 	}
 
 	/**
@@ -178,7 +188,7 @@ public class Main {
 	 * @param game - GameSystem
 	 * @param option - the user input.
 	 */
-	private static void exeOption(Scanner in, GameSystem game, Command cm) {
+	private static GameSystem exeOption(Scanner in, GameSystem game, Command cm) {
 		switch(cm) {
 			case INF:
 				information();
@@ -252,6 +262,12 @@ public class Main {
 			case HELP:
 				help();
 				break;
+			case SAVE:
+				save(game);
+				break;
+			case LOAD:
+				game = load();
+				break;
 			case EXIT:
 				exit(game);
 				break;
@@ -259,11 +275,13 @@ public class Main {
 				defaultError(in);
 				break;
 		}
+		return game;
 	}
 	
 	public static void test(Scanner in, GameSystem game) {
 		game.newPlayer("Afonso");
 		game.startTimer();
+		game.setPlayerLocation(Locations.BEDROOM.getValue());
 		System.out.print("\n");
 	}
 	
@@ -293,8 +311,8 @@ public class Main {
 			
 				
 			System.out.printf("%c", character);                           
-		    
-		    if(counter>=60 && text.length()-i>60 && Character.compare(' ',character)==0) {
+		    if(Character.compare('\n',character)==0) counter=0;
+		    if(counter>=60 && text.length()-i>50 && Character.compare(' ',character)==0) {
 		    	counter=0; System.out.println("");
 		    }
 		    
@@ -313,6 +331,39 @@ public class Main {
 	    }catch(InterruptedException ex){
 	        Thread.currentThread().interrupt();
 	    }
+	}
+	
+	private static void save(GameSystem game) {
+		try {
+			//FileOutputStream fos = new FileOutputStream(game.getPlayerName()+".sav");
+			game.exit();
+			FileOutputStream fos = new FileOutputStream("Adv.sav");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(game);
+			oos.flush();
+			oos.close();
+			System.out.println("\tYour Adventure Has been Saved :D.");
+			game.startTimer();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static GameSystem load() {
+		try {
+			//FileInputStream fis = new FileInputStream(game.getPlayerName()+".sav");
+			FileInputStream fis = new FileInputStream("Adv.sav");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			GameSystem game = (GameSystem) ois.readObject();
+			ois.close();
+			System.out.println("\n\t---Game loaded---\n");
+			printString("Back where you left off\n\n", MAIN_SPEED);
+			game.startTimer();
+			return game;
+		} catch(Exception e) {
+			printString(String.format("A problem has occurred!\n%s: %s\n", e.getClass(), e.getMessage()), MAIN_SPEED);
+		}
+		return null;
 	}
 	
 	/**
@@ -346,18 +397,18 @@ public class Main {
 	 */
 	private static void start(Scanner in, GameSystem game) {
 		//printString(SUCCESS_START, MAIN_SPEED);
-		printString("\n...",500); coolDown(500); printString("\n...",500); coolDown(500); printString("\n...\n",500);
-		printString("\nWhere am I?\n\n",MAIN_SPEED*2); coolDown(500);
+		printString("\n...",500); coolDown(500); printString(" ...",500); coolDown(500); printString(" ...\n",500);
+		printString("\nWhere am I?\n",MAIN_SPEED*2); coolDown(500);
 		printString("\n*You look around to see where you are.*\n\n", MAIN_SPEED*2); coolDown(500);
-		printString("\n[You are on a beautiful beach with bright sand and crystal water, the air is neither too much hot or to much cold, the sun light reflects on the sea and warms"
-				+ " your skin, bones and soul like a fireplace on a cold day of winter. You feel like everything is happyness and joy.]\n\n", 100); coolDown(500);
+		locationInf(game); coolDown(500);
 		System.out.print("[ PRESS ENTER TO CONTINUE ]"); in.nextLine(); in.nextLine();
-		printString("\nSuddenly! ",60); coolDown(600); printString("A realy old man, with a big grey beard, that seems to be a master of wisdom, approaches at you...\n\n", MAIN_SPEED);
+		printString("\nSuddenly! ",60); coolDown(600); printString("A realy old man, with a big grey beard, that seems to be a master of wisdom, approaches at you...\n", MAIN_SPEED);
 		coolDown(500);
-		printString("\n[???] - Do you mind if I sit next to you young man?\n\n>", MAIN_SPEED*2);
+		printString("\n[???] - Do you mind if I sit next to you young man?\n\n> ", MAIN_SPEED*2);
  		newPlayer(in, game);
 		game.startTimer();
 		printString(String.format("\nHey %s, in this universe where you just entered, you will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()), MAIN_SPEED);
+		game.setPlayerLocation(Locations.BEDROOM.getValue());
 		System.out.print("[ PRESS ENTER TO CONTINUE ]"); in.nextLine();
 		enterNewLocation(game);
 		printString("You are standing in the middle of your Room...\n\n", MAIN_SPEED);
@@ -442,7 +493,7 @@ public class Main {
 		String name;
 		
 		option = in.next().toUpperCase(); in.nextLine();
-		if(option.equals(YES)) printString("\n[???] - Never talk to strangers... I compreend you position young man...\n\n", MAIN_SPEED);
+		if(option.equals(YES)) printString("\n[???] - Never talk to strangers... I compreend your position young man...\n\n", MAIN_SPEED);
 		else if(option.equals(NO)) printString("\n[???] - Thank you very much young man, I can feel your good energy...\n\n",MAIN_SPEED);
 		// falta a obção em que o jogador responde nem que sim nem que nao.
 		printString("[???] - Soooo... Anyway... Hi, my name is Sailon", MAIN_SPEED); coolDown(500);
@@ -464,6 +515,7 @@ public class Main {
 			newPlayer(in,game);
 		} 
 	}
+	
 	
 	/**
 	 * Tells you the name of your location at the moment.
@@ -600,8 +652,8 @@ public class Main {
 	private static void playerStatus(GameSystem game) {
 		location(game);
 		System.out.printf("\nPLAYER"+multiplier(25-game.getPlayerName().length(), " ") 
-						+"%s\nMONEY"+multiplier(25-Double.toString(game.getPlayerBalance()).length(), " ")
-						+"$%d\nITEMS GATHERED"+multiplier(17-Integer.toString(game.itemsGathered()).length(), " ")
+						+"%s\nMONEY"+multiplier(24-Double.toString(game.getPlayerBalance()).length(), " ")
+						+"$%.2f\nITEMS GATHERED"+multiplier(17-Integer.toString(game.itemsGathered()).length(), " ")
 						+"%d\n\nTIME PLAYED"+ multiplier(19-game.timePlayed().length(), " ")
 						+" %s\nADVENTURE STARTED    %s\n\n", 
 						game.getPlayerName(), game.getPlayerBalance(), game.itemsGathered(), game.timePlayed(), game.getStartDate());
