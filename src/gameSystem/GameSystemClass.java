@@ -22,19 +22,20 @@ public class GameSystemClass implements GameSystem, Serializable {
 	private List<Location> map;
 	private Player player;
 	private String timePlayed;
+	private boolean descriptionsMode, gameHasStarted;
+	private int timePlayedMinutes, timePlayedHours;
 	private LocalDate startDate;
 	transient private Timer timer;
-	private boolean descriptionsMode;
-	private int timePlayedMinutes, timePlayedHours;
+	transient private TimerTask taskMinutes;
+	
 	public GameSystemClass() {
 		map = new ArrayList<Location>(Arrays.asList(new Dream(), new BedRoom(), new NoWhere()));
 		player = new PlayerClass(map.get(Locations.DREAM.getValue()));
 		
+		gameHasStarted = false;
 		descriptionsMode = true;
 		startDate = LocalDate.now();
 	}
-	
-	transient TimerTask taskMinutes;
 	
 	public String getStartDate() {
 		return startDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
@@ -268,8 +269,17 @@ public class GameSystemClass implements GameSystem, Serializable {
 		return object.getObjectProperty().equals(property);
 	}
 	
+	public void startGame() {
+		gameHasStarted = true;
+		startTimer();
+	}
+	
+	public boolean hasStarted() {
+		return gameHasStarted;
+	}
 	
 	public void exit() {
-		timer.cancel();
+		if(gameHasStarted) timer.cancel();
+		gameHasStarted=false;
 	}
 }
