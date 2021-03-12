@@ -35,6 +35,9 @@ public class Main {
 		START_IS_THAT_YOUR_NAME = "\n[SAILON] - Hi %s is that realy your name?\n Yes or No?\n\n> ",               //TODO I want to have an easter egg that if the playes choses the name Sailon he gets a custom message.
 		ITEM_QUANTITY_QUESTION_SELL = "\nHow much items do you want to sell?: ",
 		ITEM_QUANTITY_QUESTION_BUY = "\nnHow much items do you want to buy?:",
+		GAME_SAVE = "\n\tYour Adventure Has been Saved :D.\n",
+		GAME_LOADED = "\n\t---Game loaded---\n",
+		AFTER_LOAD = "Back where you left off\n\n",
 		EXIT_SAVE = "\nDo you want to save your game progress?\n\tYes or No?\n\n> ";
 			
 	
@@ -68,10 +71,11 @@ public class Main {
 		SUCCESS_CLOSE = "\nYou have closed %s.\n\n",
 		SUCCESS_PLAYER_MONEY = "\nYou have %.2f$ in your pocket.\n\n",
 		SUCCESS_SELL_ITEM = "\nYou have sold a %s to %s and earn %.2f$ in the transaction.\n\n",
-		SUCCESS_BUY_ITEM = "\nYou have bought a %s to %s and paid %.2f$ in the trasaction.\n\n",
+		SUCCESS_BUY_ITEM = "\nYou have bought a %s to %s and paid %.2f$ in the transaction.\n\n",
 		SUCCESS_EXIT = "Leaving...";
 	
 	/* Error Constants*/
+	
 	private static final String 
 		ERROR_INVALID_COMMAND = "\nHoo man! That must be an encrypted type of language I don't understand!\n\n",
 		ERROR_TOO_LONG_NAME = "\n[SAILON] - Wooow! Looks like your name is to big for me to handle... You are definitively trying to prank me... Try a smaller one. (<22)\n",
@@ -90,7 +94,10 @@ public class Main {
 	 	ERROR_WALK_OBJECT ="\nYou stop what you're doing and,",
 	 	ERROR_SCANNER_NUM = "\nTry to insert a number in quantity.\n\n",
 		ERROR_QUANTITY = "\nYou need to insert a quantity >= 1\n\n",
-		ERROR_ALREADY_STARTED = "\nYou can't do this command now, because you already started your game or you haven't started yet\n\n";
+		ERROR_ALREADY_STARTED = "\nYou can't do this command now, because you already started your game or you haven't started yet\n\n",
+		ERROR_NO_SAVES = "\t* You have no saves yet *\n",
+		ERROR_NOT_NUMBER_LOAD = "\nWhile chosing your save file make sure you type a number.\n\n",
+		ERROR_EXCEPTION_PROBLEM = "A problem has occurred!\n%s: %s\n";
 
 	
 	public static void main(String[] args) {
@@ -305,11 +312,16 @@ public class Main {
 	    }
 	}
 	
+	private static File createSaveFolder() {
+		File folder = new File("./saves");
+		if(!folder.exists()) folder.mkdir();
+		return folder;
+	}
+	
 	private static void save(GameSystem game) {
 		if(game.hasStarted()) {  
 			try {
-				File folder = new File("./saves");
-				if(!folder.exists()) folder.mkdir();
+				createSaveFolder();
 				
 				game.exit();
 				
@@ -320,24 +332,23 @@ public class Main {
 				oos.flush();
 				oos.close();
 				
-				System.out.println("\n\tYour Adventure Has been Saved :D.\n");                                       //METER METODO NA CLASSE TOPO
+				System.out.println(GAME_SAVE);                                       //METER METODO NA CLASSE TOPO
 				
 				game.startGame();
 			} catch(Exception e) {
-				printString(String.format("A problem has occurred!\n%s: %s\n", e.getClass(), e.getMessage()), MAIN_SPEED);
+				printString(String.format(ERROR_EXCEPTION_PROBLEM, e.getClass(), e.getMessage()), MAIN_SPEED);
 			}
 		} else printString(ERROR_ALREADY_STARTED, MAIN_SPEED);
 	}
 	
 	private static GameSystem load(Scanner in) {
 		try {
-			File folder = new File("./saves");
-			if(!folder.exists()) folder.mkdir();
+			File folder = createSaveFolder();
 			
 			File[] files = folder.listFiles();
 			System.out.println("\nSaves:\n");
 			
-			if(files.length==0) System.out.println("\t* You have no saves yet *\n");
+			if(files.length==0) System.out.println(ERROR_NO_SAVES);
 			
 			
 			else {
@@ -356,17 +367,17 @@ public class Main {
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				GameSystem game = (GameSystem) ois.readObject();
 				ois.close();
-				System.out.println("\n\t---Game loaded---\n");
-				printString("Back where you left off\n\n", MAIN_SPEED);
+				System.out.println(GAME_LOADED);
+				printString(AFTER_LOAD, MAIN_SPEED);
 				game.startGame();
 				return game;
 			}
 		} catch(InputMismatchException e) {
 			in.nextLine();
-			printString("\nWhile chosing your save file make sure you type a number.\n\n",MAIN_SPEED);
+			printString(ERROR_NOT_NUMBER_LOAD,MAIN_SPEED);
 			
 		} catch(Exception e) {
-			printString(String.format("A problem has occurred!\n%s: %s\n", e.getClass(), e.getMessage()), MAIN_SPEED);
+			printString(String.format(ERROR_EXCEPTION_PROBLEM, e.getClass(), e.getMessage()), MAIN_SPEED);
 		}
 		return null;
 	}
@@ -410,14 +421,49 @@ public class Main {
 			printString("\nSuddenly! ",60); coolDown(600); printString("A realy old man, with a big grey beard, that seems to be a master of wisdom, approaches at you...\n", MAIN_SPEED);
 			coolDown(500);
 			printString("\n[???] - Do you mind if I sit next to you young man?\n\n> ", MAIN_SPEED*2);
+			
 			newPlayer(in, game);
 			game.startGame();
-			printString(String.format("\nHey %s, in this universe where you just entered, you will witness one of the best journeys that you'll ever have!\n\n", game.getPlayerName()), MAIN_SPEED);
+			printString(String.format("", game.getPlayerName()), MAIN_SPEED);  //TODO START SPEECH
 			game.setPlayerLocation(Locations.BEDROOM.getValue());
 			System.out.print("[ PRESS ENTER TO CONTINUE ]"); in.nextLine();
 			enterNewLocation(game);
 			printString("You are standing in the middle of your Room...\n\n", MAIN_SPEED);
+			 
 		} else printString(ERROR_ALREADY_STARTED, MAIN_SPEED);
+		
+		 
+	}
+	
+	private static void chooseName(GameSystem game, Scanner in) {
+		String option, name;
+		File[] files = createSaveFolder().listFiles();
+		do {
+			printString(START_NEW_PLAYER, MAIN_SPEED);
+			name = in.next()+in.nextLine();
+			printString(String.format(START_IS_THAT_YOUR_NAME, name), MAIN_SPEED);
+			option = in.next().toUpperCase(); in.nextLine();
+		} while(option.equals(NO));
+		try {
+			if(!option.equals(YES)) throw new InvalidOptionException();
+			
+			
+			for(File file: files)
+				
+				if(file.getName().toUpperCase().equals((name+".sav").toUpperCase())) throw new NameAlreadyExistsException();
+				
+			game.newPlayer(name);
+		} catch(TooLongNameException e) {
+			printString(ERROR_TOO_LONG_NAME, MAIN_SPEED);
+			chooseName(game, in);
+		} catch(InvalidOptionException e) {
+			printString("\n[SAILON] - You see young man... I'm old... but I'm not that old... what in the world \""+option+"\" means in this situation?\n", MAIN_SPEED);
+			chooseName(game, in);
+		} catch(NameAlreadyExistsException e) {
+			printString("\n[SAILON] - I'm sorry young man, but I already met someone with that name... Can you change it so that I don't confuse them, please?\n", MAIN_SPEED);
+			chooseName(game, in);
+		}
+		
 	}
 	
 	/**
@@ -499,31 +545,19 @@ public class Main {
 	 * @param game - GameSystem
 	 */
 	private static void newPlayer(Scanner in, GameSystem game) {
+		
 		String option;
-		String name;
 		
-		option = in.next().toUpperCase(); in.nextLine();
-		if(option.equals(YES)) printString("\n[???] - Never talk to strangers... I compreend your position young man...\n\n", MAIN_SPEED);
-		else if(option.equals(NO)) printString("\n[???] - Thank you very much young man, I can feel your good energy...\n\n",MAIN_SPEED);
-		// falta a obção em que o jogador responde nem que sim nem que nao.
-		printString("[???] - Soooo... Anyway... Hi, my name is Sailon", MAIN_SPEED); coolDown(500);
 		do {
-			printString(START_NEW_PLAYER, MAIN_SPEED);
-			name = in.next()+in.nextLine();
-			printString(String.format(START_IS_THAT_YOUR_NAME, name), MAIN_SPEED);
 			option = in.next().toUpperCase(); in.nextLine();
-		} while(option.equals(NO));
+			if(option.equals(YES)) printString("\n[???] - Never talk to strangers... I compreend your position young man...\n\n", MAIN_SPEED);
+			else if(option.equals(NO)) printString("\n[???] - Thank you very much young man, I can feel your good energy...\n\n",MAIN_SPEED);
+		} while(!option.equals(YES) && !option.equals(NO));
 		
-		try {
-			if(!option.equals(YES)) throw new InvalidOptionException();
-			game.newPlayer(name);
-		} catch(TooLongNameException e) {
-			printString(ERROR_TOO_LONG_NAME, MAIN_SPEED);
-			newPlayer(in,game);
-		} catch(InvalidOptionException e) {
-			printString("[SAILON] - You see young man... I'm old... but I'm not that old... what in the world \""+option+"\" means in this situation?\n\n", MAIN_SPEED);
-			newPlayer(in,game);
-		} 
+		printString("[???] - Soooo... Anyway... Hi, my name is Sailon", MAIN_SPEED); coolDown(500);
+		chooseName(game, in);
+		
+		
 	}
 	
 	
