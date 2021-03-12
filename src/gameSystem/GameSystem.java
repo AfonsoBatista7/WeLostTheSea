@@ -1,6 +1,9 @@
 package gameSystem;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 import entity.*;
@@ -165,6 +168,12 @@ public interface GameSystem {
 	void startGame();
 	 
 	boolean hasStarted();
+	
+	ObjectOutputStream save() throws Exception;
+	
+	File[] getSaveFiles();
+	
+	ObjectInputStream load(File file) throws Exception;
 	
 }
 

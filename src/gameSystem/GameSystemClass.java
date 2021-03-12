@@ -1,5 +1,11 @@
 package gameSystem;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -276,6 +282,28 @@ public class GameSystemClass implements GameSystem, Serializable {
 	
 	public boolean hasStarted() {
 		return gameHasStarted;
+	}
+	
+	private File createSaveFolder() {
+		File folder = new File("./saves");
+		if(!folder.exists()) folder.mkdir();
+		return folder;
+	}
+	
+	public ObjectOutputStream save() throws Exception {
+		createSaveFolder();
+		exit();
+		
+		FileOutputStream fos = new FileOutputStream("./saves/"+getPlayerName()+".sav");
+		return new ObjectOutputStream(fos);	
+	}
+	
+	public ObjectInputStream load(File file) throws Exception {
+		return new ObjectInputStream(new FileInputStream(file));
+	}
+	
+	public File[] getSaveFiles() {
+		return createSaveFolder().listFiles();
 	}
 	
 	public void exit() {

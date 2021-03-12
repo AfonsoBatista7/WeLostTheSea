@@ -25,8 +25,9 @@ import objects.*;
  */
 public class Main {
 	/* Other Constants */
-	private static final String YES = "YES", NO = "NO";
-	private static final String YOUR_BAG = "\nYour Bag:";
+	private static final String YES = "YES", NO = "NO",
+								YOUR_BAG = "\nYour Bag:",
+								SAVES = "\nSaves:\n";
 	private static final int MAIN_SPEED = 65;
 	
 	/* Game lines */
@@ -243,7 +244,7 @@ public class Main {
 				save(game);
 				break;
 			case LOAD:
-				game = load(in);
+				game = load(game,in);
 				break;
 			case EXIT:
 				exit(in, game);
@@ -312,27 +313,14 @@ public class Main {
 	    }
 	}
 	
-	private static File createSaveFolder() {
-		File folder = new File("./saves");
-		if(!folder.exists()) folder.mkdir();
-		return folder;
-	}
-	
 	private static void save(GameSystem game) {
 		if(game.hasStarted()) {  
 			try {
-				createSaveFolder();
+				ObjectOutputStream oos = game.save();												
 				
-				game.exit();
+				oos.writeObject(game);  oos.flush(); oos.close();
 				
-				FileOutputStream fos = new FileOutputStream("./saves/"+game.getPlayerName()+".sav");
-				ObjectOutputStream oos = new ObjectOutputStream(fos);												
-				
-				oos.writeObject(game);
-				oos.flush();
-				oos.close();
-				
-				System.out.println(GAME_SAVE);                                       //METER METODO NA CLASSE TOPO
+				System.out.println(GAME_SAVE);                                      
 				
 				game.startGame();
 			} catch(Exception e) {
@@ -341,15 +329,12 @@ public class Main {
 		} else printString(ERROR_ALREADY_STARTED, MAIN_SPEED);
 	}
 	
-	private static GameSystem load(Scanner in) {
+	private static GameSystem load(GameSystem game, Scanner in) {
 		try {
-			File folder = createSaveFolder();
-			
-			File[] files = folder.listFiles();
-			System.out.println("\nSaves:\n");
+			File[] files = game.getSaveFiles();
+			System.out.println(SAVES);
 			
 			if(files.length==0) System.out.println(ERROR_NO_SAVES);
-			
 			
 			else {
 				
@@ -362,10 +347,8 @@ public class Main {
 					printString("\nChose your save: ", MAIN_SPEED);
 					num = in.nextInt();
 				} while(num>files.length || num<=0);
-			
-				FileInputStream fis = new FileInputStream(files[num-1]);
-				ObjectInputStream ois = new ObjectInputStream(fis);
-				GameSystem game = (GameSystem) ois.readObject();
+				ObjectInputStream ois = game.load(files[num-1]);
+				game = (GameSystem) ois.readObject();
 				ois.close();
 				System.out.println(GAME_LOADED);
 				printString(AFTER_LOAD, MAIN_SPEED);
@@ -437,7 +420,7 @@ public class Main {
 	
 	private static void chooseName(GameSystem game, Scanner in) {
 		String option, name;
-		File[] files = createSaveFolder().listFiles();
+		File[] files = game.getSaveFiles();
 		do {
 			printString(START_NEW_PLAYER, MAIN_SPEED);
 			name = in.next()+in.nextLine();
