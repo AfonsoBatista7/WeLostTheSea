@@ -28,7 +28,7 @@ public class Main {
 	private static final String YES = "YES", NO = "NO",
 								YOUR_BAG = "\nYour Bag:",
 								SAVES = "\nSaves:\n";
-	private static final int MAIN_SPEED = 65;
+	private static final int MAIN_SPEED = 55;
 	
 	/* Game lines */
 	private static final String 
@@ -397,7 +397,7 @@ public class Main {
 	private static void start(Scanner in, GameSystem game) {
 		if(!game.hasStarted()) {
 			printString("\n...",500); coolDown(500); printString(" ...",500); coolDown(500); printString(" ...\n",500);
-			printString("\nWhere am I?\n",MAIN_SPEED*2); coolDown(500);
+			printString("\n[YOU] - Where am I?\n",MAIN_SPEED*2); coolDown(500);
 			printString("\n*You look around to see where you are.*\n\n", MAIN_SPEED*2); coolDown(500);
 			locationInf(game); coolDown(500);
 			System.out.print("[ PRESS ENTER TO CONTINUE ]"); in.nextLine(); in.nextLine();
@@ -407,7 +407,13 @@ public class Main {
 			
 			newPlayer(in, game);
 			game.startGame();
-			printString(String.format("", game.getPlayerName()), MAIN_SPEED);  //TODO START SPEECH
+			printString(String.format("\n[SAILON] - Nice name %s, so can you tell me where are we?\n", game.getPlayerName()), MAIN_SPEED);  //TODO START SPEECH
+			printString("\n*You look around again*\n", MAIN_SPEED*2); coolDown(800);
+			printString("\n...",500); coolDown(500); printString(" ...\n",500); coolDown(500);
+			printString("\nWhen you less expected a realy bright light flash before your eyes and the beach where you were vanished under your feet...\n", MAIN_SPEED);
+			printString("\n...\n",500); coolDown(500);
+			printString("\nYou start to ear beautiful bird songs from outside your room...\n", MAIN_SPEED); coolDown(800);
+			printString("\nFinaly, you wake up and lazily get up out of bed...\n\n", MAIN_SPEED);
 			game.setPlayerLocation(Locations.BEDROOM.getValue());
 			System.out.print("[ PRESS ENTER TO CONTINUE ]"); in.nextLine();
 			enterNewLocation(game);
