@@ -1,6 +1,7 @@
 package objects;
 
 import entity.Entity;
+import gameSystem.Actions;
 import gameSystem.Propertys;
 
 /**
@@ -15,14 +16,16 @@ public class NonItemClass extends ObjectClass implements NonItem {
 	private static final long serialVersionUID = -1889613798462084732L;
 	
 	private String direction;
-	private Propertys property;
+	private Propertys[] property;
+	private Actions action;
 	private boolean available;
 	private Entity entetyUsing;
 	
-	public NonItemClass(String type, String direction, String description, Propertys property) {
+	public NonItemClass(String type, String direction, String description, Propertys[] property) {
 		super(type, description);
 		this.direction = direction;
 		this.property = property;
+		action = Actions.NOTHING;
 		available=true;
 	}
 	
@@ -38,12 +41,26 @@ public class NonItemClass extends ObjectClass implements NonItem {
 		return available;
 	}
 	
-	public void objectOccupied(Entity user) {
-		entetyUsing=user;
-		available=!available;
+	public void stopUsing() {
+		entetyUsing = null;
+		available = true;
 	}
 	
-	public Propertys getObjectProperty() {
+	public void stopAction() {
+		action = Actions.NOTHING;
+	}
+	
+	public void objectOccupied(Actions action, Entity user) {
+		entetyUsing=user;
+		this.action = action;
+		available=false;
+	}
+	
+	public boolean sameAction(Actions action) {
+		return this.action.equals(action);
+	}
+	
+	public Propertys[] getObjectProperty() {
 		return property;
 	}
 }

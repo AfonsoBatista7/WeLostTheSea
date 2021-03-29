@@ -67,7 +67,7 @@ public class Main {
 		SUCCESS_WALKING = "\nYou walked a couple of steps to the %s.\n",
 		SUCCESS_SIT = "\nYou sat on a %s.\n\n",
 		SUCCESS_LAY = "\nYou Lay down in %s.\n\n",
-		SUCCESS_STAND = "\nYou stand up.\n",
+		SUCCESS_STAND = "\nYou stand up.\n\n",
 		SUCCESS_PUT = "\nYou have put %s on %s.\n\n",
 		SUCCESS_CLOSE = "\nYou have closed %s.\n\n",
 		SUCCESS_PLAYER_MONEY = "\nYou have %.2f$ in your pocket.\n\n",
@@ -114,6 +114,7 @@ public class Main {
 			if(newSave!=null) game = newSave;
 		} while(!cm.equals(Command.EXIT));
 		in.close();
+		System.exit(0);
 	}
 	
 	private enum Command {
@@ -217,7 +218,7 @@ public class Main {
 				action(in, game, Propertys.SIT);
 				break;
 			case STAND:
-				stand(game);
+				action(in, game, Propertys.STAND);
 				break;
 			case LAY:
 				action(in, game, Propertys.LAY);
@@ -407,7 +408,7 @@ public class Main {
 			
 			newPlayer(in, game);
 			game.startGame();
-			printString(String.format("\n[SAILON] - Nice name %s, so can you tell me where are we?\n", game.getPlayerName()), MAIN_SPEED);  //TODO START SPEECH
+			printString(String.format("\n[SAILON] - Nice name %s, so can you tell me where are we?\n", game.getPlayerName()), MAIN_SPEED);
 			printString("\n*You look around again*\n", MAIN_SPEED*2); coolDown(800);
 			printString("\n...",500); coolDown(500); printString(" ...\n",500); coolDown(500);
 			printString("\nWhen you less expected a realy bright light flash before your eyes and the beach where you were vanished under your feet...\n", MAIN_SPEED);
@@ -462,7 +463,7 @@ public class Main {
 	private static void enterNewLocation(GameSystem game) {
 		location(game); coolDown(1000);
 		locationInf(game); coolDown(800);
-		if(game.isInDescriptionMode())locationObjects(game);
+		if(game.isInDescriptionMode()) locationObjects(game);
 	}
 	
 	private static void locationObjects(GameSystem game) {
@@ -757,7 +758,9 @@ public class Main {
 	 */
 	public static void action(Scanner in, GameSystem game, Propertys property) {
 		if(game.hasStarted()) {
-			String object = in.next(); in.nextLine();
+			String object=null;
+			if(!property.equals(Propertys.STAND))
+				object = in.next(); 
 			
 			try {
 				
@@ -775,9 +778,14 @@ public class Main {
 					break;
 				case PUT:
 					String secondObject = in.next(); in.nextLine();
-					printString(String.format(SUCCESS_PUT, object, secondObject), MAIN_SPEED);
+					printString(String.format(SUCCESS_PUT, object, secondObject), MAIN_SPEED);             //TODO Not finished!
+					break;
+				case STAND:
+					printString(String.format(SUCCESS_STAND, object), MAIN_SPEED);
 					break;
 				}
+				
+				in.nextLine();
 				
 			} catch(ItsAnItemException e) {
 				printString(String.format(ERROR_ITS_AN_ITEM,object), MAIN_SPEED);
@@ -791,14 +799,6 @@ public class Main {
 		} else printString(ERROR_ALREADY_STARTED, MAIN_SPEED);
 	}
 
-	/**
-	 * You stand up if you're down.
-	 * @param game - GameSystem
-	 */
-	private static void stand(GameSystem game) {
-		
-	}
-	
 	/**
 	 * Buy or sell an item with a entity.
 	 * @param in - Scanner

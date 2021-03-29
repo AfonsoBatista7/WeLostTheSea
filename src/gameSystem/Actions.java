@@ -6,7 +6,7 @@ package gameSystem;
  *
  */
 public enum Actions {
-	STAND(0), SIT(1), LAY(2);
+	NOTHING(-1), STAND(0), SIT(1), LAY(2), PUT(3);
 	
 	private int value;
 	
@@ -17,4 +17,5 @@ public enum Actions {
 	public int getValue() {
 		return value;
 	}
+	
 }

@@ -25,10 +25,11 @@ public class EntityClass implements Entity, Serializable {
 	private static final long serialVersionUID = 361861719932985800L;
 	
 	private String name;
-	private int action, bagSize;
+	private int bagSize;
 	private Location location;
 	private NonItem objectUsing;
 	private double money, sellTax;
+	private Actions action;
 	public Map<String, ArrayList<Item>> bag;
 	
 	
@@ -36,7 +37,7 @@ public class EntityClass implements Entity, Serializable {
 	private static final double SELL_TAX= 1.5; 				// POR ENQUANTO FIXO MAS QUERIA POR VARIAS CLASSES COM TAX DIFERENTES.
 	protected static final int BAG_DEFAULT_SIZE = 10;
 	
-	public EntityClass(String name, Location location, double money, int action, Map<String, ArrayList<Item>> bag) {
+	public EntityClass(String name, Location location, double money, Actions action, Map<String, ArrayList<Item>> bag) {
 		this.name = name;
 		this.location = location;
 		this.money = money;
@@ -46,7 +47,7 @@ public class EntityClass implements Entity, Serializable {
 		bagSize = BAG_DEFAULT_SIZE;
 	}
 	
-	public EntityClass(String name, int action, Map<String, ArrayList<Item>> bag) {
+	public EntityClass(String name, Actions action, Map<String, ArrayList<Item>> bag) {
 		this.name = name;
 		this.action = action;
 		sellTax = SELL_TAX;
@@ -80,7 +81,7 @@ public class EntityClass implements Entity, Serializable {
 		return money;
 	}
 	
-	public int getAction() {
+	public Actions getAction() {
 		return action;
 	}
 	
@@ -102,19 +103,29 @@ public class EntityClass implements Entity, Serializable {
 	}
 	
 	public void noLongerUsing() {
-		objectUsing.objectOccupied(null);
+		if(action.equals(Actions.STAND)) throw new ObjectOccupiedException(this);
+		objectUsing.stopUsing();
+		objectUsing.stopAction();
 		objectUsing = null;
+		action = Actions.STAND;
 	}
 	
 	public void action(Actions action, NonItem object) {
-		int actionValue = action.getValue();
+		if(usingObject()) objectUsing.stopUsing();
 		
-		if(!object.isAvailable()) throw new ObjectOccupiedException(object.getUser());         
-		if(usingObject()) getLocation().actionObject(objectUsing, this);
+		
+		if(!object.isAvailable() || object.sameAction(action)) {
+			objectUsing.objectOccupied(action, this);
+			throw new ObjectOccupiedException(object.getUser());
+		}
+		
+		if(usingObject()) objectUsing.stopAction();
+		
 		objectUsing = object;
-		getLocation().actionObject(object, this);
-
-		this.action=actionValue;
+		
+		objectUsing.objectOccupied(action, this);
+		
+		this.action=action;
 	}
 	
 	public void getItem(Item item) {

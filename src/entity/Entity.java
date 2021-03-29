@@ -56,7 +56,7 @@ public interface Entity {
 	/**
 	 * @return the respective action number.
 	 */
-	int getAction();
+	Actions getAction();
 	
 	/**
 	 * Executes an action on an object. 

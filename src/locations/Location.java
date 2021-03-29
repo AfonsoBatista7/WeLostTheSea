@@ -3,6 +3,7 @@ package locations;
 import java.util.*;
 
 import entity.Entity;
+import gameSystem.Actions;
 import locations.exceptions.*;
 import objects.*;
 
@@ -83,7 +84,7 @@ public interface Location {
 	
 	NonItem getObject(String object);
 	
-	void actionObject(NonItem object, Entity user);
+	void actionObject(NonItem object,Actions action ,Entity user);
 	
 	Entity getEntity(String name);
 	

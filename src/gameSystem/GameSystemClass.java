@@ -2,7 +2,6 @@ package gameSystem;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -251,8 +250,11 @@ public class GameSystemClass implements GameSystem, Serializable {
 	}
 	
 	public void action(Propertys property, String object) {
-		NonItem nonItem = getCurrentLocation().getObject(object);
-		if(!sameProperty(property, nonItem)) throw new DiferentPropertysException(); 
+		NonItem nonItem=null;
+		if(object!=null) {	
+			nonItem = getCurrentLocation().getObject(object);
+			if(!sameProperty(property, nonItem)) throw new DiferentPropertysException(); 
+		}
 		
 		switch(property) {
 			case USE:
@@ -265,14 +267,19 @@ public class GameSystemClass implements GameSystem, Serializable {
 				player.action(Actions.LAY, nonItem);
 				break;
 			case PUT:
-				
+				player.action(Actions.PUT, nonItem);
+				break;
+			case STAND:
+				player.noLongerUsing();
 				break;
 				
 		}
 	}
 	
-	public boolean sameProperty(Propertys property, NonItem object) {
-		return object.getObjectProperty().equals(property);
+	private boolean sameProperty(Propertys property, NonItem object) {
+		for(Propertys oProperty : object.getObjectProperty())
+			if(property.equals(oProperty)) return true;
+		return false;
 	}
 	
 	public void startGame() {

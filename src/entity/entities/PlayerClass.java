@@ -4,6 +4,7 @@ import java.util.*;
 
 import entity.EntityClass;
 import entity.exceptions.EmpetyBagException;
+import gameSystem.Actions;
 import locations.*;
 import objects.*;
 
@@ -14,7 +15,7 @@ public class PlayerClass extends EntityClass implements Player, Serializable {
 	 */
 	private static final long serialVersionUID = 4206642425890107132L;
 	
-	private static final int ACTION = 0;
+	private static final Actions ACTION = Actions.STAND;
 	private static final double MONEY_DEFAULT = 1000;
 	private static final String DEFAULT_NAME = "Jey";
 	

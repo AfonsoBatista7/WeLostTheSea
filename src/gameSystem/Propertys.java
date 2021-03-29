@@ -5,7 +5,7 @@ package gameSystem;
  * @author Afonso Batista
  */
 public enum Propertys {
-	USE(0), SIT(1), LAY(2), PUT(3);
+	STAND(-1), USE(0), SIT(1), LAY(2), PUT(3);
 	
 	public int value;
 	

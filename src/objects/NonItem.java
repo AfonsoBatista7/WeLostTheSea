@@ -1,6 +1,7 @@
 package objects;
 
 import entity.Entity;
+import gameSystem.Actions;
 import gameSystem.Propertys;
 
 /**
@@ -17,7 +18,7 @@ public interface NonItem extends Object {
 	/**
 	 * @return the objects property.
 	 */
-	Propertys getObjectProperty();
+	Propertys[] getObjectProperty();
 	
 	/**
 	 * @return the entity that is using the item.
@@ -32,5 +33,21 @@ public interface NonItem extends Object {
 	/**
 	 * @param user - user that are now using the object.
 	 */
-	void objectOccupied(Entity user);
+	void objectOccupied(Actions action, Entity user);
+	
+	/**
+	 * @param action - Action that wants to do doing.
+	 * @return true if the action that a entity is currently doing is the same as <action>.
+	 */
+	boolean sameAction(Actions action);
+	
+	/**
+	 * Stop using an object.
+	 */
+	void stopUsing();
+	
+	/**
+	 * Stops any action some entity is doing on the object.
+	 */
+	void stopAction();
 }

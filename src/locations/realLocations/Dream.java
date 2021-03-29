@@ -44,7 +44,7 @@ public class Dream extends LocationClass {
 			private static final long serialVersionUID = -6565627091200982584L;
 
 			{
-				put("sailon", new Sailon(0));
+				put("sailon", new Sailon(Actions.STAND));
 			}
 		};
 		

@@ -3,6 +3,7 @@ package entity.entities;
 import java.util.*;
 
 import entity.EntityClass;
+import gameSystem.Actions;
 import objects.Item;
 import objects.items.Book;
 
@@ -29,7 +30,7 @@ public class Sailon extends EntityClass {
 	
 	private static final String NAME = "SAILON";
 	
-	public Sailon(int action) {
+	public Sailon(Actions action) {
 		super(NAME, action, bag);
 	}
 

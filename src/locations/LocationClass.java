@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 
 import entity.Entity;
+import gameSystem.Actions;
 import locations.exceptions.*;
 import objects.*;
 
@@ -125,8 +126,8 @@ public class LocationClass implements Location, Serializable {
 		return getItem;
 	}
 	
-	public void actionObject(NonItem object, Entity user) {
-		locationObjects.get(object.getObjectType().toLowerCase()).objectOccupied(user);
+	public void actionObject(NonItem object, Actions action, Entity user) {
+		locationObjects.get(object.getObjectType().toLowerCase()).objectOccupied(action, user);
 	}
 	
 	public void dropItem(Item item) {
