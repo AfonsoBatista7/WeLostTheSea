@@ -1,9 +1,6 @@
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Iterator;
@@ -11,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
-import javax.xml.ws.Response;
+
 
 import entity.exceptions.*;
 import gameSystem.*;
@@ -88,6 +85,7 @@ public class Main {
 		ERROR_ITEM_NOT_IN_BAG = "\nYou don't have %s on your bag.",
 		ERROR_ITEM_NOT_IN_BAG_TRANSACTION = "\n%s don't have %s in bag.\n\n",
 	 	ERROR_NO_ITEMS_IN_LOCATION = "\nThere's no items in this location.\n",
+	 	ERROR_NO_OBJECTS_IN_LOCATION = "\nThere's no objects in this location.\n\n",
 	 	ERROR_ITS_AN_ITEM = "\nThats not an object, %s is an item.\n\n",
 	 	ERROR_DIFERENT_PROPERTY = "\nYou can't %s in this object.\n\n",
 	 	ERROR_ALREADY_DOING_THAT = "\n%s is already doing that.\n\n",
@@ -478,7 +476,7 @@ public class Main {
 					if(!it.hasNext()) printString(". ]\n\n", MAIN_SPEED);
 					else printString(", ", MAIN_SPEED);
 				}
-			} catch(NoObjectsException e) {}
+			} catch(NoObjectsException e) { printString(ERROR_NO_OBJECTS_IN_LOCATION ,MAIN_SPEED);}
 		} else printString(ERROR_ALREADY_STARTED, MAIN_SPEED);
 	}
 	
