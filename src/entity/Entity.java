@@ -68,17 +68,19 @@ public interface Entity {
 	/**
 	 * @return the object that Entity is currently using.
 	 */
+	NonItem getSittingObject();
+	
 	NonItem getUsingObject();
 	
 	/**
 	 * @return true if Entity is using an object and false if not.
 	 */
-	boolean usingObject();
+	boolean sittingObject();
 	
 	/**
 	 * The entity stop using the object that he was using.
 	 */
-	void noLongerUsing();
+	void noLongerSitting();
 	
 	/**
 	 * Gets items.
@@ -100,5 +102,7 @@ public interface Entity {
 	 * @return the total quantity of an item. 
 	 */
 	int getQuantity(String item) throws ItemNotInBagException;
+	
+	boolean isUsingObject(NonItem object);
 	
 }

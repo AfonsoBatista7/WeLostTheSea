@@ -2,7 +2,9 @@ package objects;
 
 import entity.Entity;
 import gameSystem.Actions;
+import gameSystem.Programs;
 import gameSystem.Propertys;
+import java.util.*;
 
 /**
  * Not an item;

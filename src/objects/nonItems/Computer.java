@@ -1,5 +1,10 @@
 package objects.nonItems;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import gameSystem.Propertys;
+import gameSystem.Programs;
 import objects.*;
 
 /**
@@ -15,9 +20,21 @@ public class Computer extends NonItemClass {
 	
 	private static final String TYPE = "Computer";
 	private static final Propertys PROPERTY[] = {Propertys.USE};
-	
-	public Computer(String direction, String description) {
-		super(TYPE, direction, description, PROPERTY);
-	}
+	private List<Programs> programs;
+	private String txt = "Archive: When You're all covererd between the nothingness of darkness... "             //TODO POR ENQUANTO
+			+ "Try Close your Eyes, thats the best option sometimes...\n\n";
 
+	public Computer(String direction, String description, LinkedList<Programs> programs) {
+		super(TYPE, direction, description, PROPERTY);
+		this.programs = programs; 
+	}
+	
+	public Iterator<Programs> getPrograms() {
+		return programs.iterator();
+	}
+	
+	public String getTxt() {
+		return txt;
+	}
+	
 }

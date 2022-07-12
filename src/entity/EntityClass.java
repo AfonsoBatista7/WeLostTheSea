@@ -27,7 +27,7 @@ public class EntityClass implements Entity, Serializable {
 	private String name;
 	private int bagSize;
 	private Location location;
-	private NonItem objectUsing;
+	private NonItem objectSitting, objectUsing;
 	private double money, sellTax;
 	private Actions action;
 	public Map<String, ArrayList<Item>> bag;
@@ -56,6 +56,10 @@ public class EntityClass implements Entity, Serializable {
 		bagSize = 10000;
 	}
 	
+	
+	public NonItem getSittingObject() {
+		return objectSitting;
+	}
 	
 	public NonItem getUsingObject() {
 		return objectUsing;
@@ -98,32 +102,39 @@ public class EntityClass implements Entity, Serializable {
 		money+=price;
 	}
 	
-	public boolean usingObject() {
-		return objectUsing!=null;
+	public boolean isUsingObject(NonItem object) {
+		return object.equals(objectUsing);
 	}
 	
-	public void noLongerUsing() {
+	public boolean sittingObject() {
+		return objectSitting!=null;
+	}
+	
+	public void noLongerSitting() {
 		if(action.equals(Actions.STAND)) throw new ObjectOccupiedException(this);
-		objectUsing.stopUsing();
-		objectUsing.stopAction();
-		objectUsing = null;
+		objectSitting.stopUsing();
+		objectSitting.stopAction();
+		objectSitting = null;
 		action = Actions.STAND;
 	}
 	
 	public void action(Actions action, NonItem object) {
-		if(usingObject()) objectUsing.stopUsing();
+		if(action.equals(Actions.USE)) objectUsing = object;
+		else {	
+		
+			if(sittingObject()) objectSitting.stopUsing();
 		
 		
-		if(!object.isAvailable() || object.sameAction(action)) {
-			objectUsing.objectOccupied(action, this);
-			throw new ObjectOccupiedException(object.getUser());
+			if(!object.isAvailable() || object.sameAction(action)) {
+				objectSitting.objectOccupied(action, this);
+				throw new ObjectOccupiedException(object.getUser());
+			}
+		
+			if(sittingObject()) objectSitting.stopAction();
+		
+			objectSitting = object;
 		}
-		
-		if(usingObject()) objectUsing.stopAction();
-		
-		objectUsing = object;
-		
-		objectUsing.objectOccupied(action, this);
+		objectSitting.objectOccupied(action, this);
 		
 		this.action=action;
 	}

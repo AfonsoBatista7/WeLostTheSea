@@ -18,6 +18,7 @@ import locations.*;
 import locations.exceptions.*;
 import locations.realLocations.*;
 import objects.*;
+import objects.nonItems.Computer;
 
 public class GameSystemClass implements GameSystem, Serializable {
 	
@@ -97,6 +98,18 @@ public class GameSystemClass implements GameSystem, Serializable {
 	public void dropItem(String item) {
 		Item getItem = player.dropItem(item);
 		getCurrentLocation().dropItem(getItem);
+	}
+	
+	public Iterator<Programs> getComputerPrograms() {
+		return getComputer().getPrograms();
+	}
+	
+	private Computer getComputer() {
+		return ((Computer) getCurrentLocation().getObject("Computer"));
+	}
+	
+	public String getTxt() {
+		return getComputer().getTxt();
 	}
 	
 	public String getLocationName() {
@@ -189,8 +202,8 @@ public class GameSystemClass implements GameSystem, Serializable {
 		}
 		if(exit==Directions.NO_EXIT) throw new NoExitException();
 		
-		if(entity.usingObject()) {
-			entity.noLongerUsing();
+		if(entity.sittingObject()) {
+			entity.noLongerSitting();
 			throw new WalkUsingObjectException();
 		}
 		
@@ -258,7 +271,7 @@ public class GameSystemClass implements GameSystem, Serializable {
 		
 		switch(property) {
 			case USE:
-				
+				player.action(Actions.USE, nonItem);
 				break;
 			case SIT:
 				player.action(Actions.SIT, nonItem);
@@ -270,10 +283,14 @@ public class GameSystemClass implements GameSystem, Serializable {
 				player.action(Actions.PUT, nonItem);
 				break;
 			case STAND:
-				player.noLongerUsing();
+				player.noLongerSitting();
 				break;
 				
 		}
+	}
+	
+	public boolean isUsing(String object) {
+		return player.isUsingObject(getCurrentLocation().getObject(object));
 	}
 	
 	private boolean sameProperty(Propertys property, NonItem object) {

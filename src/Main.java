@@ -96,6 +96,7 @@ public class Main {
 		ERROR_ALREADY_STARTED = "\nYou can't do this command now, because you already started your game or you haven't started yet\n\n",
 		ERROR_NO_SAVES = "\t* You have no saves yet *\n",
 		ERROR_NOT_NUMBER_LOAD = "\nWhile chosing your save file make sure you type a number.\n\n",
+		ERROR_PROGRAM_DONT_EXIST = "You don't have %s in your computer\n\n",
 		ERROR_EXCEPTION_PROBLEM = "A problem has occurred!\n%s: %s\n";
 
 	

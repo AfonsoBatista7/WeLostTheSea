@@ -175,5 +175,9 @@ public interface GameSystem {
 	
 	ObjectInputStream load(File file) throws Exception;
 	
+	String getTxt();
+	
+	boolean isUsing(String object);
+	
 }
 

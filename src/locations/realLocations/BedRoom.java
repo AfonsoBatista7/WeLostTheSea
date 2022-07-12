@@ -5,6 +5,7 @@ import java.util.*;
 import entity.Entity;
 import gameSystem.Directions;
 import gameSystem.Locations;
+import gameSystem.Programs;
 import locations.LocationClass;
 import objects.items.*;
 import objects.*;
@@ -43,9 +44,11 @@ public class BedRoom extends LocationClass {
 		private static final long serialVersionUID = -6565627091200982584L;
 
 		{
-			put("computer", new Computer(" above a Desk",""));
+			put("computer", new Computer(" above a Desk","", new LinkedList<Programs>(Arrays.asList(Programs.TXT, 
+					Programs.ARCHIVE, Programs.BROWSER, Programs.VIDEOGAME, Programs.GAME))));
 			put("desk", new Desk("", " Wooden"));
 			put("bed", new Bed("", " red and white comfortable"));
+			put("chair", new Chair("", " very comfortable"));
 			put("armchair", new ArmChair("", " light brown leather"));
 			put("shelf", new Shelf(" in front of the Desk", ""));
 			put("bookshelf", new BookShelf("", ""));
