@@ -21,8 +21,6 @@
        \/       \/          \/         \/                       \/     \/          \/     \/     \/ 
 </pre> 
 
-  <h3 align="center">A Text Adventure Game</h3>
-
   <p align="center">
     A text adventure game where players embark on a journey filled with challenges and exploration.
     <br />
@@ -88,6 +86,28 @@ Follow these steps to compile and run the WeLostTheSea game on your local machin
 - Java 8 or higher
 - Maven (for building the project)
 - A compatible IDE (e.g., IntelliJ IDEA, Eclipse) for development
+
+## 📥 Downloading the Latest Release
+
+To download the latest release of the WeLostTheSea game, follow these steps:
+
+1. **Visit the Releases Page**:
+   Go to the [Releases](https://github.com/AfonsoBatista7/WeLostTheSea/releases) page of the repository.
+
+2. **Download the Latest Release**:
+   Find the latest release and download the `.jar` file. It will be named something like `WeLostTheSea-1.0-SNAPSHOT.jar`.
+
+3. **Run the Game**:
+   After downloading the JAR file, you can run it using the following command in your terminal:
+   ```bash
+   java -jar path/to/WeLostTheSea-<release-version>.jar
+   ```
+   Replace `path/to/` with the actual path where you saved the JAR file and `release-version` with the downloaded release version.
+
+4. **Follow On-Screen Prompts**:
+   Once the game starts, follow the on-screen prompts to navigate through the adventure.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### 💾 Compile
 
