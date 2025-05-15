@@ -1,3 +1,5 @@
-/bin/
-
-saves/Afonso.sav
+bin/
+saves/
+target/
+.DS_Store
+.vscode
