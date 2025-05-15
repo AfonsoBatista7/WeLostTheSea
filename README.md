@@ -1,27 +1,27 @@
 <a id="readme-top"></a>
 
-<!-- PROJECT SHIELDS -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![License][license-shield]][license-url]
+
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <div align="center">
-    <h1 align="center">
+  
+  <!-- PROJECT SHIELDS -->
+  [![Contributors][contributors-shield]][contributors-url]
+  [![Forks][forks-shield]][forks-url]
+  [![Stargazers][stars-shield]][stars-url]
+  [![Issues][issues-shield]][issues-url]
+
+<pre>
  __      __         .____                  __    __________.__               _________              
 /  \    /  \ ____   |    |    ____  ______/  |_  \__    ___|  |__   ____    /   _____/ ____ _____   
 \   \/\/   _/ __ \  |    |   /  _ \/  ___\   __\   |    |  |  |  \_/ __ \   \_____  \_/ __ \\__  \  
  \        /\  ___/  |    |__(  <_> \___ \ |  |     |    |  |   Y  \  ___/   /        \  ___/ / __ \_
   \__/\  /  \___  > |_______ \____/____  >|__|     |____|  |___|  /\___  > /_______  /\___  (____  /
        \/       \/          \/         \/                       \/     \/          \/     \/     \/ 
-    </h1>
-  </div>
+</pre> 
 
-  <h3 align="center">WeLostTheSea Text Adventure Game</h3>
+  <h3 align="center">A Text Adventure Game</h3>
 
   <p align="center">
     A text adventure game where players embark on a journey filled with challenges and exploration.
@@ -33,6 +33,8 @@
     ·
     <a href="https://github.com/AfonsoBatista7/WeLostTheSea/issues">Request Feature</a>
   </p>
+
+
 </div>
 
 <!-- TABLE OF CONTENTS -->
