@@ -95,7 +95,7 @@ To download the latest release of the WeLostTheSea game, follow these steps:
    Go to the [Releases](https://github.com/AfonsoBatista7/WeLostTheSea/releases) page of the repository.
 
 2. **Download the Latest Release**:
-   Find the latest release and download the `.jar` file. It will be named something like `WeLostTheSea-1.0-SNAPSHOT.jar`.
+   Find the latest release and download the `.jar` file. It will be named something like `WeLostTheSea-<release-version>.jar`.
 
 3. **Run the Game**:
    After downloading the JAR file, you can run it using the following command in your terminal:
